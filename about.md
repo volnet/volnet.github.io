@@ -4,7 +4,11 @@
 
 -------------
 
-### 本站使用[MDWiki](http://dynalon.github.io/mdwiki/)
+本站域名使用GitHub Pages服务构建：https://pages.github.com/
+
+-------------
+
+本站使用[MDWiki](http://dynalon.github.io/mdwiki/)
 
 - 关于Markdown语法，可以参考：
 - 关于动态化的内容，使用了Gimicks，可以参考：http://dynalon.github.io/mdwiki/#!gimmicks.md
