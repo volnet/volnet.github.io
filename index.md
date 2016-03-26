@@ -10,12 +10,12 @@
 
 
 -----------------------------------------------------------------------------------------------------------------
-|:[gimmick:TwitterFollow](@volnet):|:[gimmick:FacebookLike ( layout: 'buttoncount') ](http://volnet.github.io):|
+| [gimmick:TwitterFollow](@volnet) | [gimmick:FacebookLike ( layout: 'buttoncount') ](http://volnet.github.io) |
 -----------------------------------------------------------------------------------------------------------------
 
 
-------------------
-| ZYN | GC | XXX |
-------------------
-| ZYN |:GC:| XXX:|
-------------------
+--------------------
+| ZYN | GC   | XXX |
+|----:|:----:|-----|
+| ZYN | GC   | XXX |
+--------------------
