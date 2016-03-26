@@ -7,7 +7,7 @@
 [文档]()
 
   * # APIs
-  * [登录/修改密码/重置密码 - 接口文档](API/ThirdPartsAuthInterface.md)
+  * [登录/修改密码/重置密码 - 接口文档](docs/API/ThirdPartsAuthInterface.md)
 
 [关于](about.md)
 
