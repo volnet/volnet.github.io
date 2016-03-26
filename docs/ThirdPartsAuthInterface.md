@@ -5,6 +5,7 @@
 
 > 本工作首次完成时间于：2016-03-25
 
+
 基本概要
 -------
 
@@ -73,6 +74,23 @@ GET/POST http://<ssoHost>/API/CAPTCAT.ashx
 
 - 返回值：
 
+```xml
+<SSOMessage>
+     <ResultCode></ResultCode>
+     <ResultMessageCN></ResultMessageCN>
+     <ResultMessageEN></ResultMessageEN>
+     <Content>
+          <Image>
+               <ImageType>data:image/png;base64/url</ImageType>
+               <ImageSrcOrContent>xxxx</ImageSrcOrContent>
+               <Width></Width>
+               <Height></Height>
+               <Unit>px</Unit>
+          </Image>
+          <VerifyInfo>xxxx</VerifyInfo>
+     </Content>
+</SSOMessage>
+```
 
 **ImageType：**图像类型，目前仅提供`data:image/png;base64`类型的值。未来可能提供url形式的值。
 
@@ -115,6 +133,17 @@ POST http://<ssoHost>/API/PreAsyncVerifyCode.ashx
 
 - 返回值：
 
+```xml
+<SSOMessage>
+     <ResultCode></ResultCode>
+     <ResultMessageCN></ResultMessageCN>
+     <ResultMessageEN></ResultMessageEN>
+     <Content>
+          <NeedAsyncVerify>true/false</NeedAsyncVerify>
+          <SupportedAsyncVerifyTypes>SMS;EMAIL</SupportedAsyncVerifyTypes>
+     </Content>
+</SSOMessage>
+```
 
 **NeedAsyncVerify：**是否需要异步验证码，值为true/false。
 
@@ -153,6 +182,17 @@ POST http://<ssoHost>/API/AsyncVerifyCode.ashx
 
 - 返回值：
 
+```xml
+<SSOMessage>
+     <ResultCode></ResultCode>
+     <ResultMessageCN></ResultMessageCN>
+     <ResultMessageEN></ResultMessageEN>
+     <Content>
+          <DelayedSendTimeOutSetting>60</DelayedSendTimeOutSetting>
+          <UserTimeLeft>xx</UserTimeLeft>
+     </Content>
+</SSOMessage>
+```
 
 **DelayedSendTimeOutSetting：**每次发送的最小时间间隔，单位是秒。
 
