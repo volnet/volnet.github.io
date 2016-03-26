@@ -16,4 +16,4 @@
 [经验总结](item2.md)
 - - - -
 [奇思妙想](item3.md)
-[关于作者](about.md)
+[关于](about.md)
