@@ -63,3 +63,5 @@ ftp空间建站
 [gimmick:TwitterFollow](@volnet)
 
 [gimmick:FacebookLike ( layout: 'buttoncount') ](http://volnet.github.io) 
+
+[gimmick:googlemaps](Beijing, China)
