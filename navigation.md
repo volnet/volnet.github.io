@@ -19,3 +19,5 @@
 [关于](about.md)
 
 [gimmick:ForkMeOnGitHub ({ color: 'red',  position: 'right' })](https://github.com/volnet/volnet.github.io)
+
+[gimmick:Disqus](volnet)
