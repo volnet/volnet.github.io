@@ -17,3 +17,5 @@
 - - - -
 [奇思妙想](item3.md)
 [关于](about.md)
+
+[gimmick:ForkMeOnGitHub ({ color: 'red',  position: 'left' })](https://github.com/volnet/volnet.github.io)
