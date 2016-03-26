@@ -1,3 +1,7 @@
+# 欢迎来到V的博客
+
+> 创建于：2016-03-26
+
 做个人网站大概已经是十几年前的事情了，那个时候互联网还处在拨号的时代，在虎翼网（51.net）上，注册了个ftp空间，弄了个二级域名，借着网页三剑客粗制滥造的html静态页面，就算上线了。
 
 后来博客开始流行，各大门户都有了自己的博客系统，还有专门的博客网站。有时候写写生活，有时候写写技术研究，乐此不疲地奔忙在各大网站，现在看来，荒废的也不少。最后坚持下来的还是博客园的（[个人主页](http://volnet.cnblog.com)）。
@@ -56,4 +60,6 @@ ftp空间建站
 
 ---
 
-[gimmick:TwitterFollow](@volnet) [gimmick:FacebookLike ( layout: 'buttoncount') ](http://volnet.github.io) |
+[gimmick:TwitterFollow](@volnet)
+
+[gimmick:FacebookLike ( layout: 'buttoncount') ](http://volnet.github.io) 
