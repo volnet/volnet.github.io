@@ -74,7 +74,7 @@ GET/POST http://<ssoHost>/API/CAPTCAT.ashx
 
 - 返回值：
 
-```
+``` xml
 <SSOMessage>
      <ResultCode></ResultCode>
      <ResultMessageCN></ResultMessageCN>
