@@ -12,6 +12,11 @@
 
   * # APIs
   * [登录/修改密码/重置密码 - 接口文档](docs/api/ThirdPartsAuthInterface.md)
+  
+  -----------------------
+  
+  * # 主数据文档
+  * [主数据平台文档目录（Table of Contents）](docs/mdp/mdp-toc.md)
 
 [关于](about.md)
 
