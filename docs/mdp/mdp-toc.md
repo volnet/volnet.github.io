@@ -33,13 +33,13 @@
 
 1. 快速入门（Getting Started）
 
-    > 实现一个标准的配置，推送一个数据表，包含多种常见字段类型的数据表的示例表。
+    实现一个标准的配置，推送一个数据表，包含多种常见字段类型的数据表的示例表。
     
-    > 完成 SQLServer.Table1 to MDP to SQLServer.Table1_Readonly 的标准推送配置。
+    完成 SQLServer.Table1 to MDP to SQLServer.Table1_Readonly 的标准推送配置。
 
 2. 基本概念（basic concepts）
 
-    > 源系统：是什么意思，有什么基本要求
+    源系统：是什么意思，有什么基本要求
     
     > 中间表：是什么意思，作用是什么
     
