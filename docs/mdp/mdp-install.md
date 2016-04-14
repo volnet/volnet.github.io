@@ -42,91 +42,91 @@ PostgreSQL ODBC              | 09_01_0200-x64
 
 1. 在新数据库服务器上还原
 
-    名称                            | 说明
-    ------------------------------- | ----------------------------------------
-    0.1DbBak\mdm_platform.bak       | 基础库
-    0.1DbBak\mdm_bak.bak            | 模板库
-    0.1DbBak\SimpleTransfer.bak     | 用于大数据传输的基础实例
+名称                            | 说明
+------------------------------- | ----------------------------------------
+0.1DbBak\mdm_platform.bak       | 基础库
+0.1DbBak\mdm_bak.bak            | 模板库
+0.1DbBak\SimpleTransfer.bak     | 用于大数据传输的基础实例
 
 
-    > __注意：__
+> __注意：__
 
-    > 还原数据库后，建议沿用原有的数据库用户名mdpadmin。
+> 还原数据库后，建议沿用原有的数据库用户名mdpadmin。
 
-    > 在还原数据库后，如果沿用原有用户名，默认情况下会出现无法创建表的问题。
+> 在还原数据库后，如果沿用原有用户名，默认情况下会出现无法创建表的问题。
 
-    > 尝试在还原的数据库上创建表`create table table1 (id int)`，将收到错误信息：
+> 尝试在还原的数据库上创建表`create table table1 (id int)`，将收到错误信息：
 
-    > ```
-    > 消息 515，级别 16，状态 2，过程 Table_CONTROL，第 30 行
-    > 不能将值 NULL 插入列 'LoginName'，表 '@t'；列不允许有 Null 值。INSERT 失败。
-    > ```
+> ```
+> 消息 515，级别 16，状态 2，过程 Table_CONTROL，第 30 行
+> 不能将值 NULL 插入列 'LoginName'，表 '@t'；列不允许有 Null 值。INSERT 失败。
+> ```
 
-    > ![](mdp-install-resources\mdp-install-1.png "创建表失败")
+> ![](mdp-install-resources\mdp-install-1.png "创建表失败")
 
-    > __解决方法__：删除每个库（3个库需要操作3次）的用户后，重新添加该用户，并设置为db_owner。
+> __解决方法__：删除每个库（3个库需要操作3次）的用户后，重新添加该用户，并设置为db_owner。
 
-    > 以`mdm_platform`为例：
+> 以`mdm_platform`为例：
 
-    > 1. SQLServer Management Studio打开mdm_platform数据库 -> 安全性 -> 用户
+> 1. SQLServer Management Studio打开mdm_platform数据库 -> 安全性 -> 用户
 
-    > 2. 删除用户mdpadmin。
+> 2. 删除用户mdpadmin。
 
-    > 3. 右键“用户”->新建用户
+> 3. 右键“用户”->新建用户
 
-    >       - 常规 -> 用户类型 -> 选择“带登录名的 SQL 用户”
+>       - 常规 -> 用户类型 -> 选择“带登录名的 SQL 用户”
 
-    >       - 用户名：mdpadmin  登录名：mdpadmin  架构：dbo
+>       - 用户名：mdpadmin  登录名：mdpadmin  架构：dbo
 
-    >       - 成员身份：db_owner
+>       - 成员身份：db_owner
 
-    > 4. 测试，分三步执行下面的SQL语句
+> 4. 测试，分三步执行下面的SQL语句
 
-    >``` 
-    > create table table1 (id int) 
-    > select * from table1
-    > drop table table1
-    >```
+>``` 
+> create table table1 (id int) 
+> select * from table1
+> drop table table1
+>```
 
 2. 安装`mdp_installer\0.2ODBC\`对应驱动
 
 3. 启用SQLSERVER数据库配置选项
 
-    > 请确保ODBC相应的Provider已安装，否则可能测试不通过。
+> 请确保ODBC相应的Provider已安装，否则可能测试不通过。
 
-    为了能正常使用OPENROWSET函数以及启用自定义函数（CLR函数），需要修改SQLServer默认设置。
+为了能正常使用OPENROWSET函数以及启用自定义函数（CLR函数），需要修改SQLServer默认设置。
 
-    ```
-    USE master;
-    GO
+```
+USE master;
+GO
 
-    /*
-    启用 "clr enabled" 配置选项
-    启用 "Ad Hoc Distributed Queries" 配置选项
-    */
+/*
+启用 "clr enabled" 配置选项
+启用 "Ad Hoc Distributed Queries" 配置选项
+*/
 
-    EXEC sp_configure 'show advanced options', 1;
-    reconfigure;
-    GO
+EXEC sp_configure 'show advanced options', 1;
+reconfigure;
+GO
 
-    EXEC sp_configure 'clr enabled', 1
-    reconfigure;
-    GO
+EXEC sp_configure 'clr enabled', 1
+reconfigure;
+GO
 
-    EXEC sp_configure 'Ad Hoc Distributed Queries',1
-    reconfigure
-    GO
-    ```
+EXEC sp_configure 'Ad Hoc Distributed Queries',1
+reconfigure
+GO
+```
 
-    参考链接：https://msdn.microsoft.com/en-us/library/ms187569.aspx
+参考链接：https://msdn.microsoft.com/en-us/library/ms187569.aspx
 
-    执行结果：
-    ```
-    配置选项 'show advanced options' 已从 1 更改为 1。请运行 RECONFIGURE 语句进行安装。
-    配置选项 'clr enabled' 已从 0 更改为 1。请运行 RECONFIGURE 语句进行安装。
-    配置选项 'Ad Hoc Distributed Queries' 已从 0 更改为 1。请运行 RECONFIGURE 语句进行安装。
+执行结果：
+```
+配置选项 'show advanced options' 已从 1 更改为 1。请运行 RECONFIGURE 语句进行安装。
+配置选项 'clr enabled' 已从 0 更改为 1。请运行 RECONFIGURE 语句进行安装。
+配置选项 'Ad Hoc Distributed Queries' 已从 0 更改为 1。请运行 RECONFIGURE 语句进行安装。
 
-    ```
+```
     
 部署主站点（OpenPortal）
 ------------------------
