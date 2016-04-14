@@ -40,7 +40,7 @@ PostgreSQL ODBC              | 09_01_0200-x64
 安装步骤
 --------
 
-1. 在新数据库服务器上还原
+###步骤1. 在新数据库服务器上还原
 
 名称                            | 说明
 ------------------------------- | ----------------------------------------
@@ -62,7 +62,7 @@ PostgreSQL ODBC              | 09_01_0200-x64
 > 不能将值 NULL 插入列 'LoginName'，表 '@t'；列不允许有 Null 值。INSERT 失败。
 > ```
 
-> ![](mdp-install-resources\mdp-install-1.png "创建表失败")
+> ![](mdp-install-resources/mdp-install-1.png "创建表失败")
 
 > __解决方法__：删除每个库（3个库需要操作3次）的用户后，重新添加该用户，并设置为db_owner。
 
@@ -88,9 +88,11 @@ PostgreSQL ODBC              | 09_01_0200-x64
 > drop table table1
 >```
 
-2. 安装`mdp_installer\0.2ODBC\`对应驱动
+###步骤2. 安装`mdp_installer\0.2ODBC\`对应驱动
 
-3. 启用SQLSERVER数据库配置选项
+> 安装完成后，建议重新启动服务器。
+
+###步骤3. 启用SQLSERVER数据库配置选项
 
 > 请确保ODBC相应的Provider已安装，否则可能测试不通过。
 
