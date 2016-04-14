@@ -16,7 +16,8 @@
   -----------------------
   
   * # 主数据文档
-  * [主数据平台文档目录（Table of Contents）](docs/mdp/mdp-toc.md)
+  * [文档目录（Table of Contents）](docs/mdp/mdp-toc.md)
+  * [安装手册（如何部署一套主数据平台）](docs/mdp/mdp-install.md)
 
 [关于](about.md)
 
