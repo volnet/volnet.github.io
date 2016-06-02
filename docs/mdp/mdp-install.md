@@ -29,7 +29,7 @@ __安装环境说明__
 名称                         | 说明
 ---------------------------- | ----------------------------------------
 Windows Server 2008/2012 R2  | 
-IIS                          | 7.0 以上版本
+IIS                          | 7.0 以上版本，开启ASP.NET相关功能
 .Net Framework 4.0           | 4.0 以上版本
 SQLSERVER 2012               | 数据库要求安装SSDT工具包
 Oracle客户端                  | 使用命令行免安装版本，11.2.3版本
@@ -90,7 +90,9 @@ PostgreSQL ODBC              | 09_01_0200-x64
 
 ###步骤2. 安装`mdp_installer\0.2ODBC\`对应驱动
 
-> 安装完成后，建议重新启动服务器。
+> 注意，Oracle使用命令行方式install.bat安装。安装完成后，必须将Oracle路径加到系统环境变量PATH中。
+
+> 本例中，需要将C:\Oracle\;C:\Oracle\bin\;添加到PATH中。（此步骤必须重启）
 
 ###步骤3. 启用SQLSERVER数据库配置选项
 
@@ -129,6 +131,16 @@ GO
 配置选项 'Ad Hoc Distributed Queries' 已从 0 更改为 1。请运行 RECONFIGURE 语句进行安装。
 
 ```
+
+为了使用`OPENROWSET('OraOLEDB.Oracle'`访问，还需要设置“允许进程内”。
+
+具体步骤：“链接服务器”->“访问接口”->“OraOLEDB.Oracle”，右键属性，勾选“允许进程内”。（此步骤无须重启）
+    
+测试步骤：
+
+```
+SELECT * FROM OPENROWSET('OraOLEDB.Oracle','(DESCRIPTION =(ADDRESS = (PROTOCOL = TCP)(HOST = 10.199.80.99)(PORT = 1521))(CONNECT_DATA =(SID = SID)(SERVER = DEDICATED)(SERVICE_NAME = wderp)))';'mdp_nc';'mdp_nc_2012Qty', 'SELECT * FROM WDERP.GL_ACCOUNTBALANCE WHERE GSBM=''WY027'' ORDER BY NET ASC')
+```
     
 部署主站点（OpenPortal）
 ------------------------
@@ -140,16 +152,21 @@ $ mkdir D:\mdp\OpenPortal\
 $ xcopy /E /Y C:\mdp_installer\0.3OpenPortal D:\mdp\OpenPortal\
 ```
 
+- http端口：8080
+- .net 4.0 集成模式
+- ![](http://www.iis.net/learn/manage/configuring-security/application-pool-identities "对应目录授予IIS AppPool\OpenPortal完全控制权限")
+
+
 部署辅助站点（WebSite2.0）
 ------------------------
 
-复制OpenPortal相关文件
+复制ITWebSite相关文件
 ```
 $ mkdir D:\mdp
 $ mkdir D:\mdp\ITWebSite\
 $ xcopy /E /Y C:\mdp_installer\0.4WebSite2.0 D:\mdp\ITWebSite\
 ```
 
-
-
-SELECT * FROM OPENROWSET('OraOLEDB.Oracle','(DESCRIPTION =(ADDRESS = (PROTOCOL = TCP)(HOST = 10.199.80.99)(PORT = 1521))(CONNECT_DATA =(SID = SID)(SERVER = DEDICATED)(SERVICE_NAME = wderp)))';'mdp_nc';'mdp_nc_2012Qty', 'SELECT * FROM WDERP.GL_ACCOUNTBALANCE WHERE GSBM=''WY027'' ORDER BY NET ASC')
+- http端口：80
+- .net 4.0 集成模式
+- ![](http://www.iis.net/learn/manage/configuring-security/application-pool-identities "对应目录授予IIS AppPool\OpenPortal完全控制权限")
