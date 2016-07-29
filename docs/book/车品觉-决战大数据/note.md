@@ -1,9 +1,7 @@
 决战大数据
 =========
 
-<div style="height:350px;line-height:350px;text-align:center;">
-    ![](contents/cover.jpg "决战大数据")
-</div>
+![](contents/cover.jpg "决战大数据")
 
 作者：车品觉
 
