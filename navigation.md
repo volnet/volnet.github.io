@@ -1,7 +1,7 @@
 # VOLNET'S HOME
 
 [首页](index.md)
-[读书笔记](item1.md)
+[读书笔记]()
 
   * # 大数据
   * [车品觉-决战大数据](docs/book/车品觉-决战大数据/note.md)
