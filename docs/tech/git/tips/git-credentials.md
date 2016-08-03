@@ -81,6 +81,8 @@ git config --local -e
 
 （这里我们分别对--global和--local都做了设置）
 
+![](git-credentials/001.png)
+
 再次运行后
 
 ```
