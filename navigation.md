@@ -16,7 +16,9 @@
 [技术]()
   
   * # Git Tips
-  * [Git撤销提交](docs/tech/git/reset-to-old-version.md)
+  * [Git撤销提交](docs/tech/git/tips/reset-to-old-version.md)
+  * [GitLab - 项目团队如何共享文档](docs/tech/git/scenes/share-docs.md)
+  * [GitLab - 项目成员如何参与到项目中](docs/tech/git/scenes/participate-project-members.md)
 
 [关于](about.md)
 
