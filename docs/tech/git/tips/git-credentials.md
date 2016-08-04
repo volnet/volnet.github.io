@@ -1,33 +1,38 @@
 Git凭证存储
 ============
 
-今天给自己提了一个问题，当我们在github.com或者gitlab.com上面新建仓库，并克隆到本地的时候。首次使用，我们会被问及密码，但是这个密码存在哪里呢？
+今天给自己提了一个问题，当我们在github.com或者gitlab上面新建仓库，并克隆到本地，首次使用的时候，会被问及用户名密码，但是这两个信息存在哪里呢？
 
 带着这个问题，我开始搜索，并在[《Pro Git》7.14 Git-工具-凭证存储](https://git-scm.com/book/zh/v2/Git-工具-凭证存储)中读到了完整的解答，但是当我第一次阅读的时候，并没有太清楚它所要表达的意思，于是我不断尝试后，总算是有所明白。
 
-本文就作为一个解读贴，稍作补充。
+本文就作为一个解读贴，作为补充。
+
 
 凭证存储究竟要解决什么问题？
 ------------------------
 
-众所周知，我们通常用SSH和HTTP协议来访问远程仓库。SSH协议并不适用于这里讨论的凭证存储。这里重点要描述的其实是HTTP协议下的凭证存储问题。
+众所周知，我们通常用SSH和HTTP协议来访问远程仓库。
 
-为什么会有这个问题呢？因为git使用HTTP协议访问远程仓库进行操作的时候，每个请求，都需要带着用户名和密码以及一个随机码防止重放攻击。
+SSH协议并不采用这里讨论的凭证存储。这里重点要描述的其实是HTTP协议下的凭证存储问题。
 
-所以《Pro Git》中的第一部分，就指出，默认情况下每次进行操作的时候，都需要提供用户名和密码。
+为什么会有这个问题呢？因为git使用HTTP协议访问远程仓库进行操作的时候，每个请求，都需要带着用户名和密码以及一个防止重放攻击的随机码。
+
+所以[《Pro Git》7.14 Git-工具-凭证存储](https://git-scm.com/book/zh/v2/Git-工具-凭证存储)，就指出，默认情况下每次进行操作的时候，都需要提供用户名和密码。
+
 
 默认情况下你为什么没有被要求每次都输入用户名密码？
 ------------------------------------------
 
-《Pro Git》中的第一部分，针对这个问题也给出了解释。
+[《Pro Git》7.14 Git-工具-凭证存储](https://git-scm.com/book/zh/v2/Git-工具-凭证存储)中的第一部分，针对这个问题也给出了解释。
 
 如果你是Mac系统，git默认是提供`osxkeychain`辅助程序来管理你的密码，以至于每次你当你需要提供用户名和密码的时候，`osxkeychain`辅助程序都默默帮你填写了。
 
-如果你是Windows系统，你可能已经安装了`git-credential-winstore`了。
+如果你是Windows系统，你可能已经安装了`git-credential-winstore`了。如果安装的是GitGUI，则提供的是`git-credential-manager`。
 
-除此之外，你也可以使用`git-credential-store`和`git-credential-cache`来管理密码，前者明文存储密码，后者存在内存中。
+除此之外，你也可以使用`git-credential-store`和`git-credential-cache`来管理密码，前者在文件中用明文存储密码，后者存在内存中。
 
-而这几种方式都可以同时存在！
+而这几种方式都可以同时存在。
+
 
 我们该如何选择/设置辅助程序的类型？
 ------------------------------
@@ -38,7 +43,7 @@ Git凭证存储
 git config --list | grep credential
 ```
 
-从Mac看，默认会输出：
+Mac，默认会输出：
 
 ```
 include.path=.gitcredential
@@ -48,13 +53,19 @@ credential.helper=osxkeychain
 
 对应的也就是Mac的“钥匙串”系统，我们可以通过Mac系统菜单页面“其他->钥匙串访问”功能，搜索git关键字查看。
 
-接下来，我们再设置一个明文存储的，也就是store类型的全局存储，使用下面的命令来试一下：
+Windows安装GitGUI后，默认会输出：
+
+```
+credential.helper=manager
+```
+
+接下来，我们再设置一个明文文件存储的，也就是store类型的全局存储，使用下面的命令来试一下：
 
 ```
 git config --global credential.helper store
 ```
 
-虽然原文中提到store中提到可以使用--file命令，但是实测--global命令下无效。
+虽然原文中提到store中提到可以使用--file命令，但是实测在命令行下无效。（原因不未知）
 
 但是可以通过直接编辑配置文件的方式来达到目的：
 
@@ -73,9 +84,11 @@ git config --local -e
 然后在[credential]配置节下添加：
 
 ```
-        helper = store --file $HOME/git-credentials/global.gitcredentials
-        helper = store
+helper = store --file $HOME/git-credentials/global.gitcredentials
+helper = store
 ```
+
+其中，存储该文件的路径必须提前存在。
 
 两行中，第一行代表指定目录，第二行代表使用[默认路径](https://git-scm.com/docs/git-credential-store)。
 
@@ -89,7 +102,7 @@ git config --local -e
 git config --list | grep credential
 ```
 
-从Mac看，会输出：
+会输出（Mac）：
 
 ```
 include.path=.gitcredential
@@ -109,39 +122,40 @@ credential.helper=store --file $HOME/git-credentials/v-labs.gitcredentials
 
 这时候使用`git push`命令向远程提交变更。（因为刚刚设置了较多的辅助程序，因此会比较慢）。
 
-这时如果提示输入用户名密码，就按正确的值输入。当你被提示成功后，这期间，我们刚刚输入的密码，都被存到了我们设置的所有凭证存储中。
+这时如果提示输入用户名密码，就按正确的值输入。当你被提示成功后，这期间，我们刚刚输入的密码，都被存到了我们设置的所有辅助程序对应的凭证存储中。
 
 在“钥匙串访问”程序中，我们也会看到一条新增的凭证信息。
+
 
 我们既然存储了密码，那密码在哪，又是什么呢？
 -------------------------------------
 
-先来看几个使用store的选项，我们刚刚既在指定路径也在默认路径上进行了设置，那么我们就分别输入下面三个命令，就可以查看到密码了：
+先来看几个使用store类型的凭证存储，它们以文本形式明文存在，我们刚刚既在指定路径也在默认路径上进行了设置，那么我们分别输入下面三个命令，就可以查看到密码了：
 
 ```
-localhost:~ gongcen$ cd git-credentials/
+localhost:~ volnet$ cd git-credentials/
 
-localhost:git-credentials gongcen$ ls
+localhost:git-credentials volnet$ ls
 global.gitcredentials	v-labs.gitcredentials
 
-localhost:git-credentials gongcen$ cat global.gitcredentials 
+localhost:git-credentials volnet$ cat global.gitcredentials 
 https://volnet:123321@github.com
 
-localhost:git-credentials gongcen$ cat v-labs.gitcredentials 
+localhost:git-credentials volnet$ cat v-labs.gitcredentials 
 https://volnet:123321@github.com
 
-localhost:git-credentials gongcen$ cat ~/.git-credentials 
+localhost:git-credentials volnet$ cat ~/.git-credentials 
 https://volnet:123321@github.com
 ```
 
-当然，也可以用[《Pro Git》](https://git-scm.com/book/zh/v2/Git-工具-凭证存储)中提到的`git credential-store --file ~/git.store store`命令来读取了。
+当然，也可以用[《Pro Git》7.14 Git-工具-凭证存储](https://git-scm.com/book/zh/v2/Git-工具-凭证存储)中提到的`git credential-store --file ~/git.store store`命令来读取了。
 
-那么，使用Mac的osxkeychain的密码，是否可以拿回来呢？
+那么，使用Mac的`osxkeychain`的钥匙串管理，是否可以拿回密码呢？
 
 答案是肯定的！
 
 ```
-localhost:git-credentials gongcen$ git credential-osxkeychain get
+localhost:git-credentials volnet$ git credential-osxkeychain get
 protocol=https
 host=github.com
 
@@ -149,17 +163,18 @@ password=123321
 username=volnet
 ```
 
-由这一点可以看出，在[《Pro Git》](https://git-scm.com/book/zh/v2/Git-工具-凭证存储)中提到的`foo`就是这个辅助程序的名字。
+由这一点可以看出，在[《Pro Git》7.14 Git-工具-凭证存储](https://git-scm.com/book/zh/v2/Git-工具-凭证存储)中提到的`foo`就是这个辅助程序的名字。
+
 
 get/store/erase是什么作用？
 -----------------------
 
-从[《Pro Git》](https://git-scm.com/book/zh/v2/Git-工具-凭证存储)看，这三个均称为Action，其实也就是从辅助程序获取密码（get）/设置密码（store）/删除密码（erase）。
+从[《Pro Git》7.14 Git-工具-凭证存储](https://git-scm.com/book/zh/v2/Git-工具-凭证存储)看，这三个均称为Action，其实也就是从辅助程序获取密码（get）/设置密码（store）/删除密码（erase）。
 
 刚刚的动作中能get到密码了，那么我们尝试删除一下。执行以下命令试一下：
 
 ```
-localhost:v-labs gongcen$ git credential-osxkeychain erase
+localhost:v-labs volnet$ git credential-osxkeychain erase
 protocol=https
 host=github.com
 
@@ -168,11 +183,12 @@ host=github.com
 再次用以下代码验证，将没有返回值。使用“钥匙串访问”程序，也将看不到新添加的凭证。
 
 ```
-localhost:git-credentials gongcen$ git credential-osxkeychain get
+localhost:git-credentials volnet$ git credential-osxkeychain get
 protocol=https
 host=github.com
 
 ```
+
 
 那git credential fill是什么用的？
 ------------------------------
@@ -181,10 +197,32 @@ host=github.com
 
 因此我们第一次使用的时候，会被提示输入用户名密码，就是因为git的内部调用了这个命令。
 
+
+
 辅助程序是否可以自己定义呢？
 -----------------------
 
-答案当然是肯定的，在[《Pro Git》](https://git-scm.com/book/zh/v2/Git-工具-凭证存储)中也提供了ruby的示例。
+答案当然是肯定的，在[《Pro Git》7.14 Git-工具-凭证存储](https://git-scm.com/book/zh/v2/Git-工具-凭证存储)中也提供了ruby的示例。
+
+
+按部就班：拿回自己的密码
+--------------------
+
+前面说了那么多，都在帮助我们去理解整套凭证体系，这一段用一个连贯的思路来取回自己的密码：
+
+```
+GC-RMBP:~ volnet$ git config --list | grep credential.helper
+credential.helper=osxkeychain
+GC-RMBP:~ volnet$ git credential-osxkeychain get
+protocol=https
+host=github.com
+
+password=123321
+username=volnet
+```
+
+其中第二个命令的`osxkeychain`是由第一个命令得出来的。
+
 
 刚刚设置了那么多，我想删掉那些store存储怎么处理？
 -----------------------------------------
@@ -205,7 +243,7 @@ rm ~/.git-credentials
 使用下面命令验证，应该已经看不到结果了：
 
 ```
-localhost:~ gongcen$ git credential-store get
+localhost:~ volnet$ git credential-store get
 protocol=https
 host=github.com
 
@@ -214,6 +252,7 @@ host=github.com
 至此，所有关于配置相关的内容都已经解释完毕。
 
 结论就是，如果不打算明文存储密码，就尽量使用SSH的方式。
+
 
 参考资料
 -------
