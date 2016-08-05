@@ -1,0 +1,254 @@
+<html>
+    <head>
+        <title>Easy create markdown table</title>
+        <style type="text/css">
+            .label_150 {
+                width:150px;
+                display:inline-block;
+            }
+            .output_txt{
+                width:100%;
+                min-height:300px;
+                font-family:'Microsoft YaHei','STHeiti Light',Courier,'Courier New','Andale Mono';
+                font-size:12px;
+            }
+            .title_td{
+                background-color:#87CEFA;
+            }
+            .content_td{
+                background-color:#FFFFFF;
+            }
+            .column_width {
+                width:200px;
+            }
+        </style>
+        <script type="text/javascript">
+            function mtHelperFunc(){
+                var THIS = {
+                    getSettings : function() {
+                        var rowCount = document.getElementById('txtRowCount').value;
+                        var columnCount = document.getElementById('txtColumnCount').value;
+                        console.log('rowCount='+rowCount+" columnCount="+columnCount);
+                        if(isNaN(rowCount)){ 
+                            console.error('rowCount is not a number' );
+                            return;
+                        }
+                        else {
+                            rowCount = parseInt(rowCount, 10);
+                            console.log('rowCount parseInt to '+ rowCount );
+                        }
+                        if(isNaN(columnCount)){ 
+                            console.error('columnCount is not a number' );
+                            return;
+                        }
+                        else {
+                            columnCount = parseInt(columnCount, 10);
+                            console.log('columnCount parseInt to '+ columnCount );
+                        }
+                        return {
+                            rowCount : rowCount,
+                            columnCount : columnCount
+                        };
+                    },
+                    createId : function(prefix, r, c) {
+                        return prefix + '_r' + r + '_c' + c;
+                    },
+                    createTitleAlignHtml : function(r, c) {
+                        return '<select id="'+THIS.createId('titleAlign', r,c)+'" class="column_width" onchange="mtHelper.renderResult()"><option value="left">left</option><option value="center" selected="selected">center</option><option value="right">right</option></select>';
+                    },
+                    createTitleTdHtml : function(r, c, v) {
+                        return '<input id="'+THIS.createId('title', r,c)+'" type="text" class="title_td column_width" value="'+v+'"></input>';
+                    },
+                    createContentTdHtml : function(r, c, v){
+                        return '<input id="'+THIS.createId('content', r,c)+'" type="text" class="content_td column_width" value="'+v+'"></input>';
+                    },
+                    createEditorHtml : function(){
+                        var settings = THIS.getSettings();
+                        var rowCount = settings.rowCount;
+                        var columnCount = settings.columnCount;
+                        
+                        // create input text
+                        var inputHtml = '';
+                        for(var i = -1; i < rowCount; ++i){
+                            for(var j = 0; j < columnCount; ++j){
+                                if(i > 0){
+                                    inputHtml += THIS.createContentTdHtml(i, j, i.toString()+"_" + (j+1).toString());
+                                }
+                                else if(i == -1){
+                                    inputHtml += THIS.createTitleAlignHtml(0, j);
+                                }
+                                if(i == 0) {
+                                    inputHtml += THIS.createTitleTdHtml(i, j, "Title_" + (j+1).toString());
+                                }
+                            }
+                            inputHtml += '<br />';
+                        }
+                        return inputHtml;
+                    },
+                    renderEditor : function(){
+                        var canvas = document.getElementById('inputAreaCanvas');
+                        if(!canvas){
+                            console.error('error: Input area canvas is not exists.');
+                            return;   
+                        }
+                        else {
+                            console.log('Input area canvas is exists.');
+                            canvas.innerHTML = mtHelper.createEditorHtml();
+                        }
+                    },
+                    getText : function(prefix, r, c) {
+                        var eleId = THIS.createId(prefix, r, c);
+                        var ele = document.getElementById(eleId);
+                        return ele ? document.getElementById(eleId).value : "";
+                    },
+                    getMaxColumnLength : function(rowCount, c) {
+                        var maxColumnLength = 0;
+                        for(var r = 0; r < rowCount; ++r) {
+                            var prefix = (r == 0 ? "title" : "content"); 
+                            var eleText = THIS.getText(prefix, r, c);
+                            if(eleText) {
+                                var length = eleText.length;
+                                if(length > maxColumnLength) maxColumnLength = length;
+                            }
+                        }
+                        return maxColumnLength;
+                    },
+                    getColumnAlign : function(c) {
+                        var eleId = THIS.createId("titleAlign", 0, c);
+                        var ele = document.getElementById(eleId);
+                        if(ele){
+                            return ele.options[ele.selectedIndex].value;
+                        }
+                    },
+                    createResultText : function(){
+                        var settings = THIS.getSettings();
+                        var rowCount = settings.rowCount;
+                        var columnCount = settings.columnCount;
+
+                        // create input text
+                        var inputHtml = '';
+                        for(var i = -1; i < rowCount; ++i){
+                            var startPrefix = "";
+                            var endPrefix = "|";
+                            for(var j = 0; j < columnCount; ++j){
+                                var maxColumnLength = THIS.getMaxColumnLength(rowCount, j);
+                                maxColumnLength = (maxColumnLength < 3 ? 3 : maxColumnLength) + 2;
+
+                                if(i > 0){
+                                    startPrefix = (j == 0 ? "|" : "|");
+                                    var text = "";
+                                    var content = "";
+                                    text += startPrefix;
+                                    content = " " + THIS.getText("content", i, j);
+                                    text += content;
+                                    for(var k = content.length; k < maxColumnLength; ++k) {
+                                        text += " ";
+                                    }
+                                    inputHtml += text;
+                                }
+                                else if(i == -1) {
+                                    startPrefix =  (j == 0 ? "|" : "|");
+                                    var text = "";
+                                    var content = "";
+                                    text += startPrefix;
+                                    content = " " + THIS.getText("title", 0, j);
+                                    text += content;
+                                    for(var k = content.length; k < maxColumnLength; ++k) {
+                                        text += " ";
+                                    }
+                                    inputHtml += text;
+                                }
+                                else if(i == 0) {
+                                    startPrefix = "|";
+                                    var text = "";
+                                    text += startPrefix;
+                                    var align = THIS.getColumnAlign(j);
+                                    if(align == "left" || align == "center") {
+                                        text += ":";
+                                        --maxColumnLength;
+                                    }
+                                    if(align == "center" || align == "right"){
+                                        --maxColumnLength;
+                                    }
+                                    for(var k = 0; k < maxColumnLength; ++k) {
+                                        text += "-";
+                                    }
+                                    if(align == "center" || align == "right"){
+                                        text += ":";
+                                    }
+                                    inputHtml += text;
+                                }
+                            }
+
+                            inputHtml += endPrefix;
+                            inputHtml += '\r\n';
+                        }
+                        return inputHtml;
+                    },
+                    setTitleAlign : function() {
+                        var settings = THIS.getSettings();
+                        var rowCount = settings.rowCount;
+                        var columnCount = settings.columnCount;
+
+                        for(var j = 0; j < columnCount; ++j){
+                            var align = THIS.getColumnAlign(j);
+                            var eleId = THIS.createId("title", 0, j);
+                            var ele = document.getElementById(eleId);
+                            if(ele) {
+                                ele.style.textAlign = align;
+                            }
+                        }
+                    },
+                    renderResult : function(){
+                        THIS.setTitleAlign();
+                        var canvas = document.getElementById('txtOutput');
+                        if(!canvas){
+                            console.error('error: Input area canvas is not exists.');
+                            return;   
+                        }
+                        else {
+                            console.log('Input area canvas is exists.');
+                            canvas.innerText = THIS.createResultText();
+                        }
+                    }
+                };
+                return THIS;
+            };
+            var mtHelper = mtHelperFunc();
+            window.onload = function(){
+                mtHelper.renderEditor();
+                function run() {
+                    mtHelper.renderResult();
+                };
+                run();
+                setInterval(run, 3000);
+            };
+        </script>
+    </head>
+    <body>
+        <div>
+            <div>Welcome to try the Markdown Table creator!</div>
+            <div><h1>Settings:</h1></div>
+            <div>
+                <span class="label_150">row count:</span><input type="text" id="txtRowCount" value="12"/><br />
+                <span class="label_150">column count:</span><input type="text" id="txtColumnCount" value="6"/><br />
+            </div>
+            <div><h1>Actions:</h1></div>
+            <div>
+                <input type="button" id="btnCreateEditor" value="createEditor" onclick="mtHelper.renderEditor()"/>
+                <input type="button" id="btnCreateResult" value="createResult" onclick="mtHelper.renderResult()"/>
+            </div>
+            <div><h1>Editors:</h1></div>
+            <div>Please edit the table:</div>
+            <div id="inputAreaCanvas" class="input_txt">
+
+            </div>
+            <div><h1>Result:</h1></div>
+            <div>Please copy the result to the clipboard / visual studio code / github online editor.</div>
+            <hr>
+            <textarea id="txtOutput" class="output_txt">
+
+            </textarea>
+        </div>
+    </body>
+</html>
