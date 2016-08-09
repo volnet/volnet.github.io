@@ -63,6 +63,8 @@ c2
 
 - 使用def来定义一个定制函数。
 
+- 传言Python起名于[Monty Python](http://baike.baidu.com/view/592799.htm)
+
 
 2 共享你的代码
 -------------
