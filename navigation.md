@@ -6,7 +6,7 @@
   * # 大数据
   * [车品觉-决战大数据](docs/book/车品觉-决战大数据/note.md)
   * [吴军-智能时代](docs/book/吴军-智能时代/note.md)
-  * [吴军-智能时代](docs/book/HeadFirstPython/note.md)
+  * [Head First Python](docs/book/HeadFirstPython/note.md)
 
 [生活]()
 
