@@ -69,6 +69,123 @@ c2
 2 共享你的代码
 -------------
 
+本节主要通过完善上一节的例子，讲述了函数的编写、发布、本地副本、发布到PyPI等特性。
+
+```
+>>> this_list = ['a', 'b', ['c', ['d', 'e'], 'f']]
+>>> import nester
+>>> nester.print_list(this_list)
+a
+b
+c
+d
+e
+f
+>>> nester.print_list(this_list, True)
+a
+b
+	c
+		d
+		e
+	f
+>>> nester.print_list(this_list, True, 2)
+		a
+		b
+			c
+				d
+				e
+			f
+>>> 
+```
+
+知识点：
+
+- 模块是一个包含Python代码的文本文件。模块的名称就是文件的名称（不含后缀.py）
+
+- 发布工具允许将模块转换为可共享的包。
+
+```
+python3 setup.py register
+python3 setup.py sdist upload
+```
+
+- setup.py程序提供了模块的元数据，用来构建、安装和上传打包的发布。
+
+```
+from distutils.core import setup
+
+setup(
+    name = 'nester_volnet',
+    version = '1.0.6',
+    py_modules = ['nester', 'testnester'],
+    author = 'volnet',
+    author_email = 'volnet@tom.com',
+    url = 'http://volnet.github.io',
+    description='A simple printer of nested lists, this version add the testnester.py',
+)
+```
+
+```
+python3 setup.py sdist
+sudo python3 setup.py install
+```
+
+- 使用import语句可以将模块导入到其他程序中。
+
+```
+import nester
+```
+
+- Python中的各个模块提供了自己的命名空间，使用module.function()形式调用函数的模块时，要用命名空间名限定函数。
+
+```
+nester.print_list(this_list)
+```
+
+- 使用import语句的from module import function形式可以从一个模块将函数专门导入到当前命名空间。
+
+```
+from nester import print_list
+print_list(this_list)
+```
+
+- 使用#可以注释掉一行代码，或者为程序增加一个简短的但行注释
+
+- 内置函数（built-in functions, BIF）有自己的命名空间，名为`__builtins__`，这会自动包含在每一个Python程序中。
+
+- range() BIF可以与for结合使用，从而迭代固定次数。
+
+```
+for i in range(4):
+	print(i)
+```
+
+等价于
+
+```
+i = 0
+while i < 4:
+	print(i)
+	i = i + 1
+```
+
+- 包含end=''作为print() BIF的一个参数会关闭其默认行为（即在输入中自动包含换行）。
+
+- 如果为函数参数提供一个缺省值，这个函数参数就是可选的。
+
+```
+def print_list( thislist, level = 0)
+```
+
+> 本节示例代码：
+
+> [lastest src samples/nester/](samples/nester/)
+
+> [packages samples/nester.pypi/](samples/nester.pypi/)
+
+> [PyPI url](https://pypi.python.org/pypi/nester_volnet)
+
+
 
 3 文件与异常
 -------------
