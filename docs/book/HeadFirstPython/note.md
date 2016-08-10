@@ -98,6 +98,22 @@ b
 >>> 
 ```
 
+```
+"""This is the "standard" way to include a multiple-line comment in your code."""
+
+# This is a single line comment
+
+def print_list(the_list, indent = False, level = 0):
+	for item in the_list:
+		if isinstance(item, list):
+			print_list(item, indent, level + 1)
+		else:
+			if indent:
+				for i in range(level):
+					print("\t", end="")
+			print(item)
+```
+
 知识点：
 
 - 模块是一个包含Python代码的文本文件。模块的名称就是文件的名称（不含后缀.py）
