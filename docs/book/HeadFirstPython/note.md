@@ -206,6 +206,88 @@ def print_list( thislist, level = 0)
 3 文件与异常
 -------------
 
+在第三节中，作者用一个文本读取，并进行Split的例子，来说明程序中可能出现的错误，以及如何使用异常处理机制。
+
+不过，读到这里，不知道作者是为了应对这一节的标题，还是真心喜欢异常处理。
+
+在一些其他的语言，如C#中，异常，被认为是比较耗时的行为，一般推荐使用丰富的判断逻辑（if）来处理可预测的错误。但是本节作者更倾向于使用异常以让程序主体占用更多的篇幅。
+
+```
+import os
+
+def getinfo():
+    os.getcwd()
+    os.chdir("../Documents/")
+    #os.chdir("../Dropbox/Documents/个人/volnet.github.io/docs/book/HeadFirstPython/samples/chapter03/")
+    os.getcwd()
+
+    try:
+        data = open('sketch.txt')
+        print(data.readline(), end='')
+        print(data.readline(), end='')
+
+        print("---------")
+
+        data.seek(0)
+        """
+        # use if to deal with the error
+        for each_line in data:
+            if not each_line.find(":") == -1 :
+                (role, line_spoken) = each_line.split(":", 1)
+                print(role, end = '')
+                print(" said: ", end = '')
+                print(line_spoken, end='')
+        """
+
+        # use except to deal with the error
+        for each_line in data:
+            try:
+                (role, line_spoken) = each_line.split(":", 1)
+                print(role, end = '')
+                print(" said: ", end = '')
+                print(line_spoken, end='')
+            except ValueError:
+                pass
+
+        data.close()
+
+    except IOError:
+        print("The data file is missing!")
+```
+
+知识点：
+
+- 使用open() BIF打开一个磁盘文件，创建一个迭代器从文件读取数据，一次读取一个数据行。
+
+- readline()方法从一个打开的文件读取一行数据。
+
+- seek()方法可以用来将文件“退回”到起始位置。
+
+- close()方法关闭一个之前打开的文件。
+
+- split()方法可以将一个字符串分解为一个子串列表。第二个参数maxsplit代表最多迭代几个分隔符，比如写1，则代表将文本分成两段。另外返回值是个tuple，用括号(p1, p2)，里面的内容一旦创建就不能修改，这点是与列表[p1, p2]最大的区别。
+
+- Python中不可改变的常量列表称为元组（tuple）。一旦将列表数据赋值至一个元祖，就不能再改变。元组是不可改变的。
+
+- 数据不符合期望的格式时会出现ValueError。
+
+- 数据无法正常访问时会出现IOError（例如，可能你的数据文件已经被移走或者重命名）。
+
+- help() BIF允许你再IDLE shell中访问Python的文档，比如：help("".split)
+
+- find() 方法会在一个字符串中查找一个特定的子串，找不到则返回-1。
+
+- not关键字将一个条件取反，如`if not x == 1:`，实测也是可以使用`if x != 1:`来表达的。
+
+- try/except语句提供一个异常处理机制，从而保护可能导致运行时错误的某些代码行。
+
+- pass语句就是Python的空语句或null语句，它什么也不做。类似except后面又必需有代码块的时候，就可以使用。
+
+> 本节示例代码：
+
+> [lastest src samples/chapter03/](samples/sketch/)
+
+> [PyPI url](https://pypi.python.org/pypi/ch03_sketch_volnet)
 
 4 持久存储
 -------------
