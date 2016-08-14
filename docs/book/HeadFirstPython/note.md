@@ -1,6 +1,7 @@
 Head First Python（中文版）
 ========================
 
+[原书示例相关下载](http://python.itcarlow.ie/resources.html)
 
 1 初识Python
 -------------
