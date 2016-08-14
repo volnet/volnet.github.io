@@ -285,7 +285,7 @@ def getinfo():
 
 > 本节示例代码：
 
-> [lastest src samples/chapter03/](samples/sketch/)
+> [lastest src samples/chapter03/](samples/chapter03/)
 
 > [PyPI url](https://pypi.python.org/pypi/ch03_sketch_volnet)
 
@@ -339,6 +339,13 @@ with open('data1.txt', 'r') as data1, open('data2.txt', 'w') as data2:
 - pickle.dump()函数将数据保存到磁盘。
 
 - pickle.load()函数从磁盘恢复数据。
+
+
+> 本节示例代码：
+
+> [lastest src samples/chapter04/](samples/chapter04/)
+
+> [PyPI url](https://pypi.python.org/pypi/ch04_sketch_volnet)
 
 5 推导数据
 -------------
