@@ -290,6 +290,8 @@ def getinfo():
 
 > [PyPI url](https://pypi.python.org/pypi/ch03_sketch_volnet)
 
+
+
 4 持久存储
 -------------
 
@@ -348,8 +350,49 @@ with open('data1.txt', 'r') as data1, open('data2.txt', 'w') as data2:
 
 > [PyPI url](https://pypi.python.org/pypi/ch04_sketch_volnet)
 
+
+
 5 推导数据
 -------------
+
+- sort()方法可以在原地改变列表的顺序。
+
+- sorted() BIF通过提供复制排序可以对几乎任何数据结构排序。
+
+- 向sort()或sorted()传入reverse=True可以降序排列数据。
+
+- 如果有以下代码：
+
+```
+new_l = []
+for t in old_l:
+    new_l.append(len(t)
+```
+
+使用列表推导重写这个代码，可以写作：
+
+```
+new_l = [len(t) for t in old_l]
+```
+
+- 要访问一个列表中的多个数据项，可以使用分片。例如：my_list[3:6]，包含3，但不包含6
+
+```
+>>> my_list = [0,1,2,3,4,5,6,7,8]
+>>> print(my_list[3:6])
+[3, 4, 5]
+```
+
+- 这会访问列表中从索引位置3直到（但不包括）索引位置6的列表项。
+
+- 使用set()工厂方法可以创建一个集合
+
+> 本节示例代码：
+
+> [lastest src samples/chapter05/](samples/chapter05/)
+
+> [PyPI url](https://pypi.python.org/pypi/ch05_dealinfo_volnet/)
+
 
 
 6 定制数据对象
