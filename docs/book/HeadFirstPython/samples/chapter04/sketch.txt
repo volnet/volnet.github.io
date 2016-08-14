@@ -1,0 +1,8 @@
+Man : Hi, I am this.
+Other Man : Hi, I am that.
+Man : Where is your home?
+Other Man : There is my home.
+Man : Good Bye!
+Other Man : Bye~:Bye~
+Man : Hi
+(pause)

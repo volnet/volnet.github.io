@@ -292,6 +292,53 @@ def getinfo():
 4 持久存储
 -------------
 
+- strip()方法可以从字符串去除不想要的空白符。类似于C#中的`" This is ".Trim()` => `"This is"`
+
+- print() BIF的file参数控制将数据发送/保存到哪里，比如`file=sys.stdout`
+
+- finally组总会执行，而不论try/except语句中出现什么异常。
+
+- 会向except组传入一个异常对象，并使用as关键字赋至一个关键字，如：`except IOError as err:`
+
+- str() BIF可以用来访问任何数据对象（支持串转换）的串表示。如：
+
+```
+except IOError as err:
+    print(str(err))
+```
+
+- locals() BIF返回当前作用域中的变量集合。
+
+```
+try:
+    data = open('missing.txt')
+    print(data.readline(), end='')
+except IOError as err:
+    print('File error' + str(err))
+finally:
+    if 'data' in locals():
+        data.close()
+```
+
+- in操作符用于检查成员关系，如：`if 'data' in locals():`
+
+- “+”操作符用于字符串时将联接两个字符串，用于数字时则会将两个数相加。
+
+- with语句会自动处理所有已打开文件的关闭工作，即使出现异常也不例外。with语句也使用as关键字。[语法](https://docs.python.org/3/reference/compound_stmts.html#the-with-statement)
+同时还可以使用逗号语法。
+
+```
+with open('data1.txt', 'r') as data1, open('data2.txt', 'w') as data2:
+    print(data1.read(), file=data2)
+```
+
+- sys.stdout是Python中所谓的“标准输出”，可以从标准库的sys模块访问。
+
+- 标准库的pickle模块允许你容易而高效地将Python数据对象保存到磁盘以及从磁盘恢复。
+
+- pickle.dump()函数将数据保存到磁盘。
+
+- pickle.load()函数从磁盘恢复数据。
 
 5 推导数据
 -------------

@@ -1,9 +1,10 @@
 sketch.txt
 
-- 包含end=''作为print() BIF的一个参数会关闭其默认行为（即在输入中自动包含换行）。
-
-- 如果为函数参数提供一个缺省值，这个函数参数就是可选的。
-
-```
-def print_list( thislist, level = 0)
-```
+This : Hi, I am this.
+That : Hi, I am that.
+This : Where is your home?
+That : There is my home.
+This : Good Bye!
+That : Bye~:Bye~
+This : Hi
+(pause)
