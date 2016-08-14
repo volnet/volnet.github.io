@@ -196,9 +196,9 @@ def print_list( thislist, level = 0)
 
 > 本节示例代码：
 
-> [lastest src samples/nester/](samples/nester/)
+> [lastest src samples/chapter02/nester/](samples/chapter02/nester/)
 
-> [packages samples/nester.pypi/](samples/nester.pypi/)
+> [packages samples/chapter02/nester.pypi/](samples/chapter02/nester.pypi/)
 
 > [PyPI url](https://pypi.python.org/pypi/nester_volnet)
 
