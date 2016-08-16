@@ -398,6 +398,96 @@ new_l = [len(t) for t in old_l]
 6 定制数据对象
 -------------
 
+```
+class MyClass:
+    NickName = ''
+    def __init__(self, name, age):
+        self.Name = name
+        self.Age = age
+
+    def GetName(self):
+        return self.Name + '(' + self.NickName + ')'
+
+    def GetAge(self):
+        return self.Age
+
+    def AddAge(self, age):
+        self.Age += age
+        return self.Age
+
+class MyClass2(MyClass):
+    def __init__(self, name):
+        MyClass.__init__(self, name, 20)
+
+    def AddAge(self, age):
+        self.Age += (2 * age)
+        return self.Age
+
+obj1 = MyClass('Eric', 18)
+obj2 = MyClass2('Volnet')
+
+# Eric 18
+print(obj1.GetName() + '-' + str(obj1.GetAge()))
+# Volnet 20
+print(obj2.GetName() + '-' + str(obj2.GetAge()))
+
+obj1.AddAge(10)
+# Eric 18+10=28
+print(obj1.GetName() + '-' + str(obj1.GetAge()))
+
+obj2.AddAge(10)
+# Volnet 20+2*10=40
+print(obj2.GetName() + '-' + str(obj2.GetAge()))
+
+obj1.Name = 'Eric Kung'
+obj1.NickName = 'volnet'
+# Eric Kung(volnet) 18+10=28
+print(obj1.GetName() + '-' + str(obj1.GetAge()))
+# Volnet 20
+print(obj2.GetName() + '-' + str(obj2.GetAge()))
+```
+
+知识点：
+
+- dict()工厂函数或使用{}可以创建一个空字典。
+
+- 要访问一个名为person的字典中与键Name关联的值，可以使用我们熟悉的中括号记忆法：person["Name"]
+
+```
+>>> person = { "Name":"volnet"}
+>>> person["Name"]
+'volnet'
+```
+
+- 类似于列表和集合，Python的字典会随着新数据增加到这个数据结构中而动态扩大。
+
+- 可以先创建一个空字典：`new_d = {}` 或 `new_d = dict()`然后增加数据`d["Name"] = "Eric Idle"`来填充字典，或者也可以一次完成以上的全部工作：`new_d = {'Name':'Eric Idle'}`
+
+- 可以用class关键字定义一个类。
+
+```
+>>> class Person:
+	Name = 'volnet'
+
+	
+>>> a = Person()
+>>> a.Name
+'volnet'
+```
+
+- 类方法（代码）与函数的定义基本相同，也就是说，要用def关键字定义。
+
+- 类属性（数据）就像是对象实例中的变量。
+
+- 可以在类中定义__init__()方法来初始化对象实例。
+
+- 类中定义的每个方法都必须提供self作为第一个参数。
+
+- 类中的每个属性前面都必须有self，从而将数据与其实例关联。
+
+- 类可以从零开始构建，也可以从Python的内置类或从其他定制类继承。
+
+- 类可以放在一个Python模块中，并上传到PyPI。
 
 7 Web开发
 -------------
