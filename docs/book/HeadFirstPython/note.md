@@ -489,9 +489,40 @@ print(obj2.GetName() + '-' + str(obj2.GetAge()))
 
 - 类可以放在一个Python模块中，并上传到PyPI。
 
+> 本节示例代码：
+
+> [lastest src samples/chapter06/](samples/chapter06/)
+
 7 Web开发
 -------------
 
+- 模型-视图-控制器（Model-View-Controller）模式允许你采用一种可维护的方式设计和构建一个Web应用。
+
+- 模型存储Web应用的数据。
+
+- 视图显示Web应用的用户界面。
+
+- 控制器将所有代码与编程逻辑“粘合”在一起。
+
+- 标准库string模块包括一个名为Template的类，它支持简单的字符串替换。
+
+- 标准库http.server模块可以用来在Python中建立一个简单的Web服务器。
+
+- 标准库CGI模块对编写CGI脚本提供了支持。
+
+- 标准库glob模块非常适合处理文件名列表。
+
+- 在Linux和Mac OS X上可以使用`chmod +x`命令设置可执行权限位。
+
+- 启用标准库cgitb模块时，允许在浏览器中查看CGI编码错误。
+
+- CGI代码中可以使用cgitb.enable()打开CGI跟踪。
+
+- 可以使用cgi.FieldStorage()访问作为Web请求一部分发送给Web服务器的数据，数据将作为一个Python字典。
+
+> 本节示例代码：
+
+> [lastest src samples/chapter07/](samples/chapter07/)
 
 8 移动应用开发
 -------------
