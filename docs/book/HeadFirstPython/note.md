@@ -527,6 +527,27 @@ print(obj2.GetName() + '-' + str(obj2.GetAge()))
 8 移动应用开发
 -------------
 
+> 本节所涉及的SL4A已经从[code.google.com](https://code.google.com/p/android-scripting/)迁移到[Github(https://github.com/damonkohler/sl4a)]了
+
+> 因Android模拟器的问题，本节未实现在Android手机上的调试。
+
+- JSON库模块允许将Python的内置类型转换为基于文本的JSON数据交换格式。
+
+- 使用`json.dumps()`可以创建一个Python类型的字符串版本。
+
+- 使用`json.loads()`可以从一个JSON字符串创建一个Python类型。
+
+- 如果数据使用JSON发送，需要将`Content-Type`设置为`application/json`。
+
+- urllib和urllib2库模块（都在Python2中提供）可以用来从一个程序向Web服务器发送编码的数据（使用urlencode()和urlopen()函数）。
+
+- sys模块提供了sys.stdin、sys.stdout和sys.stderr输入流。
+
+> 本节示例代码：
+
+> [lastest src samples/chapter08/](samples/chapter08/)
+
+> 原文中使用SL4A在Android上用Python2进行http调用，因此使用的urlopen和urlencode与Python3中不太一样。而这里我使用Python3进行client调用，因此代码上略有不同。
 
 9 管理你的数据
 -------------
