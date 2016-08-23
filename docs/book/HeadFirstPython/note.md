@@ -527,7 +527,7 @@ print(obj2.GetName() + '-' + str(obj2.GetAge()))
 8 移动应用开发
 -------------
 
-> 本节所涉及的SL4A已经从[code.google.com](https://code.google.com/p/android-scripting/)迁移到[Github(https://github.com/damonkohler/sl4a)]了
+> 本节所涉及的SL4A已经从[code.google.com](https://code.google.com/p/android-scripting/)迁移到[Github](https://github.com/damonkohler/sl4a)了
 
 > 因Android模拟器的问题，本节未实现在Android手机上的调试。
 
@@ -552,6 +552,87 @@ print(obj2.GetName() + '-' + str(obj2.GetAge()))
 9 管理你的数据
 -------------
 
+```
+import sqlite3
+
+# create database 
+
+conn = sqlite3.connect('coachdata.sqlite')
+cursor = conn.cursor()
+cursor.execute("""CREATE TABLE athletes(
+    id INTEGER PRIMARY KEY AUTOINCREMENT UNIQUE NOT NULL,
+    name TEXT NOT NULL,
+    dob DATE NOT NULL
+)""")
+cursor.execute("""CREATE TABLE timing_data(
+    athlete_id INTEGER NOT NULL,
+    value TEXT NOT NULL,
+    FOREIGN KEY(athlete_id) REFERENCES athletes
+)""")
+
+conn.commit()
+conn.close()
+
+# init database
+
+conn = sqlite3.connect('coachdata.sqlite')
+cursor = conn.cursor()
+
+import glob
+import athletemodel
+
+data_files = glob.glob('../data/*.txt')
+athletes = athletemodel.put_to_store(data_files)
+
+for each_ath in athletes:
+    name = athletes[each_ath].name
+    dob = athletes[each_ath].dob
+
+    cursor.execute("INSERT INTO athletes (name, dob) VALUES (?, ?)", (name, dob))
+    conn.commit()
+
+conn.close()
+
+```
+
+- 标准库cgi模块中的`fieldStorage()`方法允许从CGI脚本访问发送至Web服务器的数据。
+
+- 标准OS库包含一个environ字典，可以很方便地访问程序的环境设置。
+
+```
+#! /Library/Frameworks/Python.framework/Versions/3.5/bin/python3
+
+import os
+import time
+import sys
+
+addr = os.environ["REMOTE_ADDR"]
+host = os.environ["REMOTE_HOST"]
+serverport = os.environ["SERVER_PORT"]
+method = os.environ["REQUEST_METHOD"]
+
+cur_time = time.asctime(time.localtime())
+
+print(os.environ, file=sys.stderr)
+print('host = ' + host + ', addr = ' + addr + ', serverport = ' + serverport + ', cur_time = ' + cur_time + ', method = ' + method, file=sys.stderr)
+
+```
+
+- SQLite数据看系统作为sqlite3标准库包含在Python中。
+
+- connect()方法可以建立与数据库文件的一个连接。
+
+- cursor()方法允许通过一个已有的连接与数据库通信。
+
+- execute()方法允许通过一个已有的连接向数据库发送一个SQL查询。
+
+- commit()方法使之前对数据库所做的修改永久保留。
+
+- rollback()方法取消对数据做出的所有未完成的修改。
+
+- close()方法关闭与数据库的一个现有连接。
+
+- “?”占位符允许在Python代码中为SQL语句指定参数。
 
 10 扩展你的Web应用
 ----------------
