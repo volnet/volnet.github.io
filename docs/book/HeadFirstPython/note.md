@@ -637,6 +637,25 @@ print('host = ' + host + ', addr = ' + addr + ', serverport = ' + serverport + '
 10 扩展你的Web应用
 ----------------
 
+> 因Google App Engine（GAE）已经升级为[Google Cloud Platform](https://cloud.google.com/)，因此本节涉及的内容可能不再适用。
+
+- 每个App Engine Web应用必须有一个名为app.yaml的配置文件。
+
+- 可以使用GAE Launcher启动、停止、监视、测试、上传和部署你的Web应用。
+
+- App Engine的模板技术建立在Django项目所用模板技术基础之上。
+
+- App Engine还可以使用Django的表单验证框架。
+
+- 可以使用self.response对象来构造一个GAE Web响应。
+
+- 可以使用self.request对象来访问一个GAE Web应用的表单数据。
+
+- 响应一个GET请求时，要在一个get()方法中实现必要的功能。
+
+- 响应一个POST请求时，要在一个post()方法实现必要的功能。
+
+- 使用put()方法将数据存储在App Engine datastore中。
 
 11 处理复杂性
 -------------
