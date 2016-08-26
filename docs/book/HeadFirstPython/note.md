@@ -20,7 +20,7 @@ Head First Python（中文版）
 1 初识Python
 -------------
 
-从C语系转过来的科班生，遇到没有{}，没有类型声明，确实有点儿不适应。作者使用了以下例子来进行演示：
+作为从C语系转过来的科班生，遇到没有{}，没有类型声明，确实有点儿不适应。作者使用了以下例子来进行演示：
 
 ```
 
@@ -50,13 +50,13 @@ c2
 
 知识点：
 
-- 从命令行或再IDLE中运行Python3.在IDLE中使用Alt+P/N，Mac下用Ctrl+P/N，可以调回上次写的代码。
+- 从`命令行`或在`IDLE`中运行`Python3`.在IDLE中使用Alt+P/N，Mac下用Ctrl+P/N，可以调回上次写的代码。
 
 - 标识符是指数据对象的名字。标识符没有“类型”，不过标识符所指示的数据对象有类型。
 
 - print() BIF会在屏幕上显示一个消息。
 
-- 列表是一个数据集合，数据项之间用逗号分隔，整个列表用中括号包围。列表，在isinstance()的第二个参数是list。
+- 列表是一个数据集合，数据项之间用逗号分隔，整个列表用中括号包围。示例中在isinstance()的第二个参数是list，代表判断对象是否是list。
 
 - 列表就像是打了激素的数组。
 
@@ -68,7 +68,7 @@ c2
 
 - Python使用缩进将语句归组（suite）在一起。
 
-- len() BIF会提供某个数据对象的长度，或者统计一个集合中的项数，如列表中的项数
+- len() BIF会提供某个数据对象的长度，或者统计一个集合中的项数，如列表中的项数。
 
 - for循环允许迭代处理一个列表，这通常比使用一个等价的while循环更方便。
 
@@ -180,7 +180,7 @@ from nester import print_list
 print_list(this_list)
 ```
 
-- 使用#可以注释掉一行代码，或者为程序增加一个简短的但行注释
+- 使用#可以注释掉一行代码，或者为程序增加一个简短的单行注释。
 
 - 内置函数（built-in functions, BIF）有自己的命名空间，名为`__builtins__`，这会自动包含在每一个Python程序中。
 
@@ -205,8 +205,9 @@ while i < 4:
 - 如果为函数参数提供一个缺省值，这个函数参数就是可选的。
 
 ```
-def print_list( thislist, level = 0)
+def print_list(thislist, level = 0)
 ```
+
 
 > 本节示例代码：
 
@@ -217,15 +218,14 @@ def print_list( thislist, level = 0)
 > [PyPI url](https://pypi.python.org/pypi/nester_volnet)
 
 
-
 3 文件与异常
 -------------
 
-在第三节中，作者用一个文本读取，并进行Split的例子，来说明程序中可能出现的错误，以及如何使用异常处理机制。
+在本节中，作者用一个文本读取，并进行Split的例子，来说明程序中可能出现的错误，以及如何使用异常处理机制。
 
 不过，读到这里，不知道作者是为了应对这一节的标题，还是真心喜欢异常处理。
 
-在一些其他的语言，如C#中，异常，被认为是比较耗时的行为，一般推荐使用丰富的判断逻辑（if）来处理可预测的错误。但是本节作者更倾向于使用异常以让程序主体占用更多的篇幅。
+在一些其他的语言，如C#中，异常，被认为是比较耗时的行为，一般推荐使用丰富的判断逻辑（if）来处理可预测的错误。但是本节作者更倾向于使用异常以让程序主体占用更多的篇幅。这也表达了该语言更倾向于编写易读、易写、性能要求不高的程序。
 
 ```
 import os
@@ -233,7 +233,7 @@ import os
 def getinfo():
     os.getcwd()
     os.chdir("../Documents/")
-    #os.chdir("../Dropbox/Documents/个人/volnet.github.io/docs/book/HeadFirstPython/samples/chapter03/")
+    #os.chdir("../volnet/volnet.github.io/docs/book/HeadFirstPython/samples/chapter03/")
     os.getcwd()
 
     try:
@@ -282,13 +282,13 @@ def getinfo():
 
 - split()方法可以将一个字符串分解为一个子串列表。第二个参数maxsplit代表最多迭代几个分隔符，比如写1，则代表将文本分成两段。另外返回值是个tuple，用括号(p1, p2)，里面的内容一旦创建就不能修改，这点是与列表[p1, p2]最大的区别。
 
-- Python中不可改变的常量列表称为元组（tuple）。一旦将列表数据赋值至一个元祖，就不能再改变。元组是不可改变的。
+- Python中不可改变的常量列表称为元组（tuple）。一旦将列表数据赋值至一个元组，就不能再改变。元组是不可改变的。
 
 - 数据不符合期望的格式时会出现ValueError。
 
 - 数据无法正常访问时会出现IOError（例如，可能你的数据文件已经被移走或者重命名）。
 
-- help() BIF允许你再IDLE shell中访问Python的文档，比如：help("".split)
+- help() BIF允许你在IDLE shell中访问Python的文档，比如：help("".split)
 
 - find() 方法会在一个字符串中查找一个特定的子串，找不到则返回-1。
 
@@ -298,6 +298,7 @@ def getinfo():
 
 - pass语句就是Python的空语句或null语句，它什么也不做。类似except后面又必需有代码块的时候，就可以使用。
 
+
 > 本节示例代码：
 
 > [lastest src samples/chapter03/](samples/chapter03/)
@@ -305,9 +306,10 @@ def getinfo():
 > [PyPI url](https://pypi.python.org/pypi/ch03_sketch_volnet)
 
 
-
 4 持久存储
 -------------
+
+知识点：
 
 - strip()方法可以从字符串去除不想要的空白符。类似于C#中的`" This is ".Trim()` => `"This is"`
 
@@ -315,7 +317,7 @@ def getinfo():
 
 - finally组总会执行，而不论try/except语句中出现什么异常。
 
-- 会向except组传入一个异常对象，并使用as关键字赋至一个关键字，如：`except IOError as err:`
+- 会向except组传入一个异常对象，并使用as关键字赋值一个关键字，如：`except IOError as err:`
 
 - str() BIF可以用来访问任何数据对象（支持串转换）的串表示。如：
 
@@ -365,11 +367,12 @@ with open('data1.txt', 'r') as data1, open('data2.txt', 'w') as data2:
 > [PyPI url](https://pypi.python.org/pypi/ch04_sketch_volnet)
 
 
-
 5 推导数据
 -------------
 
-- sort()方法可以在原地改变列表的顺序。
+知识点：
+
+- sort()方法可以原地改变列表的顺序。
 
 - sorted() BIF通过提供复制排序可以对几乎任何数据结构排序。
 
@@ -380,7 +383,7 @@ with open('data1.txt', 'r') as data1, open('data2.txt', 'w') as data2:
 ```
 new_l = []
 for t in old_l:
-    new_l.append(len(t)
+    new_l.append(len(t))
 ```
 
 使用列表推导重写这个代码，可以写作：
@@ -401,12 +404,12 @@ new_l = [len(t) for t in old_l]
 
 - 使用set()工厂方法可以创建一个集合
 
+
 > 本节示例代码：
 
 > [lastest src samples/chapter05/](samples/chapter05/)
 
 > [PyPI url](https://pypi.python.org/pypi/ch05_dealinfo_volnet/)
-
 
 
 6 定制数据对象
@@ -468,7 +471,7 @@ print(obj2.GetName() + '-' + str(obj2.GetAge()))
 - 要访问一个名为person的字典中与键Name关联的值，可以使用我们熟悉的中括号记忆法：person["Name"]
 
 ```
->>> person = { "Name":"volnet"}
+>>> person = { "Name":"volnet" }
 >>> person["Name"]
 'volnet'
 ```
@@ -503,12 +506,16 @@ print(obj2.GetName() + '-' + str(obj2.GetAge()))
 
 - 类可以放在一个Python模块中，并上传到PyPI。
 
+
 > 本节示例代码：
 
 > [lastest src samples/chapter06/](samples/chapter06/)
 
+
 7 Web开发
 -------------
+
+知识点：
 
 - 模型-视图-控制器（Model-View-Controller）模式允许你采用一种可维护的方式设计和构建一个Web应用。
 
@@ -534,16 +541,20 @@ print(obj2.GetName() + '-' + str(obj2.GetAge()))
 
 - 可以使用cgi.FieldStorage()访问作为Web请求一部分发送给Web服务器的数据，数据将作为一个Python字典。
 
+
 > 本节示例代码：
 
 > [lastest src samples/chapter07/](samples/chapter07/)
 
+
 8 移动应用开发
 -------------
 
-> 本节所涉及的SL4A已经从[code.google.com](https://code.google.com/p/android-scripting/)迁移到[Github](https://github.com/damonkohler/sl4a)了
+本节所涉及的SL4A已经从[code.google.com](https://code.google.com/p/android-scripting/)迁移到[Github](https://github.com/damonkohler/sl4a)了
 
-> 因Android模拟器的问题，本节未实现在Android手机上的调试。
+因Android模拟器的问题，本节未实现在Android手机上的调试。
+
+知识点：
 
 - JSON库模块允许将Python的内置类型转换为基于文本的JSON数据交换格式。
 
@@ -557,11 +568,13 @@ print(obj2.GetName() + '-' + str(obj2.GetAge()))
 
 - sys模块提供了sys.stdin、sys.stdout和sys.stderr输入流。
 
+
 > 本节示例代码：
 
 > [lastest src samples/chapter08/](samples/chapter08/)
 
 > 原文中使用SL4A在Android上用Python2进行http调用，因此使用的urlopen和urlencode与Python3中不太一样。而这里我使用Python3进行client调用，因此代码上略有不同。
+
 
 9 管理你的数据
 -------------
@@ -609,6 +622,8 @@ conn.close()
 
 ```
 
+知识点：
+
 - 标准库cgi模块中的`fieldStorage()`方法允许从CGI脚本访问发送至Web服务器的数据。
 
 - 标准OS库包含一个environ字典，可以很方便地访问程序的环境设置。
@@ -632,7 +647,7 @@ print('host = ' + host + ', addr = ' + addr + ', serverport = ' + serverport + '
 
 ```
 
-- SQLite数据看系统作为sqlite3标准库包含在Python中。
+- SQLite数据库系统作为sqlite3标准库包含在Python中。
 
 - connect()方法可以建立与数据库文件的一个连接。
 
@@ -648,10 +663,18 @@ print('host = ' + host + ', addr = ' + addr + ', serverport = ' + serverport + '
 
 - “?”占位符允许在Python代码中为SQL语句指定参数。
 
+
+> 本节示例代码：
+
+> [lastest src samples/chapter09/](samples/chapter09/)
+
+
 10 扩展你的Web应用
 ----------------
 
-> 因Google App Engine（GAE）已经升级为[Google Cloud Platform](https://cloud.google.com/)，因此本节涉及的内容可能不再适用。
+因Google App Engine（GAE）已经升级为[Google Cloud Platform](https://cloud.google.com/)，因此本节涉及的内容可能不再适用。
+
+知识点：
 
 - 每个App Engine Web应用必须有一个名为app.yaml的配置文件。
 
@@ -673,6 +696,8 @@ print('host = ' + host + ', addr = ' + addr + ', serverport = ' + serverport + '
 
 11 处理复杂性
 -------------
+
+知识点：
 
 - input() BIF允许为用户提供提示语并接收输入。
 
@@ -821,3 +846,7 @@ Python使用一种称为全局解释器锁（Global Interpreter Lock，GIL）的
     4. 《[Python for Unix and Linux Systems Administration](https://www.amazon.cn/Python-for-Unix-and-Linux-Systems-Administration-Jones-Jeremy/dp/0596515820/ref=sr_1_1?ie=UTF8&qid=1472223536&sr=8-1&keywords=python+for+unix)》
 
     5. 《[Python Essential Reference (4th Edition)](https://www.amazon.cn/Python-Essential-Reference-Beazley-David/dp/0672329786/ref=sr_1_1?ie=UTF8&qid=1472223585&sr=8-1&keywords=python+essential+reference)》
+
+> 本节示例代码：
+
+> [lastest src samples/chapter12/](samples/chapter12/)
