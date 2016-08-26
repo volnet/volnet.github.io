@@ -660,6 +660,43 @@ print('host = ' + host + ', addr = ' + addr + ', serverport = ' + serverport + '
 11 处理复杂性
 -------------
 
+- input() BIF允许为用户提供提示语并接收输入。
+
+```
+>>> userinput = input('Please enter a word:')
+Please enter a word:Hi
+>>> userinput
+'Hi'
+```
+
+- 如果你在使用Python2而且需要input()函数，那么可以使用raw_input()函数。
+
+- 可以结合Python内置的列表、集合和字典构造复杂的数据结构。
+
+- time模块作为标准库的一部分，包含了大量函数可以完成时间格式之间的转换。
+
+- “条件”列表推导尾部包括一个“if”语句，允许在推导运行时控制哪些项可以增加到新的列表中。
+
+- 列表推导可以重写为一个“for”循环。
+
+```
+>>> results = []
+>>> mylist = [1,2,3,4,5,6,7]
+>>> for item in mylist:
+	if item > 3:
+		results.append(item)
+
+		
+>>> results
+[4, 5, 6, 7]
+```
+等价于
+```
+>>> mylist = [1,2,3,4,5,6,7]
+>>> results = [item for item in mylist if item > 3]
+>>> results
+[4, 5, 6, 7]
+```
 
 i 其他
 -------------
