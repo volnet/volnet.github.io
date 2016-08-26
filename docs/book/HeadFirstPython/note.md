@@ -700,3 +700,110 @@ Please enter a word:Hi
 
 i 其他
 -------------
+
+- 1.使用一个“专业”的IDE
+
+作者推荐[WingWare Python IDE](https://wingware.com/)作为专业的Python IDE工具。
+
+- 2.处理作用域
+
+以下代码将产生UnboundLocalError错误。
+```
+name = 'Head First Python'
+def what_happen_here():
+
+	print('1.' + name)
+	
+	name = name + ' is a great book!'
+	
+	print('2.' + name)
+
+what_happen_here()
+print('3.' + name)
+
+"""
+Traceback (most recent call last):
+  File "/Users/volnet/volnet.github.io/docs/book/HeadFirstPython/samples/chapter12/test-i2-1.py", line 10, in <module>
+    what_happen_here()
+  File "/Users/volnet/volnet.github.io/docs/book/HeadFirstPython/samples/chapter12/test-i2-1.py", line 4, in what_happen_here
+    print('1.' + name)
+UnboundLocalError: local variable 'name' referenced before assignment
+>>> 
+"""
+```
+以下代码使用了global关键字修复了作用域问题：
+```
+name = 'Head First Python'
+def what_happen_here():
+    print('1.' + name)
+    global name
+    name = name + ' is a great book!'
+    print('2.' + name)
+what_happen_here()
+print('3.' + name)
+
+"""
+1.Head First Python
+2.Head First Python is a great book!
+3.Head First Python is a great book!
+"""
+```
+在全局范围定义的变量，在私有方法中，是可以读取的，但是**不能修改**。
+所以`print('1.' + name)`的方法可以正确执行。但是后面的`name = name + ' is a great book!'`方法则会失败。
+
+使用`global`关键字明确地表明接下来要访问和修改的是全局变量，而后就可以正确执行赋值语句了。这也避免了无意间修改了全局变量的值。
+
+- 3.测试
+
+Python的标准测试框架分为两种：`unittest`和`doctest`
+
+- 4.高级语言特性
+
+Python还支持下面这些语言特性（不止以下这些）：
+    
+    - 匿名函数
+
+    - 生成器
+
+    - 定义异常
+
+    - 函数修饰符
+
+    - 元类
+
+- 5.正则表达式
+
+- 6.关于Web框架
+
+常见的适用于Python的Web框架有：
+[Django](https://www.djangoproject.com/)、
+[Zope](http://docs.zope.org/zopetoolkit/)、
+[TurboGears](http://turbogears.org/)、
+[Web2py](http://www.web2py.com/)和
+[Pylons](http://www.pylonsproject.org/)
+
+- 7.对象关系映射工具和NoSQL
+
+- 8.GUI编程
+
+下面这些技术可以构建基于GUI的Python应用：tkinter、PyGTK、PyKDE、wxPython和PyQT
+
+- 9.要避免的问题
+
+Python使用一种称为全局解释器锁（Global Interpreter Lock，GIL）的技术来实现。它强制实行这样一个限制，要求Python只能在一个解释器进程中运行，即使有多个处理器可用。
+
+对于你来说，这意味着，如果你的程序使用了线程，尽管它的设计和实现都很棒，但是即使有多个处理器这个程序也不会运行得更快，因为它根本无法使用多个处理器。你的线程应用会串行运行，而且在很多情况下，甚至比没有用线程开发同样的功能时慢得多。
+
+要点：除非去除GIL限制（如果真的能去除）……否则不要在Python线程中使用线程。
+
+- 10.其他Python书
+
+    1. 《[Dive Into Python 3](https://www.amazon.cn/Dive-Into-Python-3-Pilgrim-Mark/dp/1430224150/ref=sr_1_1?ie=UTF8&qid=1472223137&sr=8-1&keywords=dive+into+python+3)》
+
+    2. 《[Python学习手册（原书第4版）](https://www.amazon.cn/Python学习手册-MarkLutz/dp/B00H6X6KH6/ref=sr_1_8?ie=UTF8&qid=1472223220&sr=8-8&keywords=python)》
+
+    3. 《[Python 3程序开发指南（第2版 修订版）](https://www.amazon.cn/Python-3程序开发指南-美-萨默菲尔德/dp/B00U0UURS0/ref=sr_1_63?ie=UTF8&qid=1472223254&sr=8-63&keywords=python)》
+
+    4. 《[Python for Unix and Linux Systems Administration](https://www.amazon.cn/Python-for-Unix-and-Linux-Systems-Administration-Jones-Jeremy/dp/0596515820/ref=sr_1_1?ie=UTF8&qid=1472223536&sr=8-1&keywords=python+for+unix)》
+
+    5. 《[Python Essential Reference (4th Edition)](https://www.amazon.cn/Python-Essential-Reference-Beazley-David/dp/0672329786/ref=sr_1_1?ie=UTF8&qid=1472223585&sr=8-1&keywords=python+essential+reference)》
