@@ -45,7 +45,7 @@ Docker的目标是要提供：
 
 Docker是一个客户端/服务端（C/S）架构程序。
 
-Client端：命令行工具（CLI)
+Client端：命令行工具（CLI）
 
 Server端：[REST API](https://docs.docker.com/engine/reference/api/docker_remote_api/) + 守护进程(Daemon Process)
 
