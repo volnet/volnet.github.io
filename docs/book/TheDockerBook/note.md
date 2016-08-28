@@ -125,6 +125,142 @@ Docker安装的先决条件是：
 第3章 Docker入门
 ---------------
 
+> 《[Docker命令行参考文档](https://docs.docker.com/engine/reference/commandline/cli/)》
+
+```
+parallels@ubuntu:~$ sudo docker run -i -t ubuntu /bin/bash
+Unable to find image 'ubuntu:latest' locally
+latest: Pulling from library/ubuntu
+952132ac251a: Pull complete 
+82659f8f1b76: Pull complete 
+c19118ca682d: Pull complete 
+8296858250fe: Pull complete 
+24e0251a0e2c: Pull complete 
+Digest: sha256:f4691c96e6bbaa99d99ebafd9af1b68ace2aa2128ae95a60369c506dd6e6f6ab
+Status: Downloaded newer image for ubuntu:latest
+root@019b21d670f7:/#
+```
+
+命令解释：docker run
+
+- -i：保证容器中的STDIN是开启的。
+
+- -t：告诉Docker为要创建的容器分配一个伪tty终端。
+
+- ubuntu：镜像的名字
+
+- /bin/bash：启动容器后执行的语句
+
+可以使用`docker ps -a`查看当前系统中容器的列表。
+
+```
+parallels@ubuntu:~$ docker ps -a
+CONTAINER ID        IMAGE                 COMMAND                  CREATED              STATUS                        PORTS               NAMES
+87a430a359ef        ubuntu                "/bin/bash"              About a minute ago   Exited (0) 11 seconds ago                         ubuntu-web-001
+```
+
+```
+docker run -i -t --name ubuntu-web-001 ubuntu /bin/bash
+```
+
+使用`--name`可以指定一个容器名称。
+
+可以使用`docker start [container-name]`启动服务，类似的还有`docker stop`、`docker restart`、`docker create`
+
+```
+sudo docker start ubuntu-web-001 
+```
+也可以使用Container ID启动
+```
+parallels@ubuntu:~$ docker start 87a430a359ef597af9da14dcfc77290b35d8e1b5ccde6756f326f05efd458b0f 
+87a430a359ef597af9da14dcfc77290b35d8e1b5ccde6756f326f05efd458b0f
+parallels@ubuntu:~$ docker ps
+CONTAINER ID        IMAGE               COMMAND             CREATED             STATUS              PORTS               NAMES
+87a430a359ef        ubuntu              "/bin/bash"         5 minutes ago       Up 13 seconds                           ubuntu-web-001
+```
+
+可以使用`docker attach`附着到已经启动的容器上。
+
+```
+docker attach ubuntu-web-001
+```
+
+交互式的容器用`docker run`之后会启动，用`exit`后，就退出，状态为关闭，用`docker start`后，会重新启动，但是不进入交互式界面，此时就可以使用`docker attach`命令进入。
+
+与交互式容器不同，守护式容器可以用-d来指定。它不会将当前的命令提示符切换到docker容器中。
+
+```
+parallels@ubuntu:~$ docker run --name daemon_dave -d ubuntu /bin/sh -c "while true; do echo hello world; sleep 1; done"
+8fbd7e9720089b647e8a70e974d0e541e1b3050375c75d148af9321ae8b85b79
+```
+
+使用`docker logs daemon_dave`可以查看容器的日志，但是是一次性的。`docker logs daemon_dave -f`增加了`-f`参数，类似于`tail -f`命令，可以监控Docker的日志。
+
+```
+parallels@ubuntu:~$ docker logs daemon_dave -f
+hello world
+hello world
+hello world
+hello world
+hello world
+```
+增加`-t`参数可以增加时间
+```
+parallels@ubuntu:~$ docker logs daemon_dave -f -t
+2016-08-28T15:49:41.292969746Z hello world
+2016-08-28T15:49:51.293822132Z hello world
+2016-08-28T15:50:01.295697278Z hello world
+2016-08-28T15:50:11.297390260Z hello world
+2016-08-28T15:50:21.299265255Z hello world
+```
+增加`--tail 0`可以查看最新的日志，增加`--tail 10`可以查看最新10条日志。
+
+可以使用`--log-driver="syslog"`将默认的`json-file`日志驱动换掉，这将导致`docker logs`命令不再有效，日志将被重定向到syslog中。
+
+同样地，还可以使用`--log-driver="none"`关闭日志。
+
+使用`docker top daemon_dave`可以查看容器内的进程。
+
+可以用`docker stats`查看容器的统计信息。
+
+```
+CONTAINER           CPU %               MEM USAGE / LIMIT    MEM %               NET I/O             BLOCK I/O           PIDS
+2945eb23b5a4        0.10%               328 KiB / 5.74 GiB   0.01%               4.383 kB / 648 B    0 B / 0 B           0
+```
+
+使用`docker exec -d daemon_dave touch /etc/volnet_config`可以在容器内执行一个不需要交互的命令。
+
+使用`docker exec -i -t daemon_dave ls /etc ｜ grep volnet`可以在容器内执行一个需要交互的命令。
+
+`docker stop`和`docker kill`的区别在于，前者发送SIGTERM信号，后者发送SIGKILL信号。
+
+使用`docker run --restart=always ……`等命令可以保持在容器停止后重启，具体的参数详见[run reference --restart](https://docs.docker.com/engine/reference/run/#restart-policies-restart)。
+
+使用`docker inspect ubuntu-web-001`命令，可以获得容器的更多信息。
+
+```
+parallels@ubuntu:~$ docker inspect --format='{{ .State.Running }}' ubuntu-web-001
+false
+
+parallels@ubuntu:~$ docker inspect --format='{{ .NetworkSettings.IPAddress }}' ubuntu-web-001
+172.17.0.2
+```
+目录`/var/lib/docker`存放着Docker镜像、容器以及容器的配置。
+```
+parallels@ubuntu:~$ sudo ls /var/lib/docker
+[sudo] password for parallels: 
+aufs  containers  graph  image	linkgraph.db  network  repositories-aufs  swarm  tmp  trust  volumes
+```
+
+使用`docker rm`删除单个容器（不包括运行中的），`docker rm -f`删除单个容器（包括运行中的）
+
+使用下面语句删除所有容器：
+
+```
+sudo docker rm `sudo docker ps -a -q`
+```
+以上命令中，`-q`标志表示只需要返回容器的ID而不会返回容器的其它信息。这样我们就得到了容器ID的列表，并传给了`docker rm`命令，从而达到删除所有容器的目的。
+
 第4章 使用Docker镜像和仓库
 -----------------------
 
