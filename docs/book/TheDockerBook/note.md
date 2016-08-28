@@ -108,6 +108,20 @@ Docker一个显著的特点就是，对不同的宿主机、应用程序和服�
 第2章 安装Docker
 ---------------
 
+本节主要以Docker的安装为主，讲解了各种常见Linux发行版的安装以及使用[Docker Toolbox](https://www.docker.com/products/docker-toolbox)在OS X和Windows上的安装。
+
+Docker安装的先决条件是：
+
+- 64位CPU构架的计算机（目前只能是x86_64和amd64），不支持32位。可以用Linux命令`uname -a`查看。
+
+- 运行Linux 3.8或更高版本内核。
+
+- 内核必须支持一种适合的存储驱动（storage driver）
+
+- 内核必须支持并开启[cgroups](https://en.wikipedia.org/wiki/Cgroups)和命名空间（[namespaces](http://lwn.net/Articles/531114/)）功能。
+
+至于具体的安装步骤，书中说的并没有Docker安装文档详细，建议直接查看[Docker官方文档](https://docs.docker.com/engine/installation/)。
+
 第3章 Docker入门
 ---------------
 
