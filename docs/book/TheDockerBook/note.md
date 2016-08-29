@@ -264,6 +264,48 @@ sudo docker rm `sudo docker ps -a -q`
 第4章 使用Docker镜像和仓库
 -----------------------
 
+### 4.1 什么是Docker镜像
+
+[官方文档](https://docs.docker.com/engine/userguide/storagedriver/imagesandcontainers/#understand-images-containers-and-storage-drivers)
+
+从底向上：
+    
+    bootfs（引导文件系统）（只读，启动后从内存中移除）
+    
+    -> rootfs（root文件系统，可以是一种或多种操作系统（如Debian或者Ubuntu文件系统））（只读，在传统Linux引导过程中，root文件系统最先会以只读的方式加载，当引导结束并完成了完整性检查之后，它才会被切换为读写模式。），延伸阅读：[Union Mount](https://en.wikipedia.org/wiki/Union_mount)
+
+    -> 其它镜像（Apache、emacs等）
+
+    -> 可写容器（Container Layer(R/W)）
+
+顶层的可写容器，采用了写时复制（copy on write）
+
+![](contents/sharing-layers.jpg)
+
+### 4.2 列出镜像
+
+列出Docker镜像：
+
+```
+sudo docker images
+```
+
+使用`docker run`命令的时候，如果镜像不存在，则默认会从官方的Registry中获取，也就是Docker Hub。
+
+- Docker Hub：官方的Registry
+
+- Docker Trusted Registry：可以运行在公司防火墙内部的产品，之前被称为“Docker Enterprise Hub”。[官方文档](https://docs.docker.com/docker-trusted-registry/)|[安装文档](https://docs.docker.com/docker-trusted-registry/install/)
+
+### 4.3 拉取镜像
+
+使用`sudo docker pull volnet/helloworld:1.0`可以只拉取镜像，不运行。其中，`volnet`是用户名，`helloworld`是仓库名，而`1.0`是TAG。如果镜像是由Docker官方提供的或者是合作厂商提供的，则没有“用户名”。
+
+默认如果不指定TAG则拉取`TAG=lastest`的镜像。
+
+### 4.4 查找镜像
+
+使用`sudo docker search helloworld`查找所有Docker Hub上的镜像。
+
 第5章 在测试中使用Docker
 ---------------------
 
