@@ -306,6 +306,131 @@ sudo docker images
 
 使用`sudo docker search helloworld`查找所有Docker Hub上的镜像。
 
+### 4.5 构建镜像
+
+以下两种方式都可以构建镜像：
+
+- 使用docker commit命令
+
+- 使用docker build命令和Dockerfile文件（推荐）
+
+[从零构建一个全新的镜像](http://docs.docker.com/engine/userguide/eng-image/baseimages/)
+
+#### 4.5.1 创建Docker Hub帐号
+
+使用`docker login`命令可以登录Docker Hub，使用`docker logout`命令可以退出。
+
+#### 4.5.2 用Docker的commit命令创建镜像
+
+先对Docker进行修改，然后退出（`exit`）后使用`docker commit [docker_id] username/imagename`命令将其提交到Docker Hub。
+
+#### 4.5.3 用Dockerfile构建镜像
+
+首先需要创建一个目录，用来放置Dockerfile文件，这个目录就是构建上下文（build context）。
+
+Docker会在构建镜像时将构建上下文和该上下文中的文件和目录上传到Docker守护进程。这样Docker守护进程就能直接访问用户想在镜像中存储的任何代码、文件或者其他数据。
+
+```
+parallels@ubuntu:~$ mkdir docker_test
+parallels@ubuntu:~$ cd docker_test/
+parallels@ubuntu:~/docker_test$ touch Dockerfile
+parallels@ubuntu:~/docker_test$ vi Dockerfile 
+parallels@ubuntu:~/docker_test$ docker build -t="volnet/docker_nginx_to_volnet.github.io" .
+```
+
+最后一句话，最后的“.”是告诉Docker到本地目录中去找Dockerfile文件。
+
+也可以指定一个Git仓库的源地址来指定Dockerfile的未知，如代码：
+
+```
+sudo docker build -t="volnet/docker_nginx_to_volnet.github.io" git@github.com:volnet/docker-static_web
+```
+
+此处指出的Git仓库仍然是指一个构建上下文（build context）也就是一个包含了Dockerfile的目录。
+
+```
+FROM ubuntu:14.04
+MAINTAINER volnet "volnet@tom.com"
+RUN apt-get update && apt-get install -y nginx
+RUN echo 'Welcome to http://volnet.github.io/' > /usr/share/nginx/html/index.html
+EXPOSE 80
+```
+
+每个Dockerfile的第一条指令必须是FROM。FROM指令指定一个已经存在的镜像。后续指令都将基于该镜像进行，这个镜像被称为基础镜像（base image）。
+
+#### 4.5.4 基于Dockerfile构建新镜像
+
+可以在构建上下文的根目录下放置`.dockerignore`文件，来设置哪些文件不会被当作构建上下文的一部分。[匹配规则](https://golang.org/pkg/path/filepath/#Match)：文件按行分割，每一行都是一条文件过滤匹配模式。
+
+#### 4.5.5 指令失败时会怎样
+
+因为每一行Dockerfile指令都会被作为一个单独的镜像，所以在`docker build`的过程中，如果某一行出现错误，可以使用上一行生成的image id来`docker run`这个镜像，然后手工调试出错的语句，当确诊后再将正确的语句修改到Dockerfile中。
+
+#### 4.5.6 Dockerfile和构建缓存
+
+默认情况下，docker会在每一行执行的镜像都进行缓存，当我们对Dockerfile做出修改的时候，如果前面的步骤没有修改，默认会使用缓存。但是有时候我们需要避免使用缓存，比如`RUN apt-get update`，这是一个需要实时数据的语句，如果使用缓存可能无法满足需求。因此可以使用`--no-cache`参数来强制要求不使用缓存。
+
+```
+sudo docker build --no-cache -t="volnet/volnet.github.io"
+```
+
+#### 4.5.7 基于构建缓存的Dockerfile模板
+
+除了使用`--no-cache`的方式禁用缓存，还可以使用更取巧的方式。因为Dockerfile文件是按顺序执行的，缓存只在Dockerfile未发生变化的行中有效，一旦出现一条语句发生了变化，则后续的语句无论是否发生过变化都不再使用缓存。考虑下面的代码：
+
+```
+FROM ubuntu:14.04
+MAINTAINER volnet "volnet@tom.com"
+ENV REFRESHED_AT 2016-08-31
+RUN apt-get -qq update
+```
+
+如果需要让最后一句RUN语句不使用缓存，只要更新上一句ENV语句即可。
+
+#### 4.5.8 查看新镜像
+
+使用`docker images`查看镜像，使用`docker history`查看镜像历史。
+
+```
+parallels@ubuntu:~/docker_test$ docker images volnet/docker_nginx_to_volnet.github.io
+REPOSITORY                                TAG                 IMAGE ID            CREATED             SIZE
+volnet/docker_nginx_to_volnet.github.io   latest              1a155826eab3        49 minutes ago      228.3 MB
+parallels@ubuntu:~/docker_test$ docker history volnet/docker_nginx_to_volnet.github.io
+IMAGE               CREATED             CREATED BY                                      SIZE                COMMENT
+1a155826eab3        50 minutes ago      /bin/sh -c #(nop)  EXPOSE 80/tcp                0 B                 
+dca31a843cfe        50 minutes ago      /bin/sh -c echo 'Welcome to http://volnet.git   36 B                
+d78dc5c186ef        50 minutes ago      /bin/sh -c apt-get update && apt-get install    40.3 MB             
+ea1a93f42352        53 minutes ago      /bin/sh -c #(nop)  MAINTAINER volnet "volnet@   0 B                 
+4a725d3b3b1c        4 days ago          /bin/sh -c #(nop) CMD ["/bin/bash"]             0 B                 
+<missing>           4 days ago          /bin/sh -c mkdir -p /run/systemd && echo 'doc   7 B                 
+<missing>           4 days ago          /bin/sh -c sed -i 's/^#\s*\(deb.*universe\)$/   1.895 kB            
+<missing>           4 days ago          /bin/sh -c rm -rf /var/lib/apt/lists/*          0 B                 
+<missing>           4 days ago          /bin/sh -c set -xe   && echo '#!/bin/sh' > /u   194.6 kB            
+<missing>           4 days ago          /bin/sh -c #(nop) ADD file:ada91758a31d8de3c7   187.8 MB 
+```
+
+#### 4.5.9 从新镜像启动容器
+
+以下语句使用`-p`或者`-P`参数指定docker容器的端口。
+
+```
+sudo docker run -d -p [IPAddress]:[host_port]:[container_port] --name container_name volnet/imagename
+```
+
+或者
+
+```
+sudo docker run -d -P --name container_name volnet/imagename
+```
+
+第一句`-p`可以指定端口映射。如果`IPAddress`为空，则默认为127.0.0.1，如果`host_port`为空，则默认为32768～61000之间的一个随机端口，`container_port`为必填。
+
+第二句`-P`则是给所有Dockerfile中EXPOSE的端口号都指定随机端口。
+
+使用`docker port`命令或者`docker ps -l`命令都可以查看端口映射情况。
+
+关于网络映射的更详细说明可以参考：[官方文档](https://docs.docker.com/engine/userguide/networking/default_network/dockerlinks/#network-port-mapping-refresher)
+
 第5章 在测试中使用Docker
 ---------------------
 
