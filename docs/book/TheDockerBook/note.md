@@ -431,6 +431,87 @@ sudo docker run -d -P --name container_name volnet/imagename
 
 关于网络映射的更详细说明可以参考：[官方文档](https://docs.docker.com/engine/userguide/networking/default_network/dockerlinks/#network-port-mapping-refresher)
 
+#### 4.5.10 Dockerfile指令
+
+[查看Dockerfile中国年可以使用的全部指令的清单](https://docs.docker.com/engine/reference/builder/)
+
+- CMD
+
+CMD指令是指定容器启动时要运行的命令（而RUN则是指定容器构建时要运行的命令）
+
+```
+CMD ["/bin/bash", "-l"]
+```
+
+要运行的命令放在数组中，这将告诉Docker按指定的原样来运行该命令。当然也可以不使用数组而是指定CMD指令，这时候Docker会在指定的命令前加上`/bin/sh -c`。这在执行该命令的时候可能会导致意料之外的行为，所以Docker推荐一直使用以数组语法来设置要执行的命令。
+
+在`docker run`中指定运行的命令，如：`docker run -i -t ubuntu /bin/ps`，将取代Dockerfile中的CMD指令。
+
+在Dockerfile中只能指定一条CMD指令。如果指定了多条CMD指令，也只有最后一条CMD指令会被使用。如果想在启动容器时运行多个进程或者多条命令，可以考虑使用类似Supervisor这样的服务管理工具。
+
+- ENTRYPOINT
+
+ENTRYPOINT命令也是在容器启动的时候运行。`docker run`命令行中指定的任何参数都会被当做参数再次传递给ENTRYPOINT指令中指定的命令。
+
+假设在Dockerfile中指定了ENTRYPOINT指令
+
+```
+ENTRYPOINT["/user/sbin/nginx"]
+```
+
+那么下面的命令
+
+```
+docker run -t -i volnet/nginx -g "daemon off;"
+```
+
+中的`-g "daemon off;"`就会被作为参数传递给`/user/sbin/nginx`指令。
+
+考虑到在`docker run`的时候，如果指定任何参数，则会覆盖CMD指令，否则则执行最后一条CMD指令。那么下面的语句：
+
+```
+ENTRYPOINT ［"/user/sbin/nginx"]
+CMD["-h"]
+```
+
+将在运行
+
+```
+docker run -t -i volnet/nginx -g "daemon off;"
+```
+命令的时候，覆盖`CMD["-h"]`指令，而在运行
+
+```
+docker run -t -i volnet/nginx
+```
+
+命令的时候，执行`ENTRYPOINT ［"/user/sbin/nginx", "-h"]`指令。
+
+当存在ENTRYPOINT的时候CMD指令不能执行，只会被作为参数传递给ENTRYPOINT指令。
+
+- WORKDIR
+
+WORKDIR指令用来在从镜像创建一个新容器时，在容器内部设置一个工作目录，ENTRYPOINT和/或CMD指定的程序会在这个目录下执行。
+
+- ENV
+
+ENV指令用来在镜像构建过程中设置环境变量。
+
+语法：
+
+```
+ENV RVM_PATH=/home/rvm RVM_ARCHFLAGS="-arch i386"
+```
+
+在其他Dockerfile指令中使用环境变量。
+
+语法：
+
+```
+ENV TARGET_DIR /opt/app
+WORKDIR $TARGET_DIR
+```
+
 第5章 在测试中使用Docker
 ---------------------
 
