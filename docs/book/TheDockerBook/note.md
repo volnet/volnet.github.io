@@ -667,6 +667,100 @@ sudo docker run -p 5000:5000 registry:2
 第5章 在测试中使用Docker
 ---------------------
 
+### 5.1 使用Docker测试静态网站
+
+```
+docker run -d -p 80 --name website -v $PWD/website:/var/www/html/website volnet/nginx nginx
+```
+
+卷在Docker里非常重要，也很有用。卷是在一个或者多个容器内被选定的目录，可以绕过分层的联合文件系统（Union File System），为Docker提供持久数据或者共享数据。这意味着对卷的修改会直接生效，并绕过镜像。当提交或者创建镜像时，卷不被包含在镜像里。
+
+### 5.2 使用Docker构建并测试Web应用程序
+
+考虑到ubuntu中的apt-get安装的ruby是1.9.1版本，所以这里需要作出微调。
+
+```
+parallels@ubuntu:~/dockerbook/sinatra$ cat Dockerfile 
+FROM ubuntu:14.04
+MAINTAINER volnet "volnet@tom.com"
+ENV REFRESHED_AT 2016-09-04
+
+RUN apt-get -yqq update
+RUN apt-get -yqq install software-properties-common python-software-properties
+RUN apt-add-repository ppa:brightbox/ruby-ng
+RUN apt-get -yqq update
+RUN apt-get -yqq install ruby2.3 ruby2.3-dev
+RUN apt-get -yqq install build-essential 
+RUN apt-get -yqq install redis-tools
+ 
+RUN gem install --no-rdoc --no-ri sinatra json redis
+
+RUN mkdir -p /opt/webapp
+
+EXPOSE 4567
+CMD ["/opt/webapp/bin/webapp"]
+
+```
+
+使用`docker top [container_name]`可以查看容器内运行的进程。
+
+使用`docker port [container_name] [port]`可以查看该端口映射。
+
+Docker容器间互联：
+
+- Docker的内部连网（不推荐）
+
+- 从Docker 1.9及之后的版本开始，可以使用Docker Networking以及docker network命令。（version > 1.9 的时候推荐）
+
+- Docker链接。一个可以将具体容器链接到一起来进行通信的抽象层。（version < 1.9 的时候推荐）
+
+#### Docker的内部连网
+
+在安装Docker时，会创建一个新的网络接口，名字是docker0。每个Docker容器都会在这个接口上分配一个IP地址。
+
+```
+ip a show docker0
+```
+
+接口docker0是一个虚拟的以太网桥，用于连接容器和本地宿主网络。如果进一步查看Docker宿主机的其他网络接口，会发现一系列名字以veth开头的接口。
+
+当出现下面的错误的时候，说明ip指令不存在：
+
+```
+root@354bc20c9fa5:/# ip a
+bash: ip: command not found
+```
+
+ip命令包含在iproute包中：
+
+```
+apt-get update && apt-get install iproute
+```
+
+当遇到下面错误的时候，需要使用`--privileged`选项来启动
+
+```
+root@688ce720a710:/# iptables -t nat -L -n
+iptables v1.4.21: can't initialize iptables table `nat': Permission denied (you must be root)
+Perhaps iptables or your kernel needs to be upgraded.
+```
+
+```
+parallels@ubuntu:~/dockerbook/ubuntu$ docker run -t -i --privileged volnet/ubuntu /bin/bash
+root@223d7f2524b5:/# sudo iptables -t nat -L -n
+Chain PREROUTING (policy ACCEPT)
+target     prot opt source               destination         
+
+Chain INPUT (policy ACCEPT)
+target     prot opt source               destination         
+
+Chain OUTPUT (policy ACCEPT)
+target     prot opt source               destination         
+
+Chain POSTROUTING (policy ACCEPT)
+target     prot opt source               destination   
+```
+
 第6章 使用Docker构建服务
 ---------------------
 
