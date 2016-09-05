@@ -714,7 +714,7 @@ Docker容器间互联：
 
 - Docker链接。一个可以将具体容器链接到一起来进行通信的抽象层。（version < 1.9 的时候推荐）
 
-#### Docker的内部连网
+#### 5.2.5 Docker的内部连网
 
 在安装Docker时，会创建一个新的网络接口，名字是docker0。每个Docker容器都会在这个接口上分配一个IP地址。
 
@@ -760,6 +760,50 @@ target     prot opt source               destination
 Chain POSTROUTING (policy ACCEPT)
 target     prot opt source               destination   
 ```
+
+#### 5.2.6 Docker Networking
+
+[Understand Docker container networks](https://docs.docker.com/engine/userguide/networking/)
+
+使用`docker network create [network_name]`命令可以创建一个桥接网络。
+
+```
+parallels@ubuntu:~$ docker network create app
+d422677e0f6165906881e6e57aba0459d4593fa538f2a39df5f3d21ed6dc0102
+```
+
+使用`docker network inspect [network_name]`命令查看新创建的网络。
+
+使用`docker network ls`查看当前系统中的所有网络。
+
+使用`docker network rm`命令删除一个docker网络。
+
+使用`--net=[network_name]`参数，可以指定新容器将会在哪个网络中运行。
+
+```
+docker run -d --net=app volnet/redis
+```
+
+使用`docker network connect [network_name] [container_name]`可以添加已有容器到网络。
+
+使用`docker network disconnect [network_name] [container_name]`可以断开一个容器与指定网络的连接。
+
+使用`--link [container_name]:[alias]`创建服务端。其中`[container_name]`代表要链接的容器的名字，`[alias]`代表链接的别名。
+
+```
+docker run -p 4567 --name webapp --link redis:db -t -i \
+-v $PWD/webapp_redis:/opt/webapp volnet/sinatra /bin/bash
+```
+
+有关`--link`参考[这里](https://docs.docker.com/engine/userguide/networking/default_network/dockerlinks/#/communication-across-links)。
+
+Docker在父容器里的以下两个地方写入了链接信息。
+
+- /etc/hosts文件中。
+
+- 包含连接信息的环境变量中。使用`env`命令可以查看。
+
+### 5.3 Docker用于持续集成
 
 第6章 使用Docker构建服务
 ---------------------
