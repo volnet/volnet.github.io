@@ -805,6 +805,26 @@ Docker在父容器里的以下两个地方写入了链接信息。
 
 ### 5.3 Docker用于持续集成
 
+> 本节的内容比较偏向于操作，所以不太容易总结，如需实践，还请购买原著。
+
+本节使用Jenkins持续集成工具进行实践，大致步骤如下：
+
+1. 安装一个jenkins环境，这里编写了一个[Dockerfile](contents/docker-jenkins-sample/Dockerfile)，并直接在Docker容器里安装jenkins，然后启动docker守护进程以及jenkins。
+
+值得注意的一点是：这里使用VOLUME指令告诉Docker进程，在容器内部使用宿主机的文件系统作为容器的存储。这样，容器内嵌Docker的/var/lib/docker目录将保存在宿主机系统的/var/lib/docker/volumes目录下的某个位置。
+
+2. 在Jenkins里面配置“自由风格”（单一任务）项目。
+
+从作者的[git](https://github.com/volnet/docker-jenkins-sample.git)里面下载项目，并执行[Shell脚本](contents/docker-jenkins-sample/execute-shell-1.sh)（对应jenkins配置项里面的构建脚本）。
+
+3. 在Jenkins里面配置“多配置”（多任务）项目。
+
+从作者的[git](https://github.com/volnet/docker-jenkins-sample.git)里面下载项目，并执行[Shell脚本](contents/docker-jenkins-sample/execute-shell-multi.sh)（对应jenkins配置项里面的构建脚本）。
+
+多配置较之前不同的一点在于，多任务可以配置任务的子集，通过`User-defined Axis`指定“OS”，jenkins引擎会讲这些值的迭代分别传入，变成参数`$OS`，并最终在shell中应用。
+
+作者通过以上例子，完整描述了如何进行持续集成的工作。
+
 第6章 使用Docker构建服务
 ---------------------
 
