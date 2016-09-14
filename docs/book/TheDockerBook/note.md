@@ -858,7 +858,7 @@ Docker在父容器里的以下两个地方写入了链接信息。
 
 可以使用：网络端口（如果是基于端口进行管理的话）、卷（共享资源）、`docker kill -s <singal> <container>`命令发送信号来操作容器。
 
-如果确实需要在容器内运行进程，可以使用：nsenter（适用于Docker 1.2或者更早的版本，Docker 1.3之后引入了`docker exec`命令，替换了它大部分功能），具体详见原文。
+如果确实需要在容器内运行进程，可以使用：[nsenter](https://github.com/jpetazzo/nsenter)（适用于Docker 1.2或者更早的版本，Docker 1.3之后引入了`docker exec`命令，替换了它大部分功能），具体详见原文。
 
 第7章 Docker编配和服务发现
 -----------------------
