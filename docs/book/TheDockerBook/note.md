@@ -840,6 +840,26 @@ Docker在父容器里的以下两个地方写入了链接信息。
 
 最后，创建一个普通的ubuntu的镜像，用简单的命令，备份前面共享的卷，并将其保存在宿主机上。
 
+### 6.2 使用Docker构建一个Java应用服务
+
+本节作者实现了两个容器，一个获取war包，并通过卷共享给另一个容器，tomcat 7，然后在里面运行。
+
+然后作者实现了一个应用[TProv](https://github.com/jamtur01/dockerbook-code/tree/master/code/6/tomcat/tprov)可以通过docker命令行，展示所有的应用。
+
+### 6.3 多容器的应用栈
+
+本节作者使用一个Nodejs前端，Redis后端，且共享一个网络（`docker create network express`）的例子来说明，为了简化描述，我用一幅图来描述：
+
+![](contents/chapter06/chapter06-02.svg) 
+
+### 6.4 不使用SSH管理Docker容器
+
+传统上讲，通过SSH登入运行环境或者虚拟机里来管理服务。在Docker的世界里，大部分容器都只运行一个进程，所以不能使用这种访问方法。
+
+可以使用：网络端口（如果是基于端口进行管理的话）、卷（共享资源）、`docker kill -s <singal> <container>`命令发送信号来操作容器。
+
+如果确实需要在容器内运行进程，可以使用：nsenter（适用于Docker 1.2或者更早的版本，Docker 1.3之后引入了`docker exec`命令，替换了它大部分功能），具体详见原文。
+
 第7章 Docker编配和服务发现
 -----------------------
 
