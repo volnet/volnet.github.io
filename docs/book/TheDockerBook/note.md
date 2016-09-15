@@ -1013,3 +1013,5 @@ echo -e "GET /info HTTP/1.0\r\n" | sudo nc -U /var/run/docker.sock
 
 第9章 获得帮助和对Docker进行改进
 ----------------------------
+
+本章主要说明了在使用Docker的过程中遇到问题，如何求助，以及如何通过在本地构建开发环境，并向Docker GitHub提交Pull Request的一些说明。
