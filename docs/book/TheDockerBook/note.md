@@ -906,6 +906,63 @@ redis:
 
 ### 7.3 Docker Swarm
 
+使用默认的DockerHub用作服务发现服务，并创建集群ID。
+```
+sudo docker run --rm swarm create
+```
+
+向集群ID注册多个Swarm代理节点。
+```
+sudo docker run -d swarm join --addr=10.211.55.6:2375 token://c136d60d9cad6569747c3b81af3f71e5
+
+sudo docker run -d swarm join --addr=10.211.55.8:2375 token://c136d60d9cad6569747c3b81af3f71e5
+```
+
+列出所有Swarm代理节点：
+```
+sudo docker run --rm swarm list token://c136d60d9cad6569747c3b81af3f71e5
+```
+
+启动Swarm集群管理者
+```
+sudo docker run -d -p 2380:2375 swarm manage token://c136d60d9cad6569747c3b81af3f71e5
+```
+
+在Swarm集群中运行docker info命令
+
+```
+docker -H tcp://localhost:2380 info
+```
+
+在Swarm集群中执行docker ps命令
+```
+sudo docker -H tcp://localhost:2380 ps
+```
+
+Swarm根据过滤器（filter）和策略（strategy）的结合来决定在哪个节点上运行容器。
+
+#### 7.3.4 过滤器
+
+- 约束过滤器（constraint filter）
+
+- 亲和过滤器（affinity filter）
+
+- 依赖过滤器（dependency filter）
+
+- 端口过滤器（port filter）
+
+- 健康过滤器（health filter）
+
+详细信息可以参考[这里](https://docs.docker.com/swarm/scheduler/filter/)
+
+#### 7.3.5 策略
+
+- 平铺（Spread）策略：选择已运行容器最少的节点
+
+- 紧凑（BinPacking）策略：根据每个节点上可用的CPU和内存资源为节点打分，它会先返回使用最紧凑的节点。这将会保证节点最大程度地被使用，避免碎片化，并确保在需要启动更大的容器时有最大数量的空间可用。
+
+- 随机（Random）策略：随机选择一个节点来运行容器。这主要用于调试中，不建议生产环境使用。
+
 第8章 使用Docker API
 -------------------
 
