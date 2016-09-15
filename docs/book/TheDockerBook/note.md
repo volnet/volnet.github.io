@@ -966,5 +966,50 @@ Swarm根据过滤器（filter）和策略（strategy）的结合来决定在哪�
 第8章 使用Docker API
 -------------------
 
+### 8.1 Docker API
+
+在Docker生态系统中一共有3种API：
+
+- Register API：提供了与存储Docker镜像的Docker Regisry集成的功能。
+
+- Docker Hub API：提供了与Docker Hub集成的功能。
+
+- Docker Remote API：提供了与Docker守护进程进行集成的功能。
+
+### 8.2 初识Remote API
+
+本节主要描述了常见的docker命令的RESTful用法
+
+在本地查询Docker API
+```
+echo -e "GET /info HTTP/1.0\r\n" | sudo nc -U /var/run/docker.sock
+```
+
+### 8.3 测试Docker Remote API
+
+本节主要测试了docker命令的RESTful用法
+
+### 8.4 改进TProv应用
+
+本节用Docker Remote API改进了第6章使用命令行解析的[TProv应用](https://github.com/jamtur01/dockerbook-code/tree/master/code/6/tomcat/tprov)
+
+代码详见这里：
+
+[https://github.com/jamtur01/dockerbook-code/tree/master/code/8/tprov_api](https://github.com/jamtur01/dockerbook-code/tree/master/code/8/tprov_api)
+
+### 8.5 对Docker Remote API进行认证
+
+本节描述了如何使用TLS/SSL证书确保用户与API之间连接的安全性。步骤如下：
+
+- 建立证书授权中心
+
+- 创建服务器的证书签名请求和密钥
+
+- 配置docker守护进程
+
+- 创建客户端证书和密钥
+
+- 配置Docker客户端开启认证功能
+
 第9章 获得帮助和对Docker进行改进
 ----------------------------
