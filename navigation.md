@@ -8,6 +8,7 @@
   * [吴军-智能时代](docs/book/吴军-智能时代/note.md)
   * [Head First Python](docs/book/HeadFirstPython/note.md)
   * [The Docker Book](docs/book/TheDockerBook/note.md)
+  * [微服务设计](docs/book/BuildingMicroservices/note.md)
 
 [生活]()
 
