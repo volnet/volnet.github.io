@@ -21,7 +21,7 @@
 
 容器有较小的开销，因此宿主机可以运行更多的容器。
 
-但是容器本书比较复杂，不易安装，管理和自动化也很困难。Docker就是为改变这一切而生。
+但是容器本身比较复杂，不易安装，管理和自动化也很困难。Docker就是为改变这一切而生。
 
 ### 1.1 Docker简介
 
@@ -85,7 +85,7 @@ Docker一个显著的特点就是，对不同的宿主机、应用程序和服�
 
 ### 1.5 Docker的技术组件
 
-- 一个原生的Linux容器格式，Docker中成为libcontainer
+- 一个原生的Linux容器格式，Docker中称为libcontainer
 
 - Linux内核的命名空间（[namespaces](http://lwn.net/Articles/531114/)），用于隔离文件系统、进程和网络。
 
@@ -266,17 +266,17 @@ sudo docker rm `sudo docker ps -a -q`
 
 ### 4.1 什么是Docker镜像
 
-[官方文档](https://docs.docker.com/engine/userguide/storagedriver/imagesandcontainers/#understand-images-containers-and-storage-drivers)
+官方文档：《[Understand images, containers, and storage drivers](https://docs.docker.com/engine/userguide/storagedriver/imagesandcontainers/#understand-images-containers-and-storage-drivers)》
 
 从底向上：
     
-    bootfs（引导文件系统）（只读，启动后从内存中移除）
-    
-    -> rootfs（root文件系统，可以是一种或多种操作系统（如Debian或者Ubuntu文件系统））（只读，在传统Linux引导过程中，root文件系统最先会以只读的方式加载，当引导结束并完成了完整性检查之后，它才会被切换为读写模式。），延伸阅读：[Union Mount](https://en.wikipedia.org/wiki/Union_mount)
+bootfs（引导文件系统）（只读，启动后从内存中移除）
 
-    -> 其它镜像（Apache、emacs等）
+-> rootfs（root文件系统，可以是一种或多种操作系统（如Debian或者Ubuntu文件系统））（只读，在传统Linux引导过程中，root文件系统最先会以只读的方式加载，当引导结束并完成了完整性检查之后，它才会被切换为读写模式。），延伸阅读：[Union Mount](https://en.wikipedia.org/wiki/Union_mount)
 
-    -> 可写容器（Container Layer(R/W)）
+-> 其它镜像（Apache、emacs等）
+
+-> 可写容器（Container Layer(R/W)）
 
 顶层的可写容器，采用了写时复制（copy on write）
 
@@ -294,7 +294,7 @@ sudo docker images
 
 - Docker Hub：官方的Registry
 
-- Docker Trusted Registry：可以运行在公司防火墙内部的产品，之前被称为“Docker Enterprise Hub”。[官方文档](https://docs.docker.com/docker-trusted-registry/)|[安装文档](https://docs.docker.com/docker-trusted-registry/install/)
+- Docker Trusted Registry：可以运行在公司防火墙内部的产品，之前被称为“Docker Enterprise Hub”。[官方文档](https://docs.docker.com/docker-trusted-registry/) | [安装文档](https://docs.docker.com/docker-trusted-registry/install/)
 
 ### 4.3 拉取镜像
 
@@ -314,7 +314,7 @@ sudo docker images
 
 - 使用docker build命令和Dockerfile文件（推荐）
 
-[从零构建一个全新的镜像](http://docs.docker.com/engine/userguide/eng-image/baseimages/)
+官方文档：[从零构建一个全新的镜像](http://docs.docker.com/engine/userguide/eng-image/baseimages/)
 
 #### 4.5.1 创建Docker Hub帐号
 
@@ -322,7 +322,7 @@ sudo docker images
 
 #### 4.5.2 用Docker的commit命令创建镜像
 
-先对Docker进行修改，然后退出（`exit`）后使用`docker commit [docker_id] username/imagename`命令将其提交到Docker Hub。
+先对Docker进行修改，然后退出（`exit`）后使用`docker commit [docker_id] username/imagename`命令，提交创建容器的镜像与容器的当前状态之间有差异的部分。这样就不用每次都创建一个新容器并再次在里面安装了。
 
 #### 4.5.3 用Dockerfile构建镜像
 
@@ -340,7 +340,7 @@ parallels@ubuntu:~/docker_test$ docker build -t="volnet/docker_nginx_to_volnet.g
 
 最后一句话，最后的“.”是告诉Docker到本地目录中去找Dockerfile文件。
 
-也可以指定一个Git仓库的源地址来指定Dockerfile的未知，如代码：
+也可以指定一个Git仓库的源地址来指定Dockerfile的位置，如代码：
 
 ```
 sudo docker build -t="volnet/docker_nginx_to_volnet.github.io" git@github.com:volnet/docker-static_web
@@ -368,7 +368,7 @@ EXPOSE 80
 
 #### 4.5.6 Dockerfile和构建缓存
 
-默认情况下，docker会在每一行执行的镜像都进行缓存，当我们对Dockerfile做出修改的时候，如果前面的步骤没有修改，默认会使用缓存。但是有时候我们需要避免使用缓存，比如`RUN apt-get update`，这是一个需要实时数据的语句，如果使用缓存可能无法满足需求。因此可以使用`--no-cache`参数来强制要求不使用缓存。
+默认情况下，docker会将每一行执行的镜像都进行缓存，当我们对Dockerfile做出修改的时候，如果前面的步骤没有修改，默认会使用缓存。但是有时候我们需要避免使用缓存，比如`RUN apt-get update`，这是一个需要实时数据的语句，如果使用缓存可能无法满足需求。因此可以使用`--no-cache`参数来强制要求不使用缓存。
 
 ```
 sudo docker build --no-cache -t="volnet/volnet.github.io"
@@ -433,7 +433,7 @@ sudo docker run -d -P --name container_name volnet/imagename
 
 #### 4.5.10 Dockerfile指令
 
-[查看Dockerfile中国年可以使用的全部指令的清单](https://docs.docker.com/engine/reference/builder/)
+官方文档：[查看Dockerfile中可以使用的全部指令的清单](https://docs.docker.com/engine/reference/builder/)
 
 - 1. CMD
 
@@ -545,7 +545,7 @@ VOLUME指令用来向基于镜像创建的容器添加卷。一个卷可以存�
 
     - 卷会一直存在直到没有任何容器再使用它。
 
-关于卷功能，可以参考[这里](https://docs.docker.com/engine/tutorials/dockervolumes/)
+关于卷功能，可以参考[Manage data in containers](https://docs.docker.com/engine/tutorials/dockervolumes/)
 
 - 7. ADD
 
@@ -601,7 +601,7 @@ LABEL location="New York" type="Data Center" role="Web Server"
 
 - 10. STOPSIGNAL
 
-STOPSIGNAL指令用来设置停止容器时发送什么系统调用信号给容器。这个信号必须时内核系统调用表中的合法的数，如9，或者SIGNAME格式中的信号名称，如SIGKILL。
+STOPSIGNAL指令用来设置停止容器时发送什么系统调用信号给容器。这个信号必须是本节主要讲了Docker镜像及如何与其交互内核系统调用表中的合法的数，如9，或者SIGNAME格式中的信号名称，如SIGKILL。
 
 官方文档参考[这里](https://docs.docker.com/engine/reference/builder/#stopsignal)。
 
@@ -662,7 +662,7 @@ sudo docker run -p 5000:5000 registry:2
 
 ### 4.10 小结
 
-本节主要讲了Docker镜像及如何与其交互。
+本章主要讲了Docker镜像及如何与其交互。
 
 第5章 在测试中使用Docker
 ---------------------
@@ -763,7 +763,7 @@ target     prot opt source               destination
 
 #### 5.2.6 Docker Networking
 
-[Understand Docker container networks](https://docs.docker.com/engine/userguide/networking/)
+官方文档：[Understand Docker container networks](https://docs.docker.com/engine/userguide/networking/)
 
 使用`docker network create [network_name]`命令可以创建一个桥接网络。
 
@@ -787,6 +787,8 @@ docker run -d --net=app volnet/redis
 使用`docker network connect [network_name] [container_name]`可以添加已有容器到网络。
 
 使用`docker network disconnect [network_name] [container_name]`可以断开一个容器与指定网络的连接。
+
+### 5.2.7 使用容器连接来通信
 
 使用`--link [container_name]:[alias]`创建服务端。其中`[container_name]`代表要链接的容器的名字，`[alias]`代表链接的别名。
 
@@ -821,7 +823,7 @@ Docker在父容器里的以下两个地方写入了链接信息。
 
     从作者的[git](https://github.com/volnet/docker-jenkins-sample.git)里面下载项目，并执行[Shell脚本](contents/docker-jenkins-sample/execute-shell-multi.sh)（对应jenkins配置项里面的构建脚本）。
 
-    多配置较之前不同的一点在于，多任务可以配置任务的子集，通过`User-defined Axis`指定“OS”，jenkins引擎会讲这些值的迭代分别传入，变成参数`$OS`，并最终在shell中应用。
+    多配置较之前不同的一点在于，多任务可以配置任务的子集，通过`User-defined Axis`指定“OS”，jenkins引擎会将这些值的迭代分别传入，变成参数`$OS`，并最终在shell中应用。
 
 作者通过以上例子，完整描述了如何进行持续集成的工作。具体配置过程可以参考[相关截图](contents/docker-jenkins-sample/)。
 
