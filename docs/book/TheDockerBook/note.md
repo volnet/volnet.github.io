@@ -37,7 +37,7 @@ Docker的目标是要提供：
 
 ### 1.2 Docker组件
 
-![](contents/docker-architecture.svg)
+![](contents/docker-architecture.png)
 
 - Docker客户端和服务端，也称为Docker引擎
 
@@ -834,7 +834,7 @@ Docker在父容器里的以下两个地方写入了链接信息。
 
 本节作者使用一个例子来说明，为了简化描述，我用一幅图来描述：
 
-![](contents/chapter06/chapter06-01.svg) 
+![](contents/chapter06/chapter06-01.png) 
 
 首先，创建了一个Jekyll的镜像，目的是每次启动后，就重新编译将固定模板的网页生成静态页面，并使用卷（volume）共享出来。
 
@@ -852,7 +852,7 @@ Docker在父容器里的以下两个地方写入了链接信息。
 
 本节作者使用一个Nodejs前端，Redis后端，且共享一个网络（`docker create network express`）的例子来说明，为了简化描述，我用一幅图来描述：
 
-![](contents/chapter06/chapter06-02.svg) 
+![](contents/chapter06/chapter06-02.png) 
 
 ### 6.4 不使用SSH管理Docker容器
 
@@ -879,7 +879,7 @@ Docker在父容器里的以下两个地方写入了链接信息。
 
 使用Docker构建一个简单的多容器应用程序栈，下图做了个简单的描述：
 
-![](contents/chapter07/chapter07-01.svg)
+![](contents/chapter07/chapter07-01.png)
 
 docker-compose.xml
 ```
@@ -904,9 +904,11 @@ redis:
 
 另外，Docker主要关注分布式应用以及面向服务架构与微服务架构。这些关注点很适合与某个服务发现工具集成。每个Docker容器可以将其中运行的服务注册到服务发现工具里。注册的信息可以是IP地址或者端口，或者两者都有，以便服务之间进行交互。
 
-![](contents/chapter07/chapter07-02.svg)
+![](contents/chapter07/chapter07-02.png)
 
 ### 7.3 Docker Swarm
+
+![](contents/chapter07/chapter07-03.png)
 
 使用默认的DockerHub用作服务发现服务，并创建集群ID。
 ```
