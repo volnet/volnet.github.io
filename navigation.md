@@ -6,8 +6,11 @@
   * # 大数据
   * [车品觉-决战大数据](docs/book/车品觉-决战大数据/note.md)
   * [吴军-智能时代](docs/book/吴军-智能时代/note.md)
+  * # 程序设计
   * [Head First Python](docs/book/HeadFirstPython/note.md)
+  * # 云计算
   * [The Docker Book](docs/book/TheDockerBook/note.md)
+  * # 微服务
   * [微服务设计](docs/book/BuildingMicroservices/note.md)
 
 [生活]()
