@@ -15,6 +15,8 @@
 
 [生活]()
 
+  * # Blogs
+  * [另一扇门](/blog)
   * # Coffee
   * [私人咖啡馆（1）——初级入门](docs/life/coffee/coffee-introduce.md)
 
