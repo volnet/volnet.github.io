@@ -4,7 +4,9 @@
 个人信息
 -------------
 
-更多技术信息，请访问[博客](http://volnet.cnblogs.com?from=volnet.github.io)
+关于技术信息，请访问技术博客：[http://volnet.cnblogs.com](http://volnet.cnblogs.com?from=volnet.github.io)
+
+采用Jekyll的博客网站：[http://volnet.github.io/blog/](http://volnet.github.io/blog/)
 
 服务主机
 -------------
