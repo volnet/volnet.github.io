@@ -78,7 +78,7 @@ In some cases, the amount of work required to complete the operation is less tha
 #### Exceptions
 
 An asynchronous method should only directly raise an exception to be thrown out of the MethodNameAsync call in response to a usage error*. For all other errors, exceptions occurring during the execution of an asynchronous method should be assigned to the returned Task. This is the case even if the asynchronous method happens to complete synchronously before the Task is returned. Typically, a Task will contain at most one exception.  However, for cases where a Task is used to represent multiple operations (e.g. Task.WhenAll), multiple exceptions may be associated with a single Task.
-(<span>*</span>Per .NET design guidelines, a usage error is something that can be avoided by changing the code that calls the method. For example, if an error state results when a null is passed as one of the method’s arguments, an error condition usually represented by an ArgumentNullException, the calling code can be modified by the developer to ensure that null is never passed. In other words, the developer can and should ensure that usage errors never occur in production code.)
+(&#42;Per .NET design guidelines, a usage error is something that can be avoided by changing the code that calls the method. For example, if an error state results when a null is passed as one of the method’s arguments, an error condition usually represented by an ArgumentNullException, the calling code can be modified by the developer to ensure that null is never passed. In other words, the developer can and should ensure that usage errors never occur in production code.)
 
 #### Target Environment
 
