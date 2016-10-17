@@ -1,23 +1,23 @@
-The Task-based Asynchronous Pattern
+基于任务的异步编程模式
 ====================================
 
 [Stephen Toub](https://github.com/stephentoub), Microsoft
 
-February 2012
+2012年2月
 
-Overview
----------
-
-The Task-based Asynchronous Pattern (TAP) is a new pattern for asynchrony in the .NET Framework.  It is based on the Task and Task<TResult> types in the System.Threading.Tasks namespace, which are used to represent arbitrary asynchronous operations.
-
-The Task-based Asynchronous Pattern Defined
+概述
 -----------
 
-### Naming, Parameters, and Return Types
+基于任务的异步编程（TAP）是.NET Framework的一种新的异步编程模式。它基于System.Threading.Tasks命名空间下的Task和Task<TResult>类型，来表达任意的异步操作。
 
-Initiation and completion of an asynchronous operation in the TAP are represented by a single method, and thus there is only one method to name.  This is in contrast to the IAsyncResult pattern, or APM pattern, where BeginMethodName and EndMethodName methods are required, and in contrast to the event-based asynchronous pattern, or EAP, where a MethodNameAsync is required in addition to one or more events, event handler delegate types, and EventArg-derived types.  Asynchronous methods in the TAP are named with an “Async” suffix that follows the operation’s name, e.g. MethodNameAsync.  The singular TAP method returns either a Task or a Task<TResult>, based on whether the corresponding synchronous method would return void or a type TResult, respectively. (If adding a TAP method to a class that already contains a method MethodNameAsync, the suffix “TaskAsync” may be used instead, resulting in “MethodNameTaskAsync”.)
+基于任务的异步编程模式定义
+-----------
 
-For example, consider a “Read” method that reads a specified amount of data into a provided buffer starting at a specified offset:
+### 命名，参数和返回类型
+
+在TAP中初始化和完成一个异步操作，仅需要一个方法来表示，因此只需要命名一个方法即可。它有别于IAsyncResult模式（APM），APM模式需要`BeginMethodName`和`EndMethodName`两个方法，同时也区别于基于事件的异步编程模式（EAP），EAP模式除了一个或多个事件（event）、事件处理（EventHandler）代理类型、以及继承于`EventArg`的事件参数类型之外，还需要`MethodNameAsync`方法。在TAP中，异步方法要求以`Async`为后缀，例如`MethodNameAsync`。TAP方法返回`Task`或者`Task<TResult>`类型，至于到底用哪个，取决于对应的同步版本的方法返回的是`void`还是`TResult`。（如果在一个类中已经存在`MethodNameAsync`方法，那么可以使用`TaskAsync`取代`Async`后缀，也就是`MethodNameTaskAsync`来代替。）
+
+例如，“Read”方法，将指定数量的数据从指定的偏移量读入缓冲区：
 
 ```
 public class MyClass
@@ -26,7 +26,7 @@ public class MyClass
 }
 ```
 
-The APM counterpart to this method would expose the following two methods:
+APM则需要下面两个方法：
 
 ```
 public class MyClass
@@ -38,7 +38,7 @@ public class MyClass
 }
 ```
 
-The EAP counterpart would expose the following set of types and members:
+EAP需要下面这些类型和成员：
 
 ```
 public class MyClass
@@ -56,7 +56,7 @@ public class ReadCompletedEventArgs : AsyncCompletedEventArgs
 }
 ```
 
-The TAP counterpart would expose the following single method:
+TAP只需要下面这样一个方法：
 
 ```
 public class MyClass
@@ -65,8 +65,8 @@ public class MyClass
 }
 
 ```
-The parameters to a basic TAP method should be the same parameters provided to the synchronous counterpart, in the same order.  However, “out” and “ref” parameters are exempted from this rule and should be avoided entirely. Any data that would have been returned through an out or ref parameter should instead be returned as part of the returned Task<TResult>’s Result, utilizing a tuple or a custom data structure in order to accommodate multiple values.  
-Methods devoted purely to the creation, manipulation, or combination of tasks (where the asynchronous intent of the method is clear in the method name or in the name of the type on which the method lives) need not follow the aforementioned naming pattern; such methods are often referred to as “combinators.”  Examples of such methods include Task.WhenAll and Task.WhenAny, and are discussed in more depth later in this document.
+
+TAP方法和它的同步版本的参数以及参数顺序都是一样的。然而ref和out参数将不能使用，任何需要返回的参数，都需要通过Task<Result>来返回，可以利用tuple或者一个自定义的数据结构来返回多个值。创建、操纵和组合任务的方法不必遵循上述的命名模式（异步方法的意图是通过方法名或者方法类型来表明是异步的）；这些方法常常被称作“combinators”。这些方法包括Task.WhenAll、Task.WhenAny，它们将在本文的后面深入讨论。
 
 ### Behavior
 
