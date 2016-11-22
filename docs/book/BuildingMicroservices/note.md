@@ -1391,7 +1391,7 @@ API密钥受欢迎的原因一部分源于：API密钥重点关注的是对程�
 
 #### 10.1.2 Windows Vista
 
-微软对它的一个特定产品Windows Vista进行了实证研究（ http://research.microsoft.com/pubs/70535/tr-2008-11.pdf ）[[1](https://www.microsoft.com/en-us/research/publication/the-influence-of-organizational-structure-on-software-quality-an-empirical-case-study/)]，观察其自身组织结构如何影响软件质量。
+微软对它的一个特定产品Windows Vista进行了实证研究（ http://research.microsoft.com/pubs/70535/tr-2008-11.pdf ）[ [1](https://www.microsoft.com/en-us/research/publication/the-influence-of-organizational-structure-on-software-quality-an-empirical-case-study/)]，观察其自身组织结构如何影响软件质量。
 
 ### 10.2 Netflix和Amazon
 
