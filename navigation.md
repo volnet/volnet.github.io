@@ -12,6 +12,8 @@
   * [The Docker Book](docs/book/TheDockerBook/note.md)
   * # 微服务
   * [微服务设计](docs/book/BuildingMicroservices/note.md)
+  * # NoSQL
+  * [MongoDB应用设计模式](docs/book/MongoDBAppliedDesignPatterns/note.md)
 
 [生活]()
 
