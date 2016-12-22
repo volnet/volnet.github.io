@@ -1,6 +1,8 @@
 微服务设计（Building Microservices）
 ========================================
 
+![](contents/wx-cover.png)
+
 [英]Sam Newman著
 
 崔力强 张骏 译

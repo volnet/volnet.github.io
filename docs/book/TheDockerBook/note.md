@@ -1,6 +1,8 @@
 第一本Docker书
 ==============
 
+![](contents/wx-cover.png)
+
 > Docker是一只名叫moby的大鲸鱼，它正在改变着软件的构建、交付、运行方式。
 
 > James Turnbull通过这本书全面地介绍了Docker，并用大量的实践循序渐进地指导如何使用Docker。
