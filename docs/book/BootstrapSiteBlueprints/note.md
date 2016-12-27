@@ -41,6 +41,8 @@ H5BP采用的方法是把所有插件代码都复制到一个plugins.js模版文
 
 打开`bootstrap-3.3.7\dist\js\bootstrap.min.js`复制内容到`html5-boilerplate_v5\js\plugins.js`文件的最后。
 
+复制`bootstrap-3.3.7\less`文件夹到`html5-boilerplate_v5`中。
+
 第2章 作者展示站点
 -------------------
 
