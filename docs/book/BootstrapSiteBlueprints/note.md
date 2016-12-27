@@ -32,8 +32,10 @@ Bootstrap实战
 
 在`html5-boilerplate_v5\js\vendor`目录下包含两个文件：
 
-- jquery-1.12.0.min.js：
-- modernizr-2.8.3.min.js：
+- jquery-1.12.0.min.js：Bootstrap的插件都基于jQuery。
+- modernizr-2.8.3.min.js：包含HTML5“垫片”（shiv）脚本，可以让IE8支持HTML5的分区（section）元素。还可以让我们更方便地检测特定浏览器的能力。
+
+新建`html5-boilerplate_v5\js\bootstrap`文件夹，将`bootstrap\js`下的js都复制过来。
 
 第2章 作者展示站点
 -------------------
