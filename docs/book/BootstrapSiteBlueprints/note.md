@@ -17,7 +17,7 @@ Bootstrap实战
 
 - .htaccess文件：主要作用是保证站点性能最优。（ https://httpd.apache.org/docs/current/howto/htaccess.html ）
 
-以下3个文件仅提供了项目的标准信息。
+以下3个文件仅提供了项目的标准信息：
 
 - humans.txt文件：这个文件记载贡献者，H5BP、Bootstrap的，还有其他贡献者。
 - LICENSE.txt文件：加上用到的各种库的许可信息。
