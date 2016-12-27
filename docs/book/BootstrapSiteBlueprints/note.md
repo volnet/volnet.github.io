@@ -6,6 +6,15 @@ Bootstrap实战
 第1章 初识Bootstrap
 -------------------
 
+下载Bootstrap源代码：https://codeload.github.com/twbs/bootstrap/zip/v3.3.7
+
+- less文件夹：包含重要的LESS文件
+- js文件夹：包含Bootstrap插件
+- dist文件夹：包含预编译的css或javascript文件
+- docs\examples文件夹：包含示例文件
+
+下载`HTML5 Boilerplate（H5BP）`，访问[h5bp.com](http://h5bp.com)
+
 第2章 作者展示站点
 -------------------
 
