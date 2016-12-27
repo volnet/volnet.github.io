@@ -28,7 +28,7 @@ Bootstrap实战
 - apple-touch-icon.png：原文中记录是144px，而`v5.3.0`版本是180px。
 - favicon.ico：32px见方的图标文件。
 
-
+将bootstrap下的fonts文件夹复制到html5-boilerplate_v5文件夹中。
 
 第2章 作者展示站点
 -------------------
