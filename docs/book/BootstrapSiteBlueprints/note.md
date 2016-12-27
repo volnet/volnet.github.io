@@ -30,6 +30,11 @@ Bootstrap实战
 
 将bootstrap下的fonts文件夹复制到html5-boilerplate_v5文件夹中。
 
+在`html5-boilerplate_v5\js\vendor`目录下包含两个文件：
+
+- jquery-1.12.0.min.js：
+- modernizr-2.8.3.min.js：
+
 第2章 作者展示站点
 -------------------
 
