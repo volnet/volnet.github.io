@@ -37,6 +37,10 @@ Bootstrap实战
 
 新建`html5-boilerplate_v5\js\bootstrap`文件夹，将`bootstrap\js`下的js都复制过来。
 
+H5BP采用的方法是把所有插件代码都复制到一个plugins.js模版文件中，以加快站点加载速度。
+
+打开`bootstrap-3.3.7\dist\js\bootstrap.min.js`复制内容到`html5-boilerplate_v5\js\plugins.js`文件的最后。
+
 第2章 作者展示站点
 -------------------
 
