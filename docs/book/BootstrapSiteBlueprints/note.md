@@ -13,7 +13,22 @@ Bootstrap实战
 - dist文件夹：包含预编译的css或javascript文件
 - docs\examples文件夹：包含示例文件
 
-下载`HTML5 Boilerplate（H5BP）`，访问[h5bp.com](http://h5bp.com)
+下载`HTML5 Boilerplate（H5BP）`源码，访问[h5bp.com](http://h5bp.com)
+
+- .htaccess文件：主要作用是保证站点性能最优。（https://httpd.apache.org/docs/current/howto/htaccess.html）
+
+以下3个文件仅提供了项目的标准信息。
+
+- humans.txt文件：这个文件记载贡献者，H5BP、Bootstrap的，还有其他贡献者。
+- LICENSE.txt文件：加上用到的各种库的许可信息。
+- README.md文件：增加自己项目的说明。
+
+更新站点桌面和触摸设备的图标：
+
+- apple-touch-icon.png：原文中记录是144px，而`v5.3.0`版本是180px。
+- favicon.ico：32px见方的图标文件。
+
+
 
 第2章 作者展示站点
 -------------------

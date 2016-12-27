@@ -3,7 +3,7 @@
 
 # TEAM
 
-    <name> -- <role> -- <twitter>
+    EricKung -- Master - volnet.github.io
 
 # THANKS
 
