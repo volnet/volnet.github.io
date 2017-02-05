@@ -6,6 +6,7 @@
   * # 行业观察
   * [吴军-硅谷之谜](docs/book/吴军-硅谷之谜/note.md)
   * [埃里克·施密特-谷歌是如何运营的](docs/book/HowGoogleWorks/note.md)
+  * [尤瓦尔赫拉利-未来简史-从智人到神人](docs/book/尤瓦尔赫拉利-未来简史-从智人到神人/note.md)
   * # 大数据
   * [车品觉-决战大数据](docs/book/车品觉-决战大数据/note.md)
   * [吴军-智能时代](docs/book/吴军-智能时代/note.md)
