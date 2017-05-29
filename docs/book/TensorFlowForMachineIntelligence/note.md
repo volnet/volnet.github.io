@@ -37,6 +37,97 @@ TensorFlow的“不足”较为突出，接口过于复杂，对初学者的编�
 第1章 引言
 ------------------------------
 
+### 1.1 无处不在的数据
+
+各种数据从无穷无尽的渠道不断涌入，存储以PB为单位存储。
+
+计算机性能也持续提升。虽然CPU的发展速度放缓，但是并行处理架构取得了爆炸式的发展。GPU也被大量运用于通用计算领域。
+
+近年来，一种特殊类型的机器学习范式在几乎所有领域都取得了无数巨大的成功，它就是深度学习。
+
+### 1.2 深度学习
+
+深度学习是指多层神经网络。它是一类极为灵活的可利用种类繁多的数学方法以及不同数学方法组合的模型。这类模型极为强大，但直到最近几年，人们才有能力卓有成效地利用神经网络，其背后原因：
+- 获取足够量的数据成为现实（数据越来也多）
+- GPU快速发展，多层神经网络拥有了超越其他机器学习方法所必须的计算能力。
+- 更有效的训练算法（by译者）
+
+一个调校好的深度学习模型可以接收所有的参数，并自动确定输入值的有用高阶组合。
+
+相关数学概念几十年前便提出，但致力于创建和训练这些深度模型的编程库是近年才出现的。
+
+深度学习长期面临的两个问题：
+- 灵活性：这些编程库在灵活性和生产价值之间进行取舍
+- 研究和生产使用不同类型的库：即便出现了可托管在分布式硬件上的快速、高效的库，但它们往往专注于特定类型的神经网络，并不适合研究新的和更好的模型。
+
+TensorFlow就是为了在上面二者之间取得平衡而设计的。
+
+### 1.3 TensorFlow：一个现代的机器学习库
+
+TensorFlow的前身：[DistBelief](https://static.googleusercontent.com/media/research.google.com/zh-CN//archive/large_deep_networks_nips2012.pdf)
+
+它的设计目标：
+- 灵活性
+- 高效性
+- 良好的可扩展性
+- 可移植性：任何形式和尺寸的计算机都可以运行。
+
+如果你和你的同事：
+- 拥有数据
+- 一个有待求解的问题
+- 一台可工作的计算机
+
+TensorFlow正是你们一直寻找的“武林秘籍”。
+
+### 1.4 TensorFlow：技术概要
+
+TensorFlow的前身[DistBelief](https://static.googleusercontent.com/media/research.google.com/zh-CN//archive/large_deep_networks_nips2012.pdf)来自于Google Brain团队。TensorFlow汲取了它的经验和教训，现已被成功运用于自然语言处理、人工智能、计算机视觉和预测分析等领域。
+
+### 1.5 何为TensorFlow
+
+在TensorFlow的官网有两句话：
+
+> TensorFlow is an Open Source Software Library for Machine Intelligence
+
+> TensorFlow is an open source software library for numerical computation using data flow graphs.
+
+后面一个声明体现了TensorFlow的几个特点：
+
+- open source（开源）
+- library for numerical computation（数值计算库）：TensorFlow提供了一个可使用户用数学方法从零开始定义模型的函数和类的广泛套件。这使得具有一定技术背景的用户可迅速而直观地创建自定义的、具有较高灵活性的模型。
+- data flow graphs（数据流图）：可以直观地体现将一个计算任务拆分成多个计算任务的过程。
+- 分布式功能
+- 软件套件
+    - TensorFlow：用于定义模型，由C++写成，有Python接口
+    - TensorBoard：可视化软件
+    - TensorFlow Serving：可以运行模型的服务器，只有C++接口
+
+### 1.6 何时使用TensorFlow
+
+- 研究、开发和迭代新的机器学习架构。
+- 将模型从训练直接切换到部署。
+- 实现已有的复杂架构。
+- 大规模分布式模型。
+- 为移动／嵌入式系统创建和训练模型。
+
+### 1.7 TensorFlow的优势
+
+- 易用性：稳定的API、与NumPy兼容、不用编译、有多种高层接口如Keras和SkFlow
+- 灵活性：各种设备都可以使用、分布式可提高速度、可以同时利用CPU和GPU
+- 高效性：性能好、且有开放的社区使它更好
+- 幕后支持：谷歌支持、社区支持好、已经发布了多个免费模型
+- 额外特性：TensorBoard提供的可视化和TensorFlowServing提供的能力是其他平台所没有的
+
+### 1.8 使用TensorFlow所面临的挑战
+
+- 分布式支持尚不成熟
+- 实现定制代码的技巧性较强
+- 某些特性仍然缺失
+
+### 1.9 高歌猛进
+
+后续将对它的安装、核心库和环境进行全面讲解。
+
 第2章 安装TensorFlow
 ------------------------------
 
