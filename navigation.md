@@ -11,6 +11,7 @@
   * [车品觉-决战大数据](docs/book/车品觉-决战大数据/note.md)
   * [吴军-智能时代](docs/book/吴军-智能时代/note.md)
   * [面向机器智能的TensorFlow实践](docs/book/TensorFlowForMachineIntelligence/note.md)
+  * [机器学习](docs/book/MachineLearning/note.md)
   * # 程序设计
   * [Head First Python](docs/book/HeadFirstPython/note.md)
   * # 云计算
