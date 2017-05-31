@@ -35,6 +35,7 @@ The Art and Science of Algorithms that Make Sense of Data
 作者使用了线性分类的方式，讲解了SpamAssassin的分类规则。
 
 一个机器学习问题往往存在多种解决方案，同时可能引出多种问题：
+
 - 可能1，过拟合：在一味追求系统在训练数据上的性能，很容易造成一种貌似喜人、实则存在巨大隐患的现象——[过拟合（overfitting）](https://en.wikipedia.org/wiki/Overfitting)。（类似死记硬背某种答案无法真正灵活运用某种知识）
 - 可能2，训练数据不符合实际情况：更换训练数据可以改变这种结果。但是也有可能无法找到合适的训练数据，可以用下面两个方法来处理：
     - 1、可能其中某些数据产生了噪声，可以标记为无视它们。
@@ -52,13 +53,13 @@ The Art and Science of Algorithms that Make Sense of Data
 
 任务、模型及特征是机器学习的三大“原料”。下面的图是运用机器学习解决给定问题的示意：
 
-![](/contents/chapter00/diagram-02.png)
+![](contents/chapter00/diagram-02.png)
 
 要完成一项任务，需要建立从用特征描述的数据到输出的恰当映射（即模型）。学习问题的中心任务就是研究如何从训练数据中获取这样的映射。
 
 同时列出SpamAssassin的相同模型来参考：
 
-![](/contents/chapter00/diagram-01.png)
+![](contents/chapter00/diagram-01.png)
 
 机器学习所关注的问题是使用正确的特征来构建正确的模型，以完成既定的任务。
 
