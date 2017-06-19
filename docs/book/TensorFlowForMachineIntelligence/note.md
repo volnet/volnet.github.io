@@ -135,6 +135,63 @@ TensorFlow的前身[DistBelief](https://static.googleusercontent.com/media/resea
 第2章 安装TensorFlow
 ------------------------------
 
+### 2.1 选择安装环境
+
+为了避免软件包依赖，作者介绍了三种方法：
+
+- 代码库内部的软件包依赖：重复太多，不推荐
+- 使用依赖环境：Python的标准版则使用Virtualenv或者[Anaconda](https://www.continuum.io/anaconda-overview)的话，则使用[Conda](https://conda.io/docs/)
+- 使用容器：步骤略多一点，适用于部署到一台或多台服务器。
+
+### 2.2 Jupyter Notebook与matplotlib
+
+Jupyter Notebook可交互式地编写包含代码、文本、输出、LaTeX及其他可视化结果的文档。
+
+典型的TensorFlow程序已经被划分为“计算图的定义”和“运行计算图”两部分。
+
+matplotlib是一个绘图库，它允许用户使用Python创建动态的、自定义的可视化结果。
+
+### 2.3-2.7 [省略]
+
+这几节主要讲述的是安装的过程，与[官方文档](https://www.tensorflow.org/versions/master/install/install_linux)描述基本一致，但我各种原因没有成功。还好有Docker安装的方案，参考[官方文档](https://hub.docker.com/r/tensorflow/tensorflow/)
+
+```
+docker run -it -p 8888:8888 tensorflow/tensorflow
+```
+
+### 2.8 测试TensorFlow、Jupyter Notebook及matplotlib
+
+在Jupyter Notebook中，New一个Python2的Notebook，输入下面的代码
+
+```
+import tensorflow as tf
+import numpy as np
+import matplotlib.pyplot as plt
+```
+
+```
+%matplotlib inline 
+a = tf.random_normal([2,20])
+sess = tf.Session()
+out = sess.run(a)
+x, y = out
+
+plt.scatter(x, y)
+plt.show()
+```
+
+%matplotlib inline这是一条专门的命令，用于通知笔记本将matplotlib图表直接显示在浏览器中。
+
+下面逐行分析代码：
+
+1. 用TensorFlow定义一个由随机数构成的2X20的矩阵，并将其赋给变量a。
+2. 启动TensorFlow Session，并将其赋予一个sess对象。
+3. 用sess.run()方法执行对象a，并将输出（NumPy数组）赋给out。
+4. 将这个2X20的矩阵划分为两个1X10的向量x和y。
+5. 利用pyplot模块绘制散点图，x对应横轴，y对应纵轴。
+
+![](contents/chapter02/001.png)
+
 第二部分 TensorFlow与机器学习基础
 ------------------------------
 
