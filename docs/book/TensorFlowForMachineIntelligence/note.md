@@ -268,7 +268,8 @@ sess.close()
 docker run -it -p 6006:6006 -p 8888:8888 tensorflow/tensorflow /bin/bash
 ```
 
-> 这样就进入了命令行模式。如果出现了docker无法exit的情况（There are stopped jobs.），可以使用`jobs -l`查看未停止的jobs，然后用`kill %1`来杀死这个进程，其中这个1是job的编号。
+> 这样就进入了命令行模式。在命令行下，使用python shell执行上面所列出来的python脚本，然后再在宿主服务器上通过`http://localhost:6006`访问tensorboard。
+> 如果出现了docker无法exit的情况（There are stopped jobs.），可以使用`jobs -l`查看未停止的jobs，然后用`kill %1`来杀死这个进程，其中这个1是job的编号。
 
 #### 3.2.2 张量思维
 
