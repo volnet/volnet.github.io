@@ -222,6 +222,78 @@ plt.show()
 
 ### 3.2 在TensorFlow中定义数据流图
 
+TensorFlow的工作流非常容易记忆，它只包含两个步骤：
+
+1. 定义数据流图。
+2. 运行数据流图（在数据上）。
+
+#### 3.2.1 构建第一个TensorFlow数据流图
+
+```
+import tensorflow as tf
+
+a = tf.constant(5, name="input_a")
+b = tf.constant(3, name="input_b")
+c = tf.multiply(a, b, name="mul_c")
+d = tf.add(a, b, name="add_d")
+e = tf.add(c, d, name="add_e")
+
+sess = tf.Session()
+output = sess.run(e)
+
+```
+
+TensorFlow Session对象在运行时负责对数据流图进行监督，并且是运行数据流图的主要接口。
+
+在上面的例子之后，我们可以将这个数据流图保存下来，原著中的版本不再适用于APIr1.2，这里我做了更新。（[参考这里>>](https://github.com/tensorflow/tensorflow/blob/r1.2/tensorflow/tensorboard/README.md)）
+
+```
+writer = tf.summary.FileWriter('./my_graph', sess.graph)
+```
+
+这样在根目录就多出一个`my_graph`文件夹。
+
+可以使用`tensorboard --logdir="my_graph"`，打开tensorboard，并点击Graph菜单，可以看到我们刚刚用python代码编写的数据流图的图形化表示。
+
+完成数据流图的构造之后，需要将对象关闭，可以使用下面的语句。
+
+```
+writer.close()
+sess.close()
+```
+
+> 补充说明：因为这里我们使用了docker的方式来运行，和之前介绍的启动docker的默认方法不同，我们使用了下面的语句：
+
+```
+docker run -it -p 6006:6006 -p 8888:8888 tensorflow/tensorflow /bin/bash
+```
+
+> 这样就进入了命令行模式。如果出现了docker无法exit的情况（There are stopped jobs.），可以使用`jobs -l`查看未停止的jobs，然后用`kill %1`来杀死这个进程，其中这个1是job的编号。
+
+#### 3.2.2 张量思维
+
+#### 3.2.3 张量的形状
+
+#### 3.2.4 TensorFlow的Operation
+
+#### 3.2.5 TensorFlow的Graph对象
+
+#### 3.2.6 TensorFlow Session
+
+#### 3.2.7 利用占位符点添加输入
+
+#### 3.2.8 Variable对象
+
+### 3.3 通过名称作用域组织数据流图
+
+### 3.4 练习：综合运用各种组件
+
+#### 3.4.1 构建数据流图
+
+#### 3.4.2 运行数据流图
+
+### 3.5 本章小结
+
 第4章 机器学习基础
 ------------------------------
 
