@@ -229,6 +229,8 @@ TensorFlow的工作流非常容易记忆，它只包含两个步骤：
 
 #### 3.2.1 构建第一个TensorFlow数据流图
 
+![](contents/chapter02/002.png)
+
 ```
 import tensorflow as tf
 
@@ -273,7 +275,77 @@ docker run -it -p 6006:6006 -p 8888:8888 tensorflow/tensorflow /bin/bash
 
 #### 3.2.2 张量思维
 
+所谓张量，即n维矩阵的抽象。因此，1D张量等价于向量，2D张量等价于矩阵，对于更高维数的张量，可称“N维张量”或“N阶张量”。
+
+![](contents/chapter02/003.png)
+
+```
+import tensorflow as tf
+
+a = tf.constant([5,3], name="input_a")
+b = tf.reduce_prod(a, name="prod_b")
+c = tf.reduce_sum(a, name="sum_c")
+d = tf.add(c, d, name="add_d")
+```
+
+1. Python原生类型：TensorFlow可以接收Python数值、布尔值、字符串或由它们构成的列表。但是TensorFlow的类型比Python的类型分地更细，如数值型，TensorFlow有很多种，而Python只有一种。
+2. NumPy数组：TensorFlow的数据类型是基于NumPy的数据类型的。实际上，语句np.int32==tf.int32的结果为True。但是字符串数据类型，受限于NumPy中并无与tf.string精确对应的类型，因此TensorFlow可以从NumPy中完美地导入字符串数组，只是不要在NumPy中显式指定dtype属性。
+
+```
+import numpy as np
+
+# 元素类型为32位整数的0阶张量
+t_0 = np.array(50, dtype=np.int32)
+
+# 元素为字节字符串类型的1阶张量
+# 注意：在NumPy中使用字符串时，不要显式指定dtype属性
+t_1 = np.array([b"apple", b"peach", b"grape"])
+
+# 元素为布尔型的2阶张量
+t_2 = np.array([[True, False, False],
+                [True, False, False],
+                [True, False, False]],
+                dtype=np.bool)
+
+# 元素为64位整数的3阶张量
+t_3 = np.array([[ [0,0], [0,1], [0,2] ],
+                [ [0,0], [0,1], [0,2] ],
+                [ [0,0], [0,1], [0,2] ]]
+                dtype=np.int64)
+```
+
 #### 3.2.3 张量的形状
+
+shape是TensorFlow的专有术语，它同时刻画了张量的维（阶）数以及每一维的长度。
+
+既可以列表（list）也可以用列表（tuple）来描述张量的形状（shape）。
+
+除了能够将张量的每一维指定为固定长度
+
+```
+# 具有任意长度的向量的形状
+s_1_flex = [None]
+
+# 行数任意、列数为3的矩阵的形状
+s_2_flex = (None, 3)
+
+# 第1维上长度为2，第2维和第3维上长度任意的3阶张量
+s_3_flex = [2, None, None]
+
+# 形状可为任意值的张量
+s_any = None
+```
+
+如果需要在数据流图的中间获取某个张量的形状，可以使用tf.shape Op。它的输入为希望获取其形状的Tensor对象，输出为一个int32的向量：
+
+```
+import tensorflow as tf
+
+# ...创建某种类型的神秘张量
+
+# 获取上述张量的形状
+shape = tf.shape(mystery_tensor, name="mystery_shape")
+```
 
 #### 3.2.4 TensorFlow的Operation
 
