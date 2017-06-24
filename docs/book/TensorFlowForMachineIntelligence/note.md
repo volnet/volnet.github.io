@@ -273,6 +273,8 @@ docker run -it -p 6006:6006 -p 8888:8888 tensorflow/tensorflow /bin/bash
 > 这样就进入了命令行模式。在命令行下，使用python shell执行上面所列出来的python脚本，然后再在宿主服务器上通过`http://localhost:6006`访问tensorboard。
 > 如果出现了docker无法exit的情况（There are stopped jobs.），可以使用`jobs -l`查看未停止的jobs，然后用`kill %1`来杀死这个进程，其中这个1是job的编号。
 
+> 上面的方法虽然搞定了tensorboard，但是无法同时使用jupyter notebook和tensorboard，而且每次关闭后，之前保存的东西就没有了，为此我做了个持久化的版本，详见这里：[volnet/tf-notebook](https://hub.docker.com/r/volnet/tf-notebook/)或者[volnet/tf-tensorboard](https://hub.docker.com/r/volnet/tf-tensorboard/)。
+
 #### 3.2.2 张量思维
 
 所谓张量，即n维矩阵的抽象。因此，1D张量等价于向量，2D张量等价于矩阵，对于更高维数的张量，可称“N维张量”或“N阶张量”。
@@ -348,6 +350,14 @@ shape = tf.shape(mystery_tensor, name="mystery_shape")
 ```
 
 #### 3.2.4 TensorFlow的Operation
+
+Op是一些对（或利用）Tensor对象执行运算的节点。计算完毕后，它们会返回0个或多个张量，可在以后为数据流图中的其他Op所使用。
+
+- 无输入、输出的运算：有些Op没有输入也没有输出，Op并不只限于计算，也可以用于如状态初始化这样的任务（非数学Op）。
+
+##### 运算符重载
+
+也可以用`c=a+b`来表示`c = tf.add(a, b)`。
 
 #### 3.2.5 TensorFlow的Graph对象
 
