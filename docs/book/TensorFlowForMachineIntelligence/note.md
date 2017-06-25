@@ -363,6 +363,40 @@ Op是一些对（或利用）Tensor对象执行运算的节点。计算完毕后
 
 #### 3.2.5 TensorFlow的Graph对象
 
+创建一个新的数据流图可以通过`tf.Graph()`来完成，默认的情况下，并不需要用户自行创建一个Graph对象，TensorFlow库在被加载时，它会自动创建一个Graph对象，并将其作为默认的数据流图。
+
+```
+import tensorflow as tf
+
+# 创建一个新的数据流图
+g = tf.Graph()
+```
+
+下面的方法可以拿到默认的Graph对象。
+
+```
+import tensorflow as tf
+
+# 获得默认数据流图的句柄
+default_graph = tf.get_default_graph()
+```
+
+我们还可以使用`with`语句，切换当前的默认Graph对象。
+
+```
+import tensorflow as tf
+
+g = tf.Graph()
+with g.as_default():
+    # 像往常一样创建一些Op；它们将被添加到Graph对象g中
+    a = tf.multiply(2, 3)
+
+# 由于不在with语句块中，下面的Op将放置在默认数据流图中
+also_in_default_graph = tf.subtract(5,1)
+```
+
+当需要在单个文件中定义多个数据流图时，最佳实践是**不适用默认数据流图，或为其立即分配句柄**。这样可以保证各节点按照一致的方式添加到每个数据流图中。
+
 #### 3.2.6 TensorFlow Session
 
 #### 3.2.7 利用占位符点添加输入
