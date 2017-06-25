@@ -591,6 +591,45 @@ print( sess.run(out2) )
 
 ### 3.3 通过名称作用域组织数据流图
 
+名称作用域的基本用法是将Op添加到`with tf.name_scope(<name>):`语句块中，且名称作用域可以嵌套。
+
+```
+import tensorflow as tf
+
+graph = tf.Graph()
+
+with graph.as_default():
+    in_1 = tf.placeholder(tf.float32, shape=[], name="input_a")
+    in_2 = tf.placeholder(tf.float32, shape=[], name="input_b")
+    const = tf.constant(3, dtype=tf.float32, name="static_value")
+    
+    with tf.name_scope("Transformation"):
+        
+        with tf.name_scope("A"):
+            A_mul = tf.multiply(in_1, const)
+            A_out = tf.subtract(A_mul, in_1)
+            
+        with tf.name_scope("B"):
+            B_mul = tf.multiply(in_2, const)
+            B_out = tf.subtract(B_mul, in_2)
+            
+        with tf.name_scope("C"):
+            C_div = tf.div(A_out, B_out)
+            C_out = tf.add(C_div, const)
+            
+        with tf.name_scope("C"):
+            D_div = tf.div(B_out, A_out)
+            D_out = tf.add(D_div, const)
+            
+writer = tf.summary.FileWriter('../logs', graph=graph)
+print("ok")
+writer.close()
+```
+
+使用TensorBoard显示如下：
+
+![](contents/chapter03/004.png)
+
 ### 3.4 练习：综合运用各种组件
 
 #### 3.4.1 构建数据流图
