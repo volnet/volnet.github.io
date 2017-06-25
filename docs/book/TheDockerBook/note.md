@@ -443,7 +443,7 @@ sudo docker run -d -P --name container_name volnet/imagename
 
 官方文档：[查看Dockerfile中可以使用的全部指令的清单](https://docs.docker.com/engine/reference/builder/)
 
-- 1. CMD
+1. CMD
 
 CMD指令是指定容器启动时要运行的命令（而RUN则是指定容器构建时要运行的命令）
 
@@ -456,8 +456,7 @@ CMD ["/bin/bash", "-l"]
 在`docker run`中指定运行的命令，如：`docker run -i -t ubuntu /bin/ps`，将取代Dockerfile中的CMD指令。
 
 在Dockerfile中只能指定一条CMD指令。如果指定了多条CMD指令，也只有最后一条CMD指令会被使用。如果想在启动容器时运行多个进程或者多条命令，可以考虑使用类似Supervisor这样的服务管理工具。
-
-- 2. ENTRYPOINT
+2. ENTRYPOINT
 
 ENTRYPOINT命令也是在容器启动的时候运行。`docker run`命令行中指定的任何参数都会被当做参数再次传递给ENTRYPOINT指令中指定的命令。
 
@@ -496,12 +495,10 @@ docker run -t -i volnet/nginx
 命令的时候，执行`ENTRYPOINT ［"/user/sbin/nginx", "-h"]`指令。
 
 当存在ENTRYPOINT的时候CMD指令不能执行，只会被作为参数传递给ENTRYPOINT指令。
-
-- 3. WORKDIR
+3. WORKDIR
 
 WORKDIR指令用来在从镜像创建一个新容器时，在容器内部设置一个工作目录，ENTRYPOINT和/或CMD指定的程序会在这个目录下执行。
-
-- 4. ENV
+4. ENV
 
 ENV指令用来在镜像构建过程中设置环境变量。
 
@@ -519,8 +516,7 @@ ENV RVM_PATH=/home/rvm RVM_ARCHFLAGS="-arch i386"
 ENV TARGET_DIR /opt/app
 WORKDIR $TARGET_DIR
 ```
-
-- 5. USER
+5. USER
 
 USER指令用来指定该镜像会以什么样的用户去运行。
 
@@ -538,8 +534,7 @@ USER uid:group
 也可以在`docker run`命令中通过`-u`标志来覆盖该指令指定的值。
 
 如果不通过USER指令指定用户，默认用户为root。
-
-- 6. VOLUME
+6. VOLUME
 
 VOLUME指令用来向基于镜像创建的容器添加卷。一个卷可以存在于一个或多个容器内的特定的目录，这个目录可以绕过联合文件系统，并提供如下共享数据或者对数据进行持久化的功能。
 
@@ -554,8 +549,7 @@ VOLUME指令用来向基于镜像创建的容器添加卷。一个卷可以存�
     - 卷会一直存在直到没有任何容器再使用它。
 
 关于卷功能，可以参考[Manage data in containers](https://docs.docker.com/engine/tutorials/dockervolumes/)
-
-- 7. ADD
+7. ADD
 
 ADD指令用来将构建环境下的文件和目录复制到镜像中。
 
@@ -566,8 +560,7 @@ ADD software.lic /opt/application/software.lic
 指向源（前面一个参数）可以是一个URL，或者构建上下文或环境中文件名或者目录。不能对构建目录或者上下文之外的文件进行ADD操作。
 
 ADD指令会使得构建缓存变得无效，这一点也非常重要。如果通过ADD指令向镜像添加一个文件或者目录，那么这将使Dockerfile中的后续指令都不能继续使用之前的构建缓存。
-
-- 8. COPY
+8. COPY
 
 COPY指令非常类似于ADD，它们根本的不同是COPY只关心在构建上下文中复制本地文件，而不会去做文件提取（extraction）和解压（decompression）的工作。
 
@@ -584,8 +577,7 @@ mylocalfile.txt
 /opt/upload/COPY:
 mylocalfile.tar.gz
 ```
-
-- 9. LABEL
+9. LABEL
 
 LABEL指令用于为Docker镜像添加元数据。元数据以键值对的形式展现。
 
@@ -606,24 +598,21 @@ LABEL location="New York" type="Data Center" role="Web Server"
     "version": "1.0"
 }
 ```
-
-- 10. STOPSIGNAL
+10. STOPSIGNAL
 
 STOPSIGNAL指令用来设置停止容器时发送什么系统调用信号给容器。这个信号必须是本节主要讲了Docker镜像及如何与其交互内核系统调用表中的合法的数，如9，或者SIGNAME格式中的信号名称，如SIGKILL。
 
 官方文档参考[这里](https://docs.docker.com/engine/reference/builder/#stopsignal)。
 
 信号列表参考[这里](https://en.wikipedia.org/wiki/Unix_signal)
-
-- 11. ARG
+11. ARG
 
 ARG指令用来定义可以在`docker build`命令运行时传递给构建运行时的变量，我们只需要在构建时使用`--build-arg`标志即可。用户只能在构建时指定在Dockerfile文件中定义过的参数。
 
 要想使用这些预定义的变量，只需要给`docker build`命令传递`--build-arg <variable>=<value>`标志就可以了。
 
 官方文档参考[这里](https://docs.docker.com/engine/reference/builder/#/arg)。
-
-- 12. ONBUILD
+12. ONBUILD
 
 ONBUILD指令能为镜像添加触发器（trigger）。当一个镜像被用做其他镜像的基础镜像时（比如用户的镜像需要从未准备好的位置添加源代码，或者用户需要执行特定于构建镜像的环境的构建脚本），该镜像中的触发器将会被执行。
 
