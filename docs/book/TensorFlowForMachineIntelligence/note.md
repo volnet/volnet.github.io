@@ -399,7 +399,21 @@ also_in_default_graph = tf.subtract(5,1)
 
 #### 3.2.6 TensorFlow Session
 
+Session类负责数据流图的执行。构造方法tf.Session()接收3个可选参数：
 
+- target指定了所要使用的执行引擎。对于大多数应用，该参数取为默认的空字符串。在分布式设置中使用Session对象时，该参数用语连接不同的tf.train.Server实例
+- graph参数指定了将要在Session对象中加载的Graph对象，其默认值为None，表示将使用当前默认数据流图。
+- config参数允许用户指定配置Session对象所需的选项，如限制CPU或GPU的使用数目，为数据流图设置优化参数及日志选项等。
+
+一旦创建完Session对象，便可利用其主要的方法run()来计算所期望的Tensor对象的输出：
+
+[Session.run()](https://www.tensorflow.org/api_docs/python/tf/Session#run)方法接收一个参数fetches，以及其他三个可选参数（`feed_dict`，`options`，`run_metadata`）：
+
+- fetches参数：可以传入张量也可以传入Op，可以是单个数值也可以是个数组
+- feed_dict参数：用于覆盖数据流图中的Tensor对象值，它需要Python字典对象作为输入。它可以替代TensorFlow中的中间值，在一个规模较大的数据流图中，可以利用它提供一些虚构的值对某些部分进行测试。
+- options、run_metadata尚在实验阶段。
+
+Session使用完了之后需要调用`.close()`关闭。
 
 #### 3.2.7 利用占位符点添加输入
 
