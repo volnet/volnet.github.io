@@ -229,7 +229,7 @@ TensorFlow的工作流非常容易记忆，它只包含两个步骤：
 
 #### 3.2.1 构建第一个TensorFlow数据流图
 
-![](contents/chapter02/002.png)
+![](contents/chapter03/001.png)
 
 ```
 import tensorflow as tf
@@ -279,7 +279,7 @@ docker run -it -p 6006:6006 -p 8888:8888 tensorflow/tensorflow /bin/bash
 
 所谓张量，即n维矩阵的抽象。因此，1D张量等价于向量，2D张量等价于矩阵，对于更高维数的张量，可称“N维张量”或“N阶张量”。
 
-![](contents/chapter02/003.png)
+![](contents/chapter03/002.png)
 
 ```
 import tensorflow as tf
@@ -358,6 +358,8 @@ Op是一些对（或利用）Tensor对象执行运算的节点。计算完毕后
 ##### 运算符重载
 
 也可以用`c=a+b`来表示`c = tf.add(a, b)`。
+
+![](contents/chapter03/003.png)
 
 #### 3.2.5 TensorFlow的Graph对象
 
