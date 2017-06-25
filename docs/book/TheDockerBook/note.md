@@ -139,11 +139,11 @@ Docker安装的先决条件是：
 parallels@ubuntu:~$ sudo docker run -i -t ubuntu /bin/bash
 Unable to find image 'ubuntu:latest' locally
 latest: Pulling from library/ubuntu
-952132ac251a: Pull complete 
-82659f8f1b76: Pull complete 
-c19118ca682d: Pull complete 
-8296858250fe: Pull complete 
-24e0251a0e2c: Pull complete 
+952132ac251a: Pull complete
+82659f8f1b76: Pull complete
+c19118ca682d: Pull complete
+8296858250fe: Pull complete
+24e0251a0e2c: Pull complete
 Digest: sha256:f4691c96e6bbaa99d99ebafd9af1b68ace2aa2128ae95a60369c506dd6e6f6ab
 Status: Downloaded newer image for ubuntu:latest
 root@019b21d670f7:/#
@@ -176,11 +176,11 @@ docker run -i -t --name ubuntu-web-001 ubuntu /bin/bash
 可以使用`docker start [container-name]`启动服务，类似的还有`docker stop`、`docker restart`、`docker create`
 
 ```
-sudo docker start ubuntu-web-001 
+sudo docker start ubuntu-web-001
 ```
 也可以使用Container ID启动
 ```
-parallels@ubuntu:~$ docker start 87a430a359ef597af9da14dcfc77290b35d8e1b5ccde6756f326f05efd458b0f 
+parallels@ubuntu:~$ docker start 87a430a359ef597af9da14dcfc77290b35d8e1b5ccde6756f326f05efd458b0f
 87a430a359ef597af9da14dcfc77290b35d8e1b5ccde6756f326f05efd458b0f
 parallels@ubuntu:~$ docker ps
 CONTAINER ID        IMAGE               COMMAND             CREATED             STATUS              PORTS               NAMES
@@ -256,7 +256,7 @@ parallels@ubuntu:~$ docker inspect --format='{{ .NetworkSettings.IPAddress }}' u
 目录`/var/lib/docker`存放着Docker镜像、容器以及容器的配置。
 ```
 parallels@ubuntu:~$ sudo ls /var/lib/docker
-[sudo] password for parallels: 
+[sudo] password for parallels:
 aufs  containers  graph  image	linkgraph.db  network  repositories-aufs  swarm  tmp  trust  volumes
 ```
 
@@ -277,7 +277,7 @@ sudo docker rm `sudo docker ps -a -q`
 官方文档：《[Understand images, containers, and storage drivers](https://docs.docker.com/engine/userguide/storagedriver/imagesandcontainers/#understand-images-containers-and-storage-drivers)》
 
 从底向上：
-    
+
 bootfs（引导文件系统）（只读，启动后从内存中移除）
 
 -> rootfs（root文件系统，可以是一种或多种操作系统（如Debian或者Ubuntu文件系统））（只读，在传统Linux引导过程中，root文件系统最先会以只读的方式加载，当引导结束并完成了完整性检查之后，它才会被切换为读写模式。），延伸阅读：[Union Mount](https://en.wikipedia.org/wiki/Union_mount)
@@ -342,7 +342,7 @@ Docker会在构建镜像时将构建上下文和该上下文中的文件和目�
 parallels@ubuntu:~$ mkdir docker_test
 parallels@ubuntu:~$ cd docker_test/
 parallels@ubuntu:~/docker_test$ touch Dockerfile
-parallels@ubuntu:~/docker_test$ vi Dockerfile 
+parallels@ubuntu:~/docker_test$ vi Dockerfile
 parallels@ubuntu:~/docker_test$ docker build -t="volnet/docker_nginx_to_volnet.github.io" .
 ```
 
@@ -414,7 +414,7 @@ ea1a93f42352        53 minutes ago      /bin/sh -c #(nop)  MAINTAINER volnet "vo
 <missing>           4 days ago          /bin/sh -c sed -i 's/^#\s*\(deb.*universe\)$/   1.895 kB            
 <missing>           4 days ago          /bin/sh -c rm -rf /var/lib/apt/lists/*          0 B                 
 <missing>           4 days ago          /bin/sh -c set -xe   && echo '#!/bin/sh' > /u   194.6 kB            
-<missing>           4 days ago          /bin/sh -c #(nop) ADD file:ada91758a31d8de3c7   187.8 MB 
+<missing>           4 days ago          /bin/sh -c #(nop) ADD file:ada91758a31d8de3c7   187.8 MB
 ```
 
 #### 4.5.9 从新镜像启动容器
@@ -688,7 +688,7 @@ docker run -d -p 80 --name website -v $PWD/website:/var/www/html/website volnet/
 考虑到ubuntu中的apt-get安装的ruby是1.9.1版本，所以这里需要作出微调。
 
 ```
-parallels@ubuntu:~/dockerbook/sinatra$ cat Dockerfile 
+parallels@ubuntu:~/dockerbook/sinatra$ cat Dockerfile
 FROM ubuntu:14.04
 MAINTAINER volnet "volnet@tom.com"
 ENV REFRESHED_AT 2016-09-04
@@ -698,9 +698,9 @@ RUN apt-get -yqq install software-properties-common python-software-properties
 RUN apt-add-repository ppa:brightbox/ruby-ng
 RUN apt-get -yqq update
 RUN apt-get -yqq install ruby2.3 ruby2.3-dev
-RUN apt-get -yqq install build-essential 
+RUN apt-get -yqq install build-essential
 RUN apt-get -yqq install redis-tools
- 
+
 RUN gem install --no-rdoc --no-ri sinatra json redis
 
 RUN mkdir -p /opt/webapp
@@ -842,7 +842,7 @@ Docker在父容器里的以下两个地方写入了链接信息。
 
 本节作者使用一个例子来说明，为了简化描述，我用一幅图来描述：
 
-![](contents/chapter06/chapter06-01.png) 
+![](contents/chapter06/chapter06-01.png)
 
 首先，创建了一个Jekyll的镜像，目的是每次启动后，就重新编译将固定模板的网页生成静态页面，并使用卷（volume）共享出来。
 
@@ -860,7 +860,7 @@ Docker在父容器里的以下两个地方写入了链接信息。
 
 本节作者使用一个Nodejs前端，Redis后端，且共享一个网络（`docker create network express`）的例子来说明，为了简化描述，我用一幅图来描述：
 
-![](contents/chapter06/chapter06-02.png) 
+![](contents/chapter06/chapter06-02.png)
 
 ### 6.4 不使用SSH管理Docker容器
 
