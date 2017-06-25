@@ -417,6 +417,35 @@ Session使用完了之后需要调用`.close()`关闭。
 
 #### 3.2.7 利用占位符点添加输入
 
+占位符的行为与Tensor对象一致，但在创建时无须为它们指定具体的数值。它们的作用是为运行时即将到来的某个Tensor对象预留位置，因此实际上变成了“输入”节点。
+
+```
+import tensorflow as tf
+import numpy as np
+
+# 创建一个长度为2、数据类型为int32的占位向量
+a = tf.placeholder(tf.int32, shape=[2], name="my_input")
+
+# 将该占位向量视为其他任意Tensor对象，加以使用
+b = tf.reduce_prod(a, name="prod_b")
+c = tf.reduce_sum(a, name="prod_c")
+
+d = tf.add(b, c, name="add_d")
+
+# 定义一个TensorFlow Session对象
+sess = tf.Session()
+
+# 创建一个将传给feed_dict参数的字典
+# 键：'a'，指向占位符输出Tensor对象的句柄
+# 值：一个值为[5,3]、类型为int32的向量
+input_dict = {a: np.array([5,3], dtype=np.int32)}
+
+# 计算d的值，将input_dict的“值”传给a
+sess.run(d, feed_dict=input_dict)
+```
+
+placeholder的值是无法计算的——如果试图将其传入Session.run()，将引发一个异常。
+
 #### 3.2.8 Variable对象
 
 ### 3.3 通过名称作用域组织数据流图
