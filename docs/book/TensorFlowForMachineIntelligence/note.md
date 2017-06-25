@@ -448,6 +448,147 @@ placeholder的值是无法计算的——如果试图将其传入Session.run()�
 
 #### 3.2.8 Variable对象
 
+创建Variable对象
+
+Tensor对象和Op对象都是不可变的（immutable），但机器学习任务的本质决定了需要一种机制保存随时间变化的值。
+
+可以通过`tf.Variable()`创建对象。
+
+```
+import tensorflow as tf
+
+# 为Variable对象传入一个初始值3
+my_var = tf.Variable(3, name="my_variable")
+
+add = tf.add(5, my_var)
+mul = tf.multiply(8, my_var)
+
+sess = tf.Session()
+print( sess.run(add, {my_var: 3}) )
+print( sess.run(mul, {my_var: 3}) )
+```
+
+TensorFlow提供了大量的辅助Op用于初始化`tf.zeros()`、`tf.ones()`、`tf.random_normal()`、`tf.random_uniform()`，每个Op都接收一个shape参数，以指定所创建的Tensor对象的形状。
+
+```
+import tensorflow as tf
+
+# 2x2的零矩阵
+zeros = tf.zeros([2, 2])
+
+# 长度为6的全1向量
+ones = tf.ones([6])
+
+# 3x3x3的张量，其元素服从0~10的均匀分布
+uniform = tf.random_uniform([3, 3, 3], minval=0, maxval=10)
+
+# 3x3x3的张量，其元素服从0均值、标准差为2的正态分布
+normal = tf.random_normal([3, 3, 3], mean=0.0, stddev=2.0)
+
+# 3x3x3的张量，其元素服从任何偏离均值不会超过2倍标准差的值，从而可以防止有一个或两个元素与该张量中的其他元素显著不同的情况出现
+truncated = tf.truncated_normal([3, 3, 3], mean=5.0, stddev=1.0)
+
+sess = tf.Session()
+out_zeros = sess.run(zeros)
+out_ones = sess.run(ones)
+out_uniform = sess.run(uniform)
+out_normal = sess.run(normal)
+out_truncated = sess.run(truncated)
+
+print( out_zeros )
+print( out_ones )
+print( out_uniform )
+print( out_normal )
+print( out_truncated )
+```
+
+Variable对象的初始化
+
+可以使用`tf.global_variables_initializer()`（原书使用`tf.initialize_all_variables()`）Op传给Session.run()完成的。
+
+> WARNING:tensorflow:From /usr/local/lib/python2.7/dist-packages/tensorflow/python/util/tf_should_use.py:170: initialize_all_variables (from tensorflow.python.ops.variables) is deprecated and will be removed after 2017-03-02.
+> Instructions for updating:
+> Use `tf.global_variables_initializer` instead.
+
+如果只需要对数据流图中定义的一个Variable对象子集初始化，可使用`tf.initialize_variables()`。
+
+```
+import tensorflow as tf
+
+var1 = tf.Variable(0, name="initialize_me")
+var2 = tf.Variable(1, name="no_initialization")
+
+#init = tf.initialize_variables([var1], "init_var1")
+init = tf.variables_initializer([var1], "init_var1")
+
+sess = tf.Session()
+out = sess.run(init)
+
+print(out)
+```
+
+Variable对象的修改
+
+要修改Variable对象的值，可使用`Variable.assign()`方法。该方法的作用是为Variable对象赋予新值。需要注意的是，Variable.assign()是一个Op，要使其生效必须在一个Session对象中运行：
+
+```
+import tensorflow as tf
+
+# 创建一个初值为1的Variable对象
+my_var = tf.Variable(1)
+
+# 创建一个Op，使其在每次运行时都将该Variable对象乘以2
+my_var_times_two = my_var.assign(my_var * 2)
+
+# 初始化Op
+init = tf.global_variables_initializer()
+
+sess = tf.Session()
+
+# 初始化Variable对象
+sess.run(init)
+
+# 将Variable对象乘以2，并将其返回
+out1 = sess.run(my_var_times_two)
+print(out1)
+# 输出：2
+
+# 将Variable对象乘以2，并将其返回
+out2 = sess.run(my_var_times_two)
+print(out2)
+# 输出：4
+
+# 将Variable对象乘以2，并将其返回
+out3 = sess.run(my_var_times_two)
+print(out3)
+# 输出：8
+```
+
+对于Variable对象的简单自增和自减，TensorFlow提供了`Variable.assign_add()`方法和`Variable.assign_sub()`
+
+```
+import tensorflow as tf
+
+my_var = tf.Variable(1)
+out1 = my_var.assign_add(5)
+out2 = my_var.assign_sub(2)
+
+# 初始化Op
+init = tf.global_variables_initializer()
+
+sess = tf.Session()
+sess.run(init)
+print( sess.run(out1) )
+## 6
+print( sess.run(out2) )
+## 4
+
+# 如果希望将所有Variable对象的值重置为初始值，则只需要再次调用global_variables_initializer，也就是运行sess.run(init)
+sess.run(init)
+print( sess.run(out2) )
+## -1
+```
+
 ### 3.3 通过名称作用域组织数据流图
 
 ### 3.4 练习：综合运用各种组件
