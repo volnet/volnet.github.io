@@ -399,6 +399,8 @@ also_in_default_graph = tf.subtract(5,1)
 
 #### 3.2.6 TensorFlow Session
 
+
+
 #### 3.2.7 利用占位符点添加输入
 
 #### 3.2.8 Variable对象
@@ -433,3 +435,8 @@ also_in_default_graph = tf.subtract(5,1)
 
 第8章 辅助函数、代码结构和类
 ------------------------------
+
+附加信息
+------------------------------
+
+1. 1.2版API中和原书中的一些方法不一致，可以参考：https://www.tensorflow.org/api_guides/python/math_ops#Arithmetic_Operators 
