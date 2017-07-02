@@ -714,9 +714,11 @@ sess.close()
 #### 3.4.2 运行数据流图
 
 展开GRAPHS菜单可以看到以上代码的图形化展示：
+
 ![](contents/chapter03/005.png)
 
 展开SCALARS菜单可以看到最后的输出结果：
+
 ![](contents/chapter03/005.png)
 
 ### 3.5 本章小结
