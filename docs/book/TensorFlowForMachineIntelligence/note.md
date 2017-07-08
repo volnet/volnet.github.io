@@ -750,6 +750,20 @@ sess.close()
 
 当训练结束后，便进入评估阶段（evaluate）。在这一阶段中，我们需要对一个同样含有期望输出信息的不同测试集依据模型进行推断，并评估模型在该数据集上的损失。该测试集中包含了何种样本，模型是预先无法获悉的。通过评估，可以了解到所训练的模型在训练集之外的推广能力。一种常见的方法是将原始数据集一分为二，将70%的样本用于训练，其余30%的样本用于评估。
 
+### 4.2 保存训练检查点
+
+为了避免多个训练周期运行的过程失败（如断电等原因），内存中的数据丢失，TensorFlow提供了保存检查点的方法。
+
+`tf.train.Saver`可以用来存储。
+
+```
+saver.save(sess, 'my-model', global_step=0) ==> filename: 'my-model-0'
+...
+saver.save(sess, 'my-model', global_step=1000) ==> filename: 'my-model-1000'
+```
+
+`tf.train.get_checkpoint_state`可以用于验证之前是否有检查点文件被保存下来，可以使用`tf.train.Saver.restore`来恢复。
+
 第三部分 用TensorFlow实现更高级的深度模型
 ------------------------------
 
