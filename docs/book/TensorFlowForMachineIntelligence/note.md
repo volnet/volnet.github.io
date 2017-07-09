@@ -750,6 +750,48 @@ sess.close()
 
 当训练结束后，便进入评估阶段（evaluate）。在这一阶段中，我们需要对一个同样含有期望输出信息的不同测试集依据模型进行推断，并评估模型在该数据集上的损失。该测试集中包含了何种样本，模型是预先无法获悉的。通过评估，可以了解到所训练的模型在训练集之外的推广能力。一种常见的方法是将原始数据集一分为二，将70%的样本用于训练，其余30%的样本用于评估。
 
+```
+import tensorflow as tf
+
+# 初始化变量和模型参数，定义训练闭环中的运算
+
+def inference(X):
+    # 计算推断模型在数据X上的输出，并将结果返回
+def loss(X, Y):
+    # 依据训练数据X及其期望输出Y计算损失
+def inputs():
+    # 读取或生成训练数据X及其期望输出Y
+def train(total_loss):
+    # 依据计算的总损失训练或调整模型参数
+def evaluate(sess, X, Y):
+    # 对训练得到的模型进行评估
+    
+# 在一个会话对象中启动数据流图，搭建流程
+with tf.Session() as sess:
+    tf.global_variables_initializer().run()
+    
+    X, Y = inputs()
+    total_loss = loss(X, Y)
+    train_op = train(total_loss)
+    
+    coord = tf.train.Coordinator()
+    threads = tf.train.start_queue_runners(sess=sess, coord=coord)
+    
+    # 实际的训练迭代次数
+    training_steps = 1000
+    for steps in range(training_steps):
+        sess.run([train_op])
+        # 出于调试和学习的目的，查看损失在训练过程中递减的情况
+        if step % 10 == 0:
+            print "loss: ", sess.run([total_loss])
+            
+    evaluate(sess, X, Y)
+    
+    coord.request_stop()
+    coord.join(threads)
+    sess.close()
+```
+
 ### 4.2 保存训练检查点
 
 为了避免多个训练周期运行的过程失败（如断电等原因），内存中的数据丢失，TensorFlow提供了保存检查点的方法。
@@ -763,6 +805,176 @@ saver.save(sess, 'my-model', global_step=1000) ==> filename: 'my-model-1000'
 ```
 
 `tf.train.get_checkpoint_state`可以用于验证之前是否有检查点文件被保存下来，可以使用`tf.train.Saver.restore`来恢复。
+
+### 4.3 线性回归
+
+```
+import tensorflow as tf
+
+# w1, w2, ..., wk为模型从训练数据中学习到的参数，或赋予每个变量的“权值”
+W = tf.Variable(tf.zeros([2,1]), name="weights")
+# b也是一个学习到的参数，这个线性代数中的常量也称为模型的偏置（bias）
+b = tf.Variable(0., name="bias")
+
+# 初始化变量和模型参数，定义训练闭环中的运算
+
+def inference(X):
+    # 计算推断模型在数据X上的输出，并将结果返回
+    return tf.matmul(X, W) + b
+def loss(X, Y):
+    # 依据训练数据X及其期望输出Y计算损失
+    Y_predicted = inference(X)
+    return tf.reduce_sum(tf.squared_difference(Y, Y_predicted))
+def inputs():
+    # 读取或生成训练数据X及其期望输出Y
+    weight_age = [[84,46],[73,20],[65,52],[70,30],
+                 [76,57],[69,25],[63,28],[72,36],[79,57],[75,44],
+                 [27,24],[89,31],[65,52],[57,23],[59,60],[69,48],
+                 [60,34],[79,51],[75,50],[82,34],[59,46],[67,23],
+                 [85,37],[55,40],[63,30]]
+    blood_fat_content = [354,190,405,263,451,302,288,
+                        385,402,365,209,290,346,254,395,434,220,374,308,
+                        220,311,181,274,303,244]
+    return tf.to_float(weight_age), tf.to_float(blood_fat_content)
+def train(total_loss):
+    # 依据计算的总损失训练或调整模型参数
+    learning_rate = 0.0000001
+    return tf.train.GradientDescentOptimizer(learning_rate).minimize(total_loss)
+def evaluate(sess, X, Y):
+    # 对训练得到的模型进行评估
+    print sess.run(inference([[80., 25.]])) # ~303
+    print sess.run(inference([[65., 25.]])) # ~256
+    
+# 在一个会话对象中启动数据流图，搭建流程
+with tf.Session() as sess:
+    tf.global_variables_initializer().run()
+    
+    X, Y = inputs()
+    total_loss = loss(X, Y)
+    train_op = train(total_loss)
+    
+    coord = tf.train.Coordinator()
+    threads = tf.train.start_queue_runners(sess=sess, coord=coord)
+    
+    # 实际的训练迭代次数
+    training_steps = 1000
+    for step in range(training_steps):
+        sess.run([train_op])
+        # 出于调试和学习的目的，查看损失在训练过程中递减的情况
+        if step % 10 == 0:
+            print "loss: ", sess.run([total_loss])
+            
+    evaluate(sess, X, Y)
+    
+    coord.request_stop()
+    coord.join(threads)
+    sess.close()
+
+"""
+loss:  [7608772.5]
+loss:  [5352849.5]
+loss:  [5350043.5]
+loss:  [5347918.5]
+loss:  [5346299.5]
+loss:  [5345061.0]
+loss:  [5344105.5]
+loss:  [5343361.0]
+loss:  [5342774.0]
+loss:  [5342306.0]
+loss:  [5341925.5]
+loss:  [5341611.0]
+loss:  [5341345.0]
+loss:  [5341115.5]
+loss:  [5340913.0]
+loss:  [5340733.0]
+loss:  [5340566.5]
+loss:  [5340413.5]
+loss:  [5340268.0]
+loss:  [5340128.0]
+loss:  [5339993.0]
+loss:  [5339860.5]
+loss:  [5339733.5]
+loss:  [5339606.0]
+loss:  [5339482.5]
+loss:  [5339357.5]
+loss:  [5339234.5]
+loss:  [5339112.0]
+loss:  [5338989.5]
+loss:  [5338869.0]
+loss:  [5338747.0]
+loss:  [5338624.5]
+loss:  [5338503.5]
+loss:  [5338385.0]
+loss:  [5338262.0]
+loss:  [5338141.0]
+loss:  [5338022.5]
+loss:  [5337900.5]
+loss:  [5337780.5]
+loss:  [5337661.0]
+loss:  [5337538.5]
+loss:  [5337418.5]
+loss:  [5337297.0]
+loss:  [5337177.5]
+loss:  [5337056.5]
+loss:  [5336936.5]
+loss:  [5336815.0]
+loss:  [5336695.5]
+loss:  [5336574.5]
+loss:  [5336455.0]
+loss:  [5336334.0]
+loss:  [5336213.0]
+loss:  [5336092.5]
+loss:  [5335973.0]
+loss:  [5335852.5]
+loss:  [5335732.5]
+loss:  [5335610.5]
+loss:  [5335491.5]
+loss:  [5335370.5]
+loss:  [5335250.0]
+loss:  [5335129.5]
+loss:  [5335009.0]
+loss:  [5334888.0]
+loss:  [5334768.5]
+loss:  [5334647.0]
+loss:  [5334526.5]
+loss:  [5334409.0]
+loss:  [5334287.0]
+loss:  [5334167.5]
+loss:  [5334048.0]
+loss:  [5333925.5]
+loss:  [5333806.0]
+loss:  [5333685.5]
+loss:  [5333565.5]
+loss:  [5333446.0]
+loss:  [5333326.0]
+loss:  [5333205.5]
+loss:  [5333085.0]
+loss:  [5332965.0]
+loss:  [5332844.5]
+loss:  [5332724.0]
+loss:  [5332603.5]
+loss:  [5332485.0]
+loss:  [5332363.5]
+loss:  [5332243.5]
+loss:  [5332123.5]
+loss:  [5332002.5]
+loss:  [5331883.5]
+loss:  [5331762.5]
+loss:  [5331642.0]
+loss:  [5331523.0]
+loss:  [5331403.0]
+loss:  [5331282.0]
+loss:  [5331162.0]
+loss:  [5331042.0]
+loss:  [5330922.5]
+loss:  [5330802.5]
+loss:  [5330682.0]
+loss:  [5330562.5]
+loss:  [5330442.5]
+[[ 320.64968872]]
+[[ 267.78182983]]
+"""
+```
 
 第三部分 用TensorFlow实现更高级的深度模型
 ------------------------------
