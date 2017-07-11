@@ -976,6 +976,193 @@ loss:  [5330442.5]
 """
 ```
 
+### 4.4 对数几率回归
+
+```
+import tensorflow as tf
+
+# w1, w2, ..., wk为模型从训练数据中学习到的参数，或赋予每个变量的“权值”
+W = tf.Variable(tf.zeros([5,1]), name="weights")
+# b也是一个学习到的参数，这个线性代数中的常量也称为模型的偏置（bias）
+b = tf.Variable(0., name="bias")
+
+# 初始化变量和模型参数，定义训练闭环中的运算
+
+
+def combine_inputs(X):
+    return tf.matmul(X, W) + b
+def inference(X):
+    # 计算推断模型在数据X上的输出，并将结果返回
+    return tf.sigmoid(combine_inputs(X))
+def loss(X, Y):
+    # 依据训练数据X及其期望输出Y计算损失
+    return tf.reduce_mean(tf.nn.sigmoid_cross_entropy_with_logits(labels=combine_inputs(X), logits=Y))
+def read_csv(batch_size, file_name, record_defaults):
+    filename_queue = tf.train.string_input_producer([os.getcwd() + '/www_kaggle_com_c_titanic_data/' + 'train.csv'])
+    reader = tf.TextLineReader(skip_header_lines=1)
+    key, value = reader.read(filename_queue)
+    
+    # decode_csv会将字符串（文本行）转换到具有制定默认值的由张量列构成的元组中
+    # 它还会为每一列设置数据类型
+    decoded = tf.decode_csv(value, record_defaults=record_defaults)
+    
+    # 实际上会读取一个文件，并加载一个张量中的batch_size行
+    return tf.train.shuffle_batch(decoded, batch_size=batch_size, capacity=batch_size*50, min_after_dequeue=batch_size)
+def inputs():
+    # 读取或生成训练数据X及其期望输出Y
+    passenger_id, survived, pclass, name, sex, age, sibsp, parch, ticket, far, cabin, embarked = \
+    read_csv(100, "train.csv",[[0.0],[0.0],[0],[""],[""],[0.0],[0.0],[0.0],[""],[0.0],[""],[""]])
+    
+    # 转换属性数据
+    is_first_class = tf.to_float(tf.equal(pclass, [1]))
+    is_second_class = tf.to_float(tf.equal(pclass, [2]))
+    is_third_class = tf.to_float(tf.equal(pclass, [3]))
+    
+    gender = tf.to_float(tf.equal(sex, ["female"]))
+    
+    # 最终将所有特征排列在一个矩阵中，然后对该矩阵转置，使其每行对应一个样本，每列对应一种特征
+    features = tf.transpose(tf.stack([is_first_class, is_second_class, is_third_class, gender, age]))
+    survived = tf.reshape(survived, [100, 1])
+    return features, survived
+def train(total_loss):
+    # 依据计算的总损失训练或调整模型参数
+    learning_rate = 0.01
+    return tf.train.GradientDescentOptimizer(learning_rate).minimize(total_loss)
+def evaluate(sess, X, Y):
+    # 对训练得到的模型进行评估
+    predicted = tf.cast(inference(X) > 0.5, tf.float32)
+    print sess.run(tf.reduce_mean(tf.cast(tf.equal(predicted, Y), tf.float32)))
+    
+# 在一个会话对象中启动数据流图，搭建流程
+with tf.Session() as sess:
+    tf.global_variables_initializer().run()
+    
+    X, Y = inputs()
+    total_loss = loss(X, Y)
+    train_op = train(total_loss)
+    
+    coord = tf.train.Coordinator()
+    threads = tf.train.start_queue_runners(sess=sess, coord=coord)
+    
+    # 实际的训练迭代次数
+    training_steps = 1000
+    for step in range(training_steps):
+        sess.run([train_op])
+        # 出于调试和学习的目的，查看损失在训练过程中递减的情况
+        if step % 10 == 0:
+            print "loss: ", sess.run([total_loss])
+            
+    evaluate(sess, X, Y)
+    
+    coord.request_stop()
+    coord.join(threads)
+    sess.close()
+
+"""
+loss:  [0.4146753]
+loss:  [-9.9209843]
+loss:  [-16.473705]
+loss:  [-30.623207]
+loss:  [-26.524206]
+loss:  [-37.088657]
+loss:  [-73.49585]
+loss:  [-56.52243]
+loss:  [-44.55378]
+loss:  [-67.915627]
+loss:  [-100.86734]
+loss:  [-133.81285]
+loss:  [-81.501984]
+loss:  [-112.81613]
+loss:  [-152.787]
+loss:  [-119.29928]
+loss:  [-145.54999]
+loss:  [-96.047249]
+loss:  [-160.92953]
+loss:  [-154.74629]
+loss:  [-158.18906]
+loss:  [-120.62285]
+loss:  [-153.21751]
+loss:  [-203.08315]
+loss:  [-189.31824]
+loss:  [-166.50395]
+loss:  [-235.06941]
+loss:  [-222.74605]
+loss:  [-281.27502]
+loss:  [-196.29082]
+loss:  [-243.93367]
+loss:  [-305.8689]
+loss:  [-307.06406]
+loss:  [-315.77426]
+loss:  [-239.95374]
+loss:  [-299.00003]
+loss:  [-355.53265]
+loss:  [-332.75497]
+loss:  [-237.66313]
+loss:  [-338.21695]
+loss:  [-424.03671]
+loss:  [-370.96313]
+loss:  [-268.30997]
+loss:  [-341.98462]
+loss:  [-387.80005]
+loss:  [-323.01978]
+loss:  [-370.51395]
+loss:  [-441.01422]
+loss:  [-526.23383]
+loss:  [-535.52118]
+loss:  [-433.04529]
+loss:  [-345.86426]
+loss:  [-445.31543]
+loss:  [-587.55524]
+loss:  [-379.97501]
+loss:  [-318.37878]
+loss:  [-432.22043]
+loss:  [-713.73596]
+loss:  [-507.35645]
+loss:  [-460.70758]
+loss:  [-402.5123]
+loss:  [-560.03967]
+loss:  [-587.06409]
+loss:  [-539.54858]
+loss:  [-500.38437]
+loss:  [-468.31735]
+loss:  [-514.57843]
+loss:  [-707.15466]
+loss:  [-391.24319]
+loss:  [-507.69235]
+loss:  [-718.83588]
+loss:  [-577.51465]
+loss:  [-422.61218]
+loss:  [-675.74921]
+loss:  [-812.72833]
+loss:  [-853.83502]
+loss:  [-601.40991]
+loss:  [-582.38068]
+loss:  [-836.48883]
+loss:  [-772.55798]
+loss:  [-635.3064]
+loss:  [-642.19971]
+loss:  [-789.34741]
+loss:  [-916.0271]
+loss:  [-811.26404]
+loss:  [-640.56854]
+loss:  [-721.82281]
+loss:  [-851.21814]
+loss:  [-752.29749]
+loss:  [-426.39117]
+loss:  [-1094.616]
+loss:  [-858.99475]
+loss:  [-835.15875]
+loss:  [-791.0567]
+loss:  [-842.05414]
+loss:  [-953.61694]
+loss:  [-566.24164]
+loss:  [-748.86047]
+loss:  [-645.68182]
+loss:  [-849.76483]
+0.37
+"""
+```
+
 第三部分 用TensorFlow实现更高级的深度模型
 ------------------------------
 
