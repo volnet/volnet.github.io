@@ -998,7 +998,7 @@ def loss(X, Y):
     # 依据训练数据X及其期望输出Y计算损失
     return tf.reduce_mean(tf.nn.sigmoid_cross_entropy_with_logits(labels=combine_inputs(X), logits=Y))
 def read_csv(batch_size, file_name, record_defaults):
-    filename_queue = tf.train.string_input_producer([os.getcwd() + '/www_kaggle_com_c_titanic_data/' + 'train.csv'])
+    filename_queue = tf.train.string_input_producer([os.getcwd() + '/data/www_kaggle_com_c_titanic_data/' + 'train.csv'])
     reader = tf.TextLineReader(skip_header_lines=1)
     key, value = reader.read(filename_queue)
     
