@@ -808,6 +808,8 @@ saver.save(sess, 'my-model', global_step=1000) ==> filename: 'my-model-1000'
 
 ### 4.3 线性回归
 
+线性回归的目标是找到一个与这些数据最为吻合的线性函数。
+
 ```
 import tensorflow as tf
 
@@ -977,6 +979,8 @@ loss:  [5330442.5]
 ```
 
 ### 4.4 对数几率回归
+
+对数几率是为了回答Yes-No类型的问题（如：这封邮件是否为垃圾邮件）的模型。
 
 ```
 import tensorflow as tf
@@ -1165,6 +1169,10 @@ loss:  [0.54117113]
 ```
 
 ### 4.5 softmax分类
+
+和对数几率类似，如果需要回答多个选项的问题，则可以使用softmax，如“你的出生地是波士顿、伦敦还是悉尼”。
+
+可以证明，当类别总数为2时，所得到的输出概率与对数几率回归模型的输出完全相同。
 
 ```
 import tensorflow as tf
