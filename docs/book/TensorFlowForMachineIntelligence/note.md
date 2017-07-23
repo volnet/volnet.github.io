@@ -1563,6 +1563,236 @@ tf.nn.conv2d还有一个参数data_format：该参数可取为“NHWC”或“NC
 
 用CNN学习复杂的模式并非只用一个单层卷积就可完成，即使上述示例代码中包含了一个tf.nn.relu层用于准备输出以便可视化，也是不够的。在CNN中，卷积层可多次出现，但通常也会包含其他类型的层。这些层联合起来构成了成功的CNN架构所必须的要素。
 
+### 5.3 常见层
+
+对图像识别和分类任务而言，更常见的情形是使用不同的层类型支持某个卷积层。这些层有助于减少过拟合，并可加速训练过程和降低内存占用率。
+
+#### 5.3.1 卷积层
+
+除了`tf.nn.conv2d`，还有：
+
+1. tf.nn.depthwise_conv2d：当需要将一个卷积层的输出连接到另一个卷积层的输入时，可使用这种卷积。
+2. tf.nn.separable_conv2d：它与`tf.nn.conv2d`类似，但并非后者的替代品。对于规模较大的模型，它可不牺牲准确率的前提下实现训练的加速。对于规模较小的模型，它能够快速收敛，但准确率较低。
+3. tf.nn.conv2d_transpose：它将一个卷积核应用于一个新的特征图，后者的每一部分都填充了与卷积核相同的值。当该卷积核遍历新图像时，任何重叠的部分都相加在一起。
+
+#### 5.3.2 激活函数
+
+这些函数与其他层的输出联合使用可生成特征图。它们用于对某些运算的结果进行平滑（或微分）。其目标是为神经网络引入非线性。非线性意味着输入和输出的关系是一条曲线，而非直线。曲线能够刻画输入中更为复杂的变化。例如，非线性映射能够描述那些大部分时间值都很小，但在某个单点会周期性地出现极值的输入。为神经网络引入非线性可使其对在数据中发现的复杂模式进行训练。
+
+评价某个激活函数是否有用时，可考虑下列为数不多的几个主要因素：
+
+- 单调的：这样输出便会随着输入的增长而增长，从而使利用梯度下降法寻找局部极值点成为可能。
+- 可微分的：以保证该函数定义域内的任意一点上导数都存在，从而使得梯度下降法能够正常使用来自这类激活函数的输出。
+
+1. tf.nn.relu：也叫“斜坡函数”，当输入为非负时，输出将与输入相同；而当输入为负时，输出均为0。
+```
+import tensorflow as tf
+​
+features = tf.range(-2, 3)
+with tf.Session() as sess:
+    print sess.run([features, tf.nn.relu(features)])
+    sess.close()
+# [array([-2, -1,  0,  1,  2], dtype=int32), array([0, 0, 0, 1, 2], dtype=int32)]
+```
+
+2. tf.sigmoid：返回值位于区间[0.0, 1.0]中。
+```
+import tensorflow as tf
+​
+features = tf.to_float(tf.range(-1, 3))
+with tf.Session() as sess:
+    print sess.run([features, tf.sigmoid(features)])
+    sess.close()
+# [array([-1.,  0.,  1.,  2.], dtype=float32), array([ 0.26894143,  0.5       ,  0.7310586 ,  0.88079703], dtype=float32)]
+```
+
+3. tf.tanh：与tf.sigmoid非常接近，返回值位于区间[-1.0, 1.0]中。
+```
+import tensorflow as tf
+​
+features = tf.to_float(tf.range(-1, 3))
+with tf.Session() as sess:
+    print sess.run([features, tf.tanh(features)])
+    sess.close()
+# [array([-1.,  0.,  1.,  2.], dtype=float32), array([-0.76159418,  0.        ,  0.76159418,  0.96402758], dtype=float32)]
+```
+
+4. tf.nn.dropout：当引入少量随机性有助于训练时，这个层会有很好的表现。这种层应该只在训练阶段使用。
+```
+import tensorflow as tf
+​
+features = tf.constant([-0.1, 0.0, 0.1, 0.2])
+with tf.Session() as sess:
+    print sess.run([features, tf.nn.dropout(features, keep_prob=0.5)])
+    sess.close()
+# [array([-0.1,  0. ,  0.1,  0.2], dtype=float32), array([-0.        ,  0.        ,  0.        ,  0.40000001], dtype=float32)]
+```
+
+#### 5.3.3 池化层
+
+池化层能够减少过拟合，并通过减小输入的尺寸来提高性能。它们可用于对输入降采样，但会为后续层保留重要的信息。
+
+1. tf.nn.max_pool：取出最大值，当输入数据的灰度与图像中的重要性相关时，这种池化方式非常有用。
+```
+import tensorflow as tf
+
+# 输入通常为前一层的输出，而非直接为图像 
+batch_size = 1
+input_height = 3
+input_width = 3
+input_channels = 1
+
+layer_input = tf.constant([
+    [
+        [[1.0], [0.2], [1.5]],
+        [[0.1], [1.2], [1.4]],
+        [[1.1], [0.4], [0.4]]
+    ]
+])
+
+# strides 会使用image_height和image_width遍历整个输入
+kernel = [batch_size, input_height, input_width, input_channels]
+max_pool = tf.nn.max_pool(layer_input, kernel, [1, 1, 1, 1], "VALID")
+
+with tf.Session() as sess:
+    print sess.run(max_pool)
+    sess.close()
+
+"""
+[[[[ 1.5]]]]
+"""
+```
+
+2. tf.nn.avg_pool：取出平均值，当整个卷积核都非常重要时，若需实现值的缩减，平均池化是非常有用的。
+```
+import tensorflow as tf
+
+batch_size = 1
+input_height = 3
+input_width = 3
+input_channels = 1
+
+layer_input = tf.constant([
+    [
+        [[1.0], [1.0], [1.0]],
+        [[1.0], [0.5], [0.0]],
+        [[0.0], [0.0], [0.0]]
+    ]
+])
+
+# strides 会使用image_height和image_width遍历整个输入
+kernel = [batch_size, input_height, input_width, input_channels]
+avg_pool = tf.nn.avg_pool(layer_input, kernel, [1, 1, 1, 1], "VALID")
+
+with tf.Session() as sess:
+    print sess.run(avg_pool)
+    sess.close()
+
+"""
+[[[[ 0.5]]]]
+"""
+```
+
+#### 5.3.4 归一化
+
+归一化的目标之一在于将输入保持在一个可接受的范围内。例如，将输入归一化到[0.0, 1.0]区间内将使输入中所有可能的分量归一化为一个大于等于0.0且小于等于1.0的值。
+
+```
+import tensorflow as tf
+
+layer_input = tf.constant([
+    [[[1.]], [[2.]], [[3.]]]
+])
+lrn = tf.nn.local_response_normalization(layer_input)
+with tf.Session() as sess:
+    print sess.run([layer_input, lrn])
+    sess.close()
+"""
+[array([[[[ 1.]],
+
+        [[ 2.]],
+
+        [[ 3.]]]], dtype=float32), array([[[[ 0.70710677]],
+
+        [[ 0.89442718]],
+
+        [[ 0.94868326]]]], dtype=float32)]
+"""
+```
+
+#### 5.3.5 高级层
+
+1. tf.contrib.layers.convolution2d
+
+convolution2d层与tf.nn.conv2d的逻辑相同，但还包括权值初始化、偏置初始化、可训练的变量输出、偏置相加以及添加激活函数的功能。
+```
+import tensorflow as tf
+
+image_input = tf.constant([
+    [
+        [[0., 0., 0.], [255., 255., 255.], [254., 0., 0.]],
+        [[0., 191., 0.], [3., 108., 233.], [0., 191., 0.]],
+        [[254., 0., 0.], [255., 255., 255.], [0., 0., 0.]]
+    ]
+])
+
+conv2d = tf.contrib.layers.convolution2d(
+    image_input,
+    num_outputs=4,
+    kernel_size=(1,1), # 这里仅有滤波器的高度和宽度
+    activation_fn=tf.nn.relu,
+    stride=(1, 1), # 对image_batch和input_channels的跨度值
+    trainable=True)
+
+# 有必要对在convolution2d的设置中所使用的变量初始化
+with tf.Session() as sess:
+    sess.run(tf.global_variables_initializer())
+    print sess.run(conv2d)
+    sess.close()
+
+"""
+[[[[   0.            0.            0.            0.        ]
+   [   0.          216.5531311    36.19777298  143.79277039]
+   [   0.          104.80976868   13.69223595  193.31230164]]
+
+  [[   0.           47.72636414    0.            0.        ]
+   [   0.           71.72908783   40.20363235    0.        ]
+   [   0.           47.72636414    0.            0.        ]]
+
+  [[   0.          104.80976868   13.69223595  193.31230164]
+   [   0.          216.5531311    36.19777298  143.79277039]
+   [   0.            0.            0.            0.        ]]]]
+"""
+```
+
+2. tf.contrib.layers.fully_connected
+在全连接层中，每个输入和输出之间都存在连接。在许多架构中，这个层都极为常见。对于CNN，最后一层通常都是全连接层。
+
+```
+import tensorflow as tf
+
+features = tf.constant([
+    [[1.2], [3.4]]
+])
+
+fc = tf.contrib.layers.fully_connected(features, num_outputs=2)
+
+with tf.Session() as sess:
+    sess.run(tf.global_variables_initializer())
+    print sess.run([features, fc])
+    sess.close()
+
+"""
+[array([[[ 1.20000005],
+        [ 3.4000001 ]]], dtype=float32), array([[[ 0.60588932,  0.80062568],
+        [ 1.71668637,  2.26843953]]], dtype=float32)]
+"""
+```
+
+3. 输入层
+
+无论是训练还是测试，原始输入都需要传递给输入层。对于目标识别与分类，输入层为tf.nn.conv2d，它负责接收图像。
+
 第6章 循环神经网络与自然语言处理
 ------------------------------
 
