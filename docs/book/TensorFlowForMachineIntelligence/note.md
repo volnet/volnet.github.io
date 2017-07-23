@@ -1874,7 +1874,7 @@ HSV是色度（Hue）、饱和度（Saturation）和纯度（Value），有时�
 
 TensorFlow原生不支持。
 
-Python库python-colormath为LAB和其他本书未提及的颜色空间提供了转换支持。
+Python库python-colormath为LAB和其他本书未提及的颜色空间提供了转换支持。
 
 5. 图像数据类型转换
 
