@@ -1549,6 +1549,10 @@ with tf.Session() as sess:
 
 在大多数比较简单的情形下，SAME都是一个不错的选择。当指定跨度参数后，如果输入和卷积核能够很好地工作，则推荐使用VALID。
 
+#### 5.2.4 数据格式
+
+tf.nn.conv2d还有一个参数data_format：该参数可取为“NHWC”或“NCHW”，默认值为“NHWC”，用于指定输入和输出数据的格式。当取默认格式“NHWC”时，数据的存储顺序为`[batch, in_height, in_width, in_channels]`。若该参数为“NCHW”，数据存储顺序为`[batch, in_chinnels, in_height, in_width]`。
+
 第6章 循环神经网络与自然语言处理
 ------------------------------
 
