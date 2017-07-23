@@ -1829,8 +1829,8 @@ JPEG图像不会存储任何的alpha通道的信息，但PNG图像会。
 
 1. 裁剪
 
-- `tf.image.central_corp`：将图像中心按比例切出。
-- `tf.image.crop_to_bounding_box`：按指定位置大小切出。
+- `tf.image.central_corp`：将图像中心按比例裁剪出。
+- `tf.image.crop_to_bounding_box`：按指定位置大小裁剪出。
 
 2. 边界填充
 
