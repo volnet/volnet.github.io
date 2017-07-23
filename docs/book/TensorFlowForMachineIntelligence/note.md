@@ -1793,6 +1793,93 @@ with tf.Session() as sess:
 
 无论是训练还是测试，原始输入都需要传递给输入层。对于目标识别与分类，输入层为tf.nn.conv2d，它负责接收图像。
 
+### 5.4 图像与TensorFlow
+
+#### 5.4.1 加载图像
+
+需要在运算前将图像完整加载到内存中。
+
+```
+image_filename = "./images/test.jpg"
+filename_queue = tf.train.string_input_producer(
+    tf.train.match_filename_once(image_filename)
+)
+image_reader = tf.WholeFileReader()
+_, image_file = image_reader.read(filename_queue)
+image = tf.image.decode_jpeg(image_file)
+
+sess.run(image)
+```
+
+#### 5.4.2 图像格式
+
+1. JPEG与PNG
+
+JPEG图像不会存储任何的alpha通道的信息，但PNG图像会。
+
+使用JPEG图像时，不要进行过于频繁的操作，因为这样会留下一些伪影。
+
+2. TFRecord
+
+为将二进制数据和标签（训练的类别标签）数据存储在同一个文件中，TensorFlow设计了一种内置文件格式，该格式被称为TFRecord，它要求在模型训练之前通过一个预处理步骤将图像转换为TFRecord格式。该格式的最大优点是将每幅输入图像和与之关联的标签放在同一个文件中。
+
+尽管TFRecord文件并非必须，但在使用图像数据时，却是强烈推荐的。
+
+#### 5.4.3 图像操作
+
+1. 裁剪
+
+- `tf.image.central_corp`：将图像中心按比例切出。
+- `tf.image.crop_to_bounding_box`：按指定位置大小切出。
+
+2. 边界填充
+
+- `tf.image.pad_to_bounding_box`：对于尺寸过小的图像，该方法会围绕该图像的边界填充一些灰度值为0的像素。
+- `tf.image.resize_image_with_corp_or_pad`：对于长宽比不一致的图像，可以使用这个方法来裁剪和边界填充。
+
+3. 翻转
+
+- `tf.image.flip_left_right`：水平翻转
+- `tf.image.flip_up_down`：垂直翻转
+- `tf.image.random_flip_left_right`：随机水平翻转
+- `tf.image.random_flip_up_down`：随机垂直翻转
+
+4. 饱和与平衡
+
+- `tf.image.adjust_brightness`：调整灰度（亮度）
+- `tf.image.adjust_contrast`：调整对比度
+- `tf.image.adjust_hue`：调整色度（色调）
+- `tf.image.adjust_saturation`：调整饱和度
+
+#### 5.4.4 颜色
+
+1. 灰度
+
+- `tf.image.rgb_to_grayscale`：将RGB转化为灰度
+
+2. HSV空间
+
+HSV是色度（Hue）、饱和度（Saturation）和纯度（Value），有时也被称为HSB（Brightness）
+
+- `tf.image.rgb_to_hsv`：将rgb转化为HSV
+
+3. RGB空间
+
+大部分情况下都是用RGB空间，TensorFlow提供了从其他的空间转换过来的方法。
+
+- `tf.image.hsv_to_rbg`：将HSV转化为RGB
+- `tf.image.grayscale_to_rbg`：将灰度转化为RGB
+
+4. LAB空间
+
+TensorFlow原生不支持。
+
+Python库python-colormath为LAB和其他本书未提及的颜色空间提供了转换支持。
+
+5. 图像数据类型转换
+
+- `tf.image.convert_image_dtype(image, dtype, saturate=False)`：将图像的数据类型从tf.uint8更改为tf.float的便捷方法。
+
 第6章 循环神经网络与自然语言处理
 ------------------------------
 
