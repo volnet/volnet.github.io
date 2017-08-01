@@ -1880,6 +1880,16 @@ Python库python-colormath为LAB和其他本书未提及的颜色空间提供了�
 
 - `tf.image.convert_image_dtype(image, dtype, saturate=False)`：将图像的数据类型从tf.uint8更改为tf.float的便捷方法。
 
+### 5.5 CNN的实现
+
+本章的网络架构采取了Alex Krizhevsky的AlexNet的简化版本。
+
+#### 5.5.1 Stanford Dogs数据集
+
+下载图像地址：http://vision.stanford.edu/aditya86/ImageNetDogs/
+
+
+
 第6章 循环神经网络与自然语言处理
 ------------------------------
 
