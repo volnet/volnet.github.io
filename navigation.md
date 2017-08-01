@@ -30,6 +30,8 @@
   * [另一扇门](/blog)
   * # Coffee
   * [私人咖啡馆（1）——初级入门](docs/life/coffee/coffee-introduce.md)
+  * # Skills
+  * [演讲的小技巧](docs/life/skills/speech.md)
 
 [奇思妙想]()
 
