@@ -1,4 +1,4 @@
-演讲的小技巧
+演讲的技巧
 ====================
 
 ![](/docs/life/skills/contents/speech.jpg)
