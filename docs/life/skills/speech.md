@@ -71,3 +71,4 @@
 
 1. 百度百科-演讲技巧 https://baike.baidu.com/item/演讲技巧
 2. 三个演讲技巧使你的演讲更成功 http://www.mifengtd.cn/articles/three-presentation-skils-from-presentation-magazine.html
+3. 朋友语录
