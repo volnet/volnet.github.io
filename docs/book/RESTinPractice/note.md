@@ -953,7 +953,30 @@ OpenID是一个以Web为中心的协议。它使用URI作为消费者的身份�
 
 #### Java中的OpenID
 
+OpenID的三种角色中：OpenID Provider（提供者）扮演的是匿名优惠卡的提供方、Restbucks（是依赖方）扮演咖啡提供商，依赖于提供者提供的OpenID进行优惠卡消费、顾客扮演Consumer（消费者）。
 
+因此三种角色的代码逻辑分为以下三大块：
+
+1. 启用OpenID的消费者的Java实现
+    1. 消费者从Restbucks拿到优惠表单，填写`openid_identifier`。
+    2. 将`openid_identifier`发送给Restbucks，并收到一个需要转交给OpenID的不透明信息。
+    3. 将不透明信息传递给OpenID提供者。
+    4. OpenID提供者返回一个登录表单给消费者，要求其提供确认身份的方式。
+    5. 登录成功后，OpenID提供者返回一个不透明数据，包含是否登录成功的信息给消费者。
+    6. 消费者将登录后得到的不透明数据，发给Restbucks。
+2. Restbucks订单服务的Java实现
+    1. 接受OpenID URI标识的客户。（对应上一个环节的步骤1：消费者从Restbucks拿到优惠表单）
+    2. 与OpenID提供者创建关联。（拿到用户的`openid_identifier`后，Restbucks在后台与OpenID提供者进行发现和关联）
+    3. 通过消费者与OpenID提供者进行间接通信。（对应上一个环节的步骤2、3）
+    4. 如果消费者通过了认证，能将消费情况记录到对应的优惠卡中。
+3. OpenID提供者的Java实现
+    1. 发现（discover），提供了一个能够解释OpenID的入口。
+    2. 关联（association），作者使用OpenID4J包的ServerManager的assocationResponse方法来处理。[具体可以参考这里：http://openid.net.cn/specs/openid-authentication-2_0-zh_CN.html#associations](http://openid.net.cn/specs/openid-authentication-2_0-zh_CN.html#associations)
+    3. 认证（authentication），作者使用OpenID4J包的ServerManager的authResponse方法来处理。这个步骤是在消费者已经通过了身份认证之后。
+
+#### OpenID的实践考虑
+
+OpenID在企业中因为明确指定了OpenID的提供者，因此不存在对提供者的信任问题，因此也可以广泛应用在企业中。
 
 第10章 语义
 ------------------------------------------
