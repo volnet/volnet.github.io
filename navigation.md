@@ -41,7 +41,7 @@
 [文章]()
 
   * # 每天听本书
-  * [文章列表](docs/article/catelog.md)
+  * [文章列表](docs/article/catalog.md)
 
 [技术]()
 
