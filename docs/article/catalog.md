@@ -16,7 +16,11 @@
 
 2016年11月，得到APP，每天听本书
 
-1. [创业融资，从一个好故事开始](the-six-secrets-of-raising-capital-an-insider-s-guide-for-entrepreneurs)
+1. [《创业融资，从一个好故事开始》| 荔枝酱解读](the-six-secrets-of-raising-capital-an-insider-s-guide-for-entrepreneurs.md)
+
+2016年12月，得到APP，每天听本书
+
+1. [《创业，如何搞定风投》| 张凯](mastering-the-VC-game.md)
 
 2017年3月，得到APP，每天听本书
 
