@@ -1,6 +1,8 @@
 《解决冲突的关键技巧》| 张凯解读
 =============================
 
+购买链接：[亚马逊](https://www.amazon.cn/s?_encoding=UTF8&field-keywords=Changing%20The%20Conversation%20The%2017&search-alias=books)
+
 本书作者：
 -----------------------
 
