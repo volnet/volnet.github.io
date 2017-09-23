@@ -41,7 +41,7 @@
 [文章]()
 
   * # 每天听本书
-  * [解决冲突的关键技巧](docs/article/the-key-to-resolve-conflicts.md)
+  * [文章列表](docs/article/catelog.md)
 
 [技术]()
 
