@@ -18,7 +18,7 @@
 
 伟大的商业创意不会获得融资。关键还要看怎么展示自己的创意，融资最好的方法就是，向你的投资人讲一个好故事。
  
-![](the-six-secrets-of-raising-capital-an-insider-s-guide-for-entrepreneurs/001.jpg)
+![](the-six-secrets-of-raising-capital-an-insider-s-guide-for-entrepreneurs/001.JPG)
 
 一、一个好的故事应该具备三个特点：
 
