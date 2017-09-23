@@ -31,3 +31,4 @@
 
 1. [《巴菲特法则》| 一颗桃解读](warren-buffett.md)
 2. [《伯罗奔尼撒战争1》| 张凯解读](the-peloponnesian-war-1.md)
+3. [《伯罗奔尼撒战争2》| 张凯解读](the-peloponnesian-war-2.md)
