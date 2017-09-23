@@ -38,6 +38,11 @@
   * # Markdown
   * [Markdown表格工具](programs/Markdown/MarkdownTable.html)
 
+[文章]()
+
+  * # 每天听本书
+  * [解决冲突的关键技巧](docs/article/the-key-to-resolve-conflicts.md)
+
 [技术]()
 
   * # Git Tips
