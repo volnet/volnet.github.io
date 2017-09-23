@@ -20,7 +20,11 @@
 
 2016年12月，得到APP，每天听本书
 
-1. [《创业，如何搞定风投》| 张凯](mastering-the-VC-game.md)
+1. [《创业，如何搞定风投》| 张凯解读](mastering-the-VC-game.md)
+
+2017年2月，得到APP，每天听本书
+
+1. [《好好说话1》| 张凯解读](good-communication-1.md)
 
 2017年3月，得到APP，每天听本书
 
