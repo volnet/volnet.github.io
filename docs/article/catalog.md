@@ -25,7 +25,9 @@
 2017年2月，得到APP，每天听本书
 
 1. [《好好说话1》| 张凯解读](good-communication-1.md)
+2. [《好好说话2》| 张凯解读](good-communication-2.md)
 
 2017年3月，得到APP，每天听本书
 
 1. [《巴菲特法则》| 一颗桃解读](warren-buffett.md)
+2. [《伯罗奔尼撒战争1》| 张凯解读](the-peloponnesian-war-1.md)
