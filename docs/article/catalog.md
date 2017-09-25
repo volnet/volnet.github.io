@@ -8,12 +8,13 @@
 
 2016年10月，得到APP，每天听本书
 
-1. [《这样和世界相处》| 张凯解读](a-challenge-to-manking.md)
-2. [《知道做到》| 成甲解读](know-can-do.md)
-3. [《全新思维：决胜未来的6大能力》| 张凯解读](a-whole-new-mind.md)
-4. [《精益创业》| 孟佳解读](the-lean-startup.md)
-5. [《学会提问》| 成甲解读](asking-the-right-question.md)
-6. [《解决冲突的关键技巧》| 张凯解读](changing-the-conversation-the-17.md)
+1. [《解决冲突的关键技巧》| 张凯解读](changing-the-conversation-the-17.md)
+2. [《学会提问》| 成甲解读](asking-the-right-question.md)
+3. [《精益创业》| 孟佳解读](the-lean-startup.md)
+4. [《黑天鹅》| 成甲解读](the-black-swan.md)
+5. [《全新思维：决胜未来的6大能力》| 张凯解读](a-whole-new-mind.md)
+6. [《知道做到》| 成甲解读](know-can-do.md)
+7. [《这样和世界相处》| 张凯解读](a-challenge-to-manking.md)
 
 2016年11月，得到APP，每天听本书
 
