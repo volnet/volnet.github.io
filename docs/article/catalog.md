@@ -54,3 +54,4 @@
 7. [《2010:太空漫游》| 怀沙解读](a-space-odyssey-2010.md)
 8. [《2061:太空漫游》| 怀沙解读](a-space-odyssey-2061.md)
 9. [《3001:太空漫游》| 怀沙解读](a-space-odyssey-3001.md)
+10. [《故事思维》| 张玥解读](the-story-factor.md)
