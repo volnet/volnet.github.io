@@ -50,3 +50,7 @@
 3. [《三体II：黑暗森林（下）》| 怀沙解读](the-three-body-problem-2-2.md)
 4. [《三体II：死神永生（上）》| 怀沙解读](the-three-body-problem-3-1.md)
 5. [《三体II：死神永生（下）》| 怀沙解读](the-three-body-problem-3-2.md)
+6. [《2001:太空漫游》| 怀沙解读](a-space-odyssey-2001.md)
+7. [《2010:太空漫游》| 怀沙解读](a-space-odyssey-2010.md)
+8. [《2061:太空漫游》| 怀沙解读](a-space-odyssey-2061.md)
+9. [《3001:太空漫游》| 怀沙解读](a-space-odyssey-3001.md)
