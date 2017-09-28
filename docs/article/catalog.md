@@ -61,3 +61,7 @@
 14. [《美好生活》| 韩巍解读](den-kultiverade-manniskan.md)
 15. [《幸福的方法》| 苏菲解读](happier.md)
 16. [《山海经》| 郑学解读](the-classic-of-mountains-and-seas.md)
+17. [《品牌洗脑》| 陈药师解读](brand-washed.md)
+18. [《说话的力量》| 乐多解读](words-that-works.md)
+19. [《被仰望与被遗忘的》| 玉裁解读](fame-and-obscurity.md)
+20. [《伟大创意的诞生》| 田正赓解读](where-good-ideas-come-from.md)
