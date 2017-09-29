@@ -65,3 +65,6 @@
 18. [《说话的力量》| 乐多解读](words-that-works.md)
 19. [《被仰望与被遗忘的》| 玉裁解读](fame-and-obscurity.md)
 20. [《伟大创意的诞生》| 田正赓解读](where-good-ideas-come-from.md)
+21. [《新教伦理和资本主义精神》| 果旭风解读](die-protestantische-ethik-und-der-geist-des-kapitalismus.md)
+22. [《如何做出正确决策》| 成甲解读](sources-of-power-how-people-make-decisions.md)
+23. [《跨越鸿沟》| 仲为国解读](crossing-the-chasm.md)
