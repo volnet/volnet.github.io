@@ -69,3 +69,4 @@
 22. [《如何做出正确决策》| 成甲解读](sources-of-power-how-people-make-decisions.md)
 23. [《跨越鸿沟》| 仲为国解读](crossing-the-chasm.md)
 24. [《人生的智慧》| 王旭解读](the-wisdom-of-life.md)
+25. [《全脑教养法》| 苏菲解读](the-whole-brain-child.md)
