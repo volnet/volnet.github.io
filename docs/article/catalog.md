@@ -70,3 +70,5 @@
 23. [《跨越鸿沟》| 仲为国解读](crossing-the-chasm.md)
 24. [《人生的智慧》| 王旭解读](the-wisdom-of-life.md)
 25. [《全脑教养法》| 苏菲解读](the-whole-brain-child.md)
+26. [《人性中的善良天使（上）》| 韩巍解读](the-better-angels-of-our-nature-1.md)
+27. [《人性中的善良天使（下）》| 韩巍解读](the-better-angels-of-our-nature-2.md)
