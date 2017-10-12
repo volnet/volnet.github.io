@@ -79,3 +79,6 @@
 32. [《20世纪最伟大的心理学实验（下）》| 秋秋解读](opening-skinner-s-box-2.md)
 33. [《流血的仕途：李斯与秦帝国（上）》| 梁淼解读](liuxiedeshitu-1.md)
 34. [《流血的仕途：李斯与秦帝国（下）》| 梁淼解读](liuxiedeshitu-2.md)
+35. [《我包罗万象》| 季火解读](i-contain-multitudes.md)
+36. [《人人都会说谎》| 季火解读](everybody-lies.md)
+37. [《高效的秘密》| 冰柠解读](the-secrets-of-being-productive-in-life-and-business.md)
