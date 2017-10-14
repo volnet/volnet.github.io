@@ -82,3 +82,7 @@
 35. [《我包罗万象》| 季火解读](i-contain-multitudes.md)
 36. [《人人都会说谎》| 季火解读](everybody-lies.md)
 37. [《高效的秘密》| 冰柠解读](the-secrets-of-being-productive-in-life-and-business.md)
+38. [《高盛帝国》| 戈小羊解读](the-partnership.md)
+39. [《智识分子》| 王海解读](intellectural-thinking.md)
+40. [《魔鬼出没的世界》| 汪花生解读](the-demon-haunted-world.md)
+41. [《惊人的假说》| 无锋解读](astonishing-hypothesis.md)
