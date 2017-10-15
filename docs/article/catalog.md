@@ -86,3 +86,4 @@
 39. [《智识分子》| 王海解读](intellectural-thinking.md)
 40. [《魔鬼出没的世界》| 汪花生解读](the-demon-haunted-world.md)
 41. [《惊人的假说》| 无锋解读](astonishing-hypothesis.md)
+42. [《科学究竟是什么》| 汪花生解读](what-is-this-thing-called-science.md)
