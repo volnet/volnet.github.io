@@ -93,3 +93,7 @@
 46. [《由内而外的教养》| 秋秋解读](arenting-from-the-inside-out.md)
 47. [《商业的本质》| 王其解读](the-real-life-mba.md)
 48. [《好战略，坏战略》| 王海解读](good-strategy-bad-strategy.md)
+49. [《优势谈判》| 闫霖解读](secrets-of-power-negotiating.md)
+50. [《向前一步》| 苏菲解读](lean-in-for-graduates.md)
+51. [《平台战略》| 曾翔解读](platform-strategy.md)
+52. [《像间谍一样思考》| 成甲解读](work-like-a-spy.md)
