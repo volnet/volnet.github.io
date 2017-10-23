@@ -97,3 +97,7 @@
 50. [《向前一步》| 苏菲解读](lean-in-for-graduates.md)
 51. [《平台战略》| 曾翔解读](platform-strategy.md)
 52. [《像间谍一样思考》| 成甲解读](work-like-a-spy.md)
+53. [《潜意识》| 梁境心解读](subliminal.md)
+54. [《所谓会说话，就是会换位思考》| 冰柠解读](her-ladyship-s-guide-to-the-art-of-conversation.md)
+55. [《创始人精神》| 冰柠解读](the-founder-s-mentality.md)
+56. [《说谎心理学》| 梁境心解读](born-liars.md)
