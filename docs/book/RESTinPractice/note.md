@@ -996,6 +996,30 @@ OAuth的参与方主要有三个：
 
 OAuth定义了三种不同的身份凭证类型：客户端凭证、临时凭证、令牌凭证。每一组凭证都包括一个唯一的标识符和一个共享的秘密（shared secret）。
 
+#### OAuth协议范例
+
+所有的假设都是在计算机和计算机之间完成的：
+
+- 客户端（顾客），向代金券提供者发起GET请求，获取代金券列表。
+- 客户端（顾客），挑选1张代金券，向服务器（Restbucks）发起PUT请求，表明要使用该代金券。
+    - 服务器（Restbucks）收到代金券后，需要使用代金券服务来兑现代金券。
+    - 服务器（Restbucks）向代金券提供者发起DELETE请求，尝试使用代金券。
+    - 代金券提供者返回401表示未验证的请求，请先提供OAuth凭证我才能让你兑换。
+    - 服务器（Restbucks）将它的OAuth客户端凭证向代金券服务发送POST请求，来回应质询。（包括：`oauth_signature`, `oauth_signature_method`, `oauth_timestamp`, `oauth_nonce`, `oauth_custom_key`, `oauth_callback`, `oauth_version`等）
+    - 代金券提供者收到请求后，使用存储的密钥来对请求中提供的数字签名进行验证，从而决定请求是否有效。如果请求是有效的，返回一个临时凭证（`oauth_token`, `oauth_token_secret`, `oauth_callback_confirmed`）。
+    - 服务器（Restbucks）存储临时秘密（`oauth_token_secret`)用于后续操作，并向客户端（顾客）响应303重定向，让顾客回到代金券提供商的页面a（参数里面带有了临时令牌`oauth_token`）。
+- 客户端（顾客）收到303重定向后，向代金券提供者发起GET请求，请求中包含代金券提供者发给服务器（Restbucks）的临时令牌`oauth_token`。
+    - 代金券提供者返回给客户端（顾客）一个页面a，让用户确认身份（这里需要用户输入密码）。
+    - 代金券提供者收到密码后，如果验证通过，就给客户端（顾客）发送一个重定向，让顾客回到服务器（Restbucks），并包含了一个给服务器（Restbucks）的验证码（`oauth_verifier`）。
+- 客户端（顾客）收到重定向请求后，向服务器（Restbucks）发送了GET请求，告诉服务器（Restbucks）验证码（`oauth_verifier`）是什么。
+    - 服务端（Restbucks）收到验证码（`oauth_verifier`）后，向代金券提供者发送了POST请求，用临时秘密（`outh_token_secret`）给获取令牌的请求做签名，将临时令牌（`oauth_token`）、验证码（`oauth_verifier`）发给代金券提供者。
+    - 代金券提供者收到后，验证通过，给服务器（Restbucks）发送令牌凭证（`正式oauth_token`）和令牌秘密（`正式oauth_token_secret`），这个令牌用于访问客户端（顾客）授权访问的资源，理论上可以存储并使用多次，但是本示例中，只使用一次。
+    - 服务端（Restbucks）向代金券提供者发起DELETE请求，尝试使用代金券，和上次不同，这次带上了令牌凭证（`正式oauth_token`），代金券兑换成功，返回200给服务端（Restbucks）。
+    - 服务端（Restbucks）收到请求后，返回200给客户端（顾客）。
+- 客户端（顾客）向代金券提供者发起GET请求，查看代金券的Atom提要，检查虚拟钱包的状态，代金券是否已经被兑换了。
+
+### OAuth的Java实现
+
 第10章 语义
 ------------------------------------------
 
