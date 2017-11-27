@@ -4,7 +4,9 @@
 Lean Enterprise —— How High Performance Organizations Innovate at Scale
 
 [英]Jez Humble [加]Joanne Molesky [爱尔兰]Barry O'Reilly 著
+
 [美]埃里克·莱斯 丛书主编
+
 姚安峰 韩锴 译
 
 ![](contents/cover.jpg)
