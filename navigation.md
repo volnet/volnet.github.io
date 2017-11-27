@@ -4,25 +4,25 @@
 [读书笔记]()
 
   * # 行业观察
-  * [吴军-硅谷之谜](docs/book/吴军-硅谷之谜/note.md)
-  * [埃里克·施密特-谷歌是如何运营的](docs/book/HowGoogleWorks/note.md)
-  * [尤瓦尔赫拉利-未来简史-从智人到神人](docs/book/尤瓦尔赫拉利-未来简史-从智人到神人/note.md)
+  * [吴军-硅谷之谜](docs/book/吴军-硅谷之谜/README.md)
+  * [埃里克·施密特-谷歌是如何运营的](docs/book/HowGoogleWorks/README.md)
+  * [尤瓦尔赫拉利-未来简史-从智人到神人](docs/book/尤瓦尔赫拉利-未来简史-从智人到神人/README.md)
   * # 大数据
-  * [车品觉-决战大数据](docs/book/车品觉-决战大数据/note.md)
-  * [吴军-智能时代](docs/book/吴军-智能时代/note.md)
-  * [面向机器智能的TensorFlow实践](docs/book/TensorFlowForMachineIntelligence/note.md)
-  * [机器学习](docs/book/MachineLearning/note.md)
+  * [车品觉-决战大数据](docs/book/车品觉-决战大数据/README.md)
+  * [吴军-智能时代](docs/book/吴军-智能时代/README.md)
+  * [面向机器智能的TensorFlow实践](docs/book/TensorFlowForMachineIntelligence/README.md)
+  * [机器学习](docs/book/MachineLearning/README.md)
   * # 程序设计
-  * [Head First Python](docs/book/HeadFirstPython/note.md)
+  * [Head First Python](docs/book/HeadFirstPython/README.md)
   * # 云计算
-  * [The Docker Book](docs/book/TheDockerBook/note.md)
+  * [The Docker Book](docs/book/TheDockerBook/README.md)
   * # 微服务
-  * [微服务设计](docs/book/BuildingMicroservices/note.md)
-  * [REST实战](docs/book/RESTinPractice/note.md)
+  * [微服务设计](docs/book/BuildingMicroservices/README.md)
+  * [REST实战](docs/book/RESTinPractice/README.md)
   * # NoSQL
-  * [MongoDB应用设计模式](docs/book/MongoDBAppliedDesignPatterns/note.md)
+  * [MongoDB应用设计模式](docs/book/MongoDBAppliedDesignPatterns/README.md)
   * # 前端技术
-  * [Bootstrap实战](docs/book/BootstrapSiteBlueprints/note.md)
+  * [Bootstrap实战](docs/book/BootstrapSiteBlueprints/README.md)
 
 [生活]()
 
