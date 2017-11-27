@@ -7,6 +7,7 @@
   * [吴军-硅谷之谜](docs/book/吴军-硅谷之谜/README.md)
   * [埃里克·施密特-谷歌是如何运营的](docs/book/HowGoogleWorks/README.md)
   * [尤瓦尔赫拉利-未来简史-从智人到神人](docs/book/尤瓦尔赫拉利-未来简史-从智人到神人/README.md)
+  * [精益企业-高效能组织如何规模化创新](docs/book/LeanEnterprise/README.md)
   * # 大数据
   * [车品觉-决战大数据](docs/book/车品觉-决战大数据/README.md)
   * [吴军-智能时代](docs/book/吴军-智能时代/README.md)
