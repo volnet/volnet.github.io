@@ -17,8 +17,8 @@
 4. [《为你，耶路撒冷》| 风君解读](o-jerusalem.md)
 5. [《平台战略》| 曾翔解读](platform-strategy.md)
 6. [《魔鬼出没的世界》| 汪花生解读](the-demon-haunted-world.md)
-7. [《最强大脑》| Kerena解读]()
-8. [《在线》| 丁雨解读]()
+7. [《最强大脑》| Kerena解读](the-human-advantage.md)
+8. [《在线》| 丁雨解读](online.md)
 
 心理学
 ----------------------
@@ -81,11 +81,11 @@
 19. [《流血的仕途：李斯与秦帝国（下）》| 梁淼解读](liuxiedeshitu-2.md)
 20. [《人性中的善良天使（上）》| 韩巍解读](the-better-angels-of-our-nature-1.md)
 21. [《人性中的善良天使（下）》| 韩巍解读](the-better-angels-of-our-nature-2.md)
-22. [《硅谷之谜》| 王海解读]()
-23. [《文明之光1》| 张凯解读]()
-24. [《文明之光2》| 张凯解读]()
-25. [《近代英国工业革命揭秘》| 段宇宏解读]()
-26. [《第二次世界大战的起源》| 何东城解读]()
+22. [《硅谷之谜》| 王海解读](silicon-valley.md)
+23. [《文明之光1》| 张凯解读](tech-history-01.md)
+24. [《文明之光2》| 张凯解读](tech-history-02.md)
+25. [《近代英国工业革命揭秘》| 段宇宏解读](the-british-industrial-revolution-in-global-perspective.md)
+26. [《第二次世界大战的起源》| 何东城解读](the-origins-of-the-second-world-war-in-asia-and-the-pacific.md)
 
 自我管理
 ----------------------
@@ -136,9 +136,9 @@
 7. [《2010:太空漫游》| 怀沙解读](a-space-odyssey-2010.md)
 8. [《2061:太空漫游》| 怀沙解读](a-space-odyssey-2061.md)
 9. [《3001:太空漫游》| 怀沙解读](a-space-odyssey-3001.md)
-10. [《地光》]()
-11. [《遥远地球之歌》]()
-12. [《最后一个地球人》]()
+10. [《地光》| 怀沙解读](earthlight.md)
+11. [《遥远地球之歌》| 怀沙解读](the-songs-from-distant-earth.md)
+12. [《最后一个地球人》 | 怀沙解读](childhoods-end.md)
 
 沟通表达
 ----------------------
