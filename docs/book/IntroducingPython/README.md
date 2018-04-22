@@ -855,6 +855,759 @@ print(marx_set)
 第4章 Python外壳：代码结构
 --------------------------------------------
 
+### 4.1 使用#注释
+
+\#号只能做单行注释，Python中没有多行注释的符号。
+
+### 4.2 使用\连接
+
+- 多行连成一行，需要在行尾加上\
+- 表达式占用多行的时候，也需要行连接符\，比如：
+
+```
+a = 1 + 2 \
+    + 3
+print(a)
+
+6
+```
+
+### 4.3 使用if、elif和else进行比较
+
+- 使用if、elif和else可以进行条件判断
+- 表达式通过换行和缩进来区别语句块
+- 条件指令行末尾需要用冒号（:）否则会出错
+
+判断语句对布尔值进行判断，如果是个表达式，则会计算后再进行判断。
+
+下面的语句是一样的：
+
+- 5 < x and x < 10
+- (5 < x) and (x < 10)
+- 5 < x < 10
+
+下面的值也被认为是False，除此以外都被认定为True：
+
+- 布尔：False
+- null类型：None
+- 整形：0
+- 浮点型：0.0
+- 空字符串：''
+- 空列表：[]
+- 空元组：()
+- 空字典：{}
+- 空集合：set()
+
+### 4.4 使用while进行循环
+
+#### 4.4.1 使用break跳出循环
+
+和C语言一样。
+
+#### 4.4.2 使用continue跳到循环开始
+
+和C语言一样。
+
+#### 4.4.3 循环外使用else
+
+如果while语句是正常执行结束，而不是遇到break结束，则执行这个else。
+
+如果遇到了break结束，则不会执行这个else。
+
+```
+x = 3
+y = 6
+i = 0
+while i < x:
+    if i == y: #never
+        print("i == " + str(y))
+        break
+    else:
+        print("i == " + str(i))
+    i += 1
+else:
+    print("not match y, no encounter break")
+
+
+i == 0
+i == 1
+i == 2
+not match y, no encounter break
+```
+
+### 4.5 使用for迭代
+
+```
+x = {"a":1, "b":2, "c":3}
+for key, value in x.items():
+    print("key:" + key + ", value:" + str(value))
+
+key:a, value:1
+key:b, value:2
+key:c, value:3
+```
+
+#### 4.5.1 使用break跳出循环
+
+和while一致。
+
+#### 4.5.2 使用continue跳到循环开始
+
+和while一致。
+
+#### 4.5.3 循环外使用else
+
+和while一致。
+
+#### 4.5.4 使用zip()并行迭代
+
+使用zip()函数可以遍历多个序列，在具有相同位移的项之间创建元组。
+
+zip()函数在最短序列“用完”时就会停止。
+
+```
+a = ['i', 'j', 'k']
+b = ['1', '2', '3', '4']
+
+c1 = zip(a, b)
+c2 = zip(a, b)
+
+d = list(c1)
+e = list(c1)
+f = dict(c2)
+
+print(type(c1))
+print(type(c2))
+print(c1)
+print(c2)
+print(d)
+print(e)
+print(f)
+
+<class 'zip'>
+<class 'zip'>
+<zip object at 0x10e4cf048>
+<zip object at 0x10e4cfcc8>
+[('i', '1'), ('j', '2'), ('k', '3')]
+[]
+{'i': '1', 'j': '2', 'k': '3'}
+```
+
+注意到这个例子中，c1被两次转换成了list，第二次得到的结果是空。
+
+#### 4.5.5 使用range()生成自然数序列
+
+range()函数返回在特定区间的自然数序列，不需要创建和存储复杂的数据结构，例如列表或元组。这允许在不使用计算机全部内存的情况下创建较大的区间，也不会使你的程序崩溃。
+
+`range(start, stop, step)`：
+
+- start默认为0。
+- stop产生的最后一个数的值是stop的前一个，唯一必填的值。
+- step的默认值是1，反向创建自然数序列，可以使用-1。
+
+```
+for i in range(3, 23, 5):
+    print(str(i))
+    
+print('-----')
+for i in range(23-5, 3-1, -5):
+    print(str(i))
+
+3
+8
+13
+18
+-----
+18
+13
+8
+3
+```
+
+#### 4.5.6 其他迭代方式
+
+第8章将介绍文件之间的迭代。
+在第6章中，你会看到如何在自己创建的对象之间迭代。
+
+### 4.6 推导式
+
+#### 4.6.1 列表推导式
+
+```
+[ expression for item in iterable ]
+
+[ expression for item in iterable if condition]
+
+[ expression for item1 in iterable if condition for item2 in iterable if condition]
+```
+
+expression：列表生成值，可以是表达式。把循环的结果放在结果列表中。
+
+```
+rows = range(1,4)
+cols = range(1,3)
+cells1 = [(row, col) for row in rows for col in cols]
+for cell in cells1:
+    print(cell)
+    
+print('-------')
+
+rows = range(1,12)
+cols = range(1,8)
+cells2 = [(row, col) for row in rows if row % 2 == 0 for col in cols if col % 3 == 0]
+for cell in cells2:
+    print(cell)
+
+(1, 1)
+(1, 2)
+(2, 1)
+(2, 2)
+(3, 1)
+(3, 2)
+-------
+(2, 3)
+(2, 6)
+(4, 3)
+(4, 6)
+(6, 3)
+(6, 6)
+(8, 3)
+(8, 6)
+(10, 3)
+(10, 6)
+```
+
+#### 4.6.2 字典推导式
+
+```
+{ key_expression : value_expression for expression in iterable }
+```
+
+下面的例子统计每个字母在字符串中出现的次数：
+
+```
+str1 = '{ key_expression : value_expression for expression in iterable }'
+
+x = { letter : str1.count(letter) for letter in str1 }
+print(x)
+
+# 优化，避免遍历相同的字符太多次
+x = { letter : str1.count(letter) for letter in set(str1) }
+print(x)
+
+{'{': 1, ' ': 8, 'k': 1, 'e': 10, 'y': 1, '_': 2, 'x': 3, 'p': 3, 'r': 5, 's': 6, 'i': 5, 'o': 4, 'n': 4, ':': 1, 'v': 1, 'a': 2, 'l': 2, 'u': 1, 'f': 1, 't': 1, 'b': 1, '}': 1}
+{'o': 4, 'n': 4, 'i': 5, 'r': 5, 'v': 1, ' ': 8, 'u': 1, 's': 6, '}': 1, '_': 2, 'p': 3, 'y': 1, 'l': 2, 'k': 1, ':': 1, 't': 1, '{': 1, 'x': 3, 'a': 2, 'f': 1, 'b': 1, 'e': 10}
+```
+
+#### 4.6.3 集合推导式
+
+```
+{ expression for expression in interable}
+```
+
+和字典类似：
+
+```
+x = { number for number in range(1,6) if number % 3 == 1}
+print(x)
+
+{1, 4}
+```
+
+#### 4.6.4 生成器推导式
+
+```
+number_thing = (number for number in range(1,6))
+print(type(number_thing))
+
+<class 'generator'>
+```
+
+一个生成器只能运行一次。列表、集合、字符串和字典都存储在内存中，但是生成器仅在运行中产生值，不会被存下来，所以不能重新使用或者备份一个生成器。
+
+```
+number_thing = (number for number in range(1,6))
+number_list = list(number_thing)
+try_again = list(number_thing)
+print(number_list)
+print(try_again)
+
+[1, 2, 3, 4, 5]
+[]
+```
+
+### 4.7 函数
+
+如果函数不显式调用return函数，那么会默认返回None。
+
+#### 4.7.1 位置参数
+
+意思是按照函数声明的参数的位置，调用时候依次传递参数。
+
+#### 4.7.2 关键字参数
+
+```
+def func(p1, p2, p3):
+    return {'p1':p1, 'p2':p2, 'p3':p3}
+
+print(func(p2='Hello', p1='Hi', p3='Hey'))
+
+{'p1': 'Hi', 'p2': 'Hello', 'p3': 'Hey'}
+```
+如果同时使用位置参数和关键字参数两种方式调用函数，位置参数必须放置于关键字参数之前。如果参数被传递多次，则会报错。
+
+```
+def func(p1, p2, p3):
+    return {'p1':p1, 'p2':p2, 'p3':p3}
+
+print(func('Hello', p3='Hi', p2='Hey'))
+
+{'p1': 'Hello', 'p2': 'Hey', 'p3': 'Hi'}
+```
+
+#### 4.7.3 指定默认参数值
+
+默认参数值在函数定义时已经计算出来，而不是在程序运行时。
+
+```
+def buggy(arg, result=[]):
+    result.append(arg)
+    print(result)
+    
+buggy('a')
+buggy('b')
+buggy('c')
+buggy('d')
+
+['a']
+['a', 'b']
+['a', 'b', 'c']
+['a', 'b', 'c', 'd']
+```
+
+```
+def buggy(arg, result=None):
+    if result is None:
+        result = []
+    result.append(arg)
+    print(result)
+    
+buggy('a')
+buggy('b')
+buggy('c')
+buggy('d')
+
+['a']
+['b']
+['c']
+['d']
+```
+
+#### 4.7.4 使用*收集位置参数
+
+当参数被用在函数内部时，星号将一组可变数量的位置参数集合成参数值的元组。
+
+```
+def print_args(yourname, *args, last):
+    print('Hi, ' + yourname)
+    print('Positional argument tuple:', args)
+    print(type(args))
+    print(last)
+    
+print_args('volnet',1,2,3,4,'Thanks', last='Bye!')
+
+Hi, volnet
+Positional argument tuple: (1, 2, 3, 4, 'Thanks')
+<class 'tuple'>
+Bye!
+```
+
+#### 4.7.5 使用**收集关键字参数
+
+使用两个星号可以将参数收集到一个字典中，参数的名字是字典的键，对应参数的值是字典的值。
+
+```
+def print_kwargs(**kwargs):
+    print('Keyword arguments:', kwargs)
+print_kwargs(Name='volnet', Age=50)
+
+Keyword arguments: {'Name': 'volnet', 'Age': 50}
+```
+
+```
+def print_args_kwargs(*args, **kwargs):
+    print(args)
+    print('----')
+    print(kwargs)
+    
+print_args_kwargs('0',1,2,3,4,'Thanks', last='Bye!')
+
+('0', 1, 2, 3, 4, 'Thanks')
+----
+{'last': 'Bye!'}
+```
+如果把`*args`和`**kwargs`的位置参数混合起来，它们必须按照顺序出现。
+
+#### 4.7.6 文档字符串
+
+在函数内第一行可以写单行或多行注释。
+
+可以用`help()`和`print(funcname.__doc__)`查看注释。
+
+```
+def echo1(a):
+    'echo1 returns its input argument'
+    return a
+
+def echo2(*args):
+    '''
+    echo2 returns its input arguments
+    multiline
+    '''
+    return b
+
+help(echo1)
+print('-------')
+help(echo2)
+print('-------')
+print(echo1.__doc__)
+print('-------')
+print(echo2.__doc__)
+
+
+Help on function echo1 in module __main__:
+
+echo1(a)
+    echo1 returns its input argument
+
+-------
+Help on function echo2 in module __main__:
+
+echo2(*args)
+    echo2 returns its input arguments
+    multiline
+
+-------
+echo1 returns its input argument
+-------
+
+    echo2 returns its input arguments
+    multiline
+    
+```
+
+#### 4.7.7 一等公民：函数
+
+函数和数字、字符串、元组、列表、字典等一样，都是python的一等公民。
+
+函数也可以作为参数进行传递，传递函数的名字（不包含括号）。函数后面的括号表示调用函数。
+
+#### 4.7.8 内部函数
+
+可以在函数的内部再定义一个函数。
+
+```
+def knights(saying):
+    def inner(quote):
+        return "We are the knights who say: '%s'" % quote
+    return inner(saying)
+
+print(knights('Ni!'))
+
+"We are the knights who say: 'Ni!'"
+```
+
+#### 4.7.9 闭包
+
+内部函数可以看作一个闭包。闭包是一个可以由另一个函数动态生成的函数，并且可以改变和存储函数外创建的变量的值。
+
+```
+def knights2(saying):
+    def inner2():
+        return "We are the knights who say: '%s'" % saying
+    return inner2
+
+a = knights2('Duck')
+b = knights2('Hasenpfeffer')
+
+print(a())
+print(b())
+
+We are the knights who say: 'Duck'
+We are the knights who say: 'Hasenpfeffer'
+```
+
+#### 4.7.10 lambda()函数
+
+```
+lambda param : expression
+```
+
+```
+def hello(func, arg1, arg2):
+    func(arg1, arg2)
+    
+def my_func(items1, items2=None):
+    for arg in list(items1):
+        print('1.' + arg.capitalize())
+    if arg is not None:
+        for arg in list(items2):
+            print('2.' + arg)
+        
+hello(my_func, 'how', 'are')
+print('-----')
+hello(lambda item1,item2: print(item1 + ' ' + item2), 'what', 'is')
+
+1.H
+1.O
+1.W
+2.a
+2.r
+2.e
+-----
+what is
+```
+
+### 4.8 生成器
+
+返回值使用`yield`语句声明而不是`return`。
+
+```
+def my_range(first=0, last=10000, step=1):
+    number = first
+    while number < last:
+        yield number
+        number += step
+        
+for i in my_range(0,5):
+    print(i)
+
+0
+1
+2
+3
+4
+```
+
+### 4.9 装饰器
+
+一个函数可以有多个装饰器。
+
+靠近函数定义（def上面）的装饰器最先执行。
+
+```
+def document_it(func):
+    print('-- document_it run')
+    def new_function1(*args, **kwargs):
+        print('---- new_function1 run')
+        print('Running function:', func.__name__)
+        print('Positional arguments:', args)
+        print('Keyword arguments:', kwargs)
+        result = func(*args, **kwargs)
+        print('Result:', result)
+        return result
+    return new_function1
+
+def add_ints(a, b):
+    return a + b
+
+x = add_ints(3, 5)
+print(x)
+
+cooler_add_ints = document_it(add_ints)
+y = cooler_add_ints(3, 5)
+print('i =', y)
+
+print('-------')
+
+def square_it(func):
+    print('-- square_it run')
+    def new_function2(*args, **kwargs):
+        print('---- new_function2 run')
+        result = func(*args, **kwargs)
+        return result * result
+    return new_function2
+
+@document_it
+@square_it
+def add_ints1(a, b):
+    return a + b
+
+print('j =', add_ints1(3, 5))
+
+print('-------')
+
+@square_it
+@document_it
+def add_ints2(a, b):
+    return a + b
+print('k =', add_ints2(3, 5))
+
+8
+-- document_it run
+---- new_function1 run
+Running function: add_ints
+Positional arguments: (3, 5)
+Keyword arguments: {}
+Result: 8
+i = 8
+-------
+-- square_it run
+-- document_it run
+---- new_function1 run
+Running function: new_function2
+Positional arguments: (3, 5)
+Keyword arguments: {}
+---- new_function2 run
+Result: 64
+j = 64
+-------
+-- document_it run
+-- square_it run
+---- new_function2 run
+---- new_function1 run
+Running function: add_ints2
+Positional arguments: (3, 5)
+Keyword arguments: {}
+Result: 8
+k = 64
+```
+
+### 4.10 命名空间和作用域
+
+- 在局部作用域中不能修改全局作用域的内容
+- 如果需要使用到全局作用域，则需要使用`globals xxx`关键字
+- 使用`locals()`, `globals()`函数可以显示局部和全局变量
+- 使用`_`和`__`的开头和结束的名称都是Python的保留用法。
+
+```
+animal = 'bird'
+def local_func1():
+    animal = 'monkey'
+    print(animal)
+
+def local_func2():
+    global animal
+    print('animal=', animal) # 一旦使用，就被认为局部作用域内的animal是全局变量了。
+    animal = 'monkey'
+    print(animal)
+    
+def local_func3():
+    print('animal=', animal) # 一旦使用，就被认为局部作用域内的animal是全局变量了。
+    animal = 'monkey'
+    print(animal)
+    
+    
+local_func1()
+print('-------')
+local_func2()
+print('-------')
+local_func3()
+
+monkey
+-------
+animal= bird
+monkey
+-------
+---------------------------------------------------------------------------
+UnboundLocalError                         Traceback (most recent call last)
+<ipython-input-84-50e43398b0a1> in <module>()
+     20 local_func2()
+     21 print('-------')
+---> 22 local_func3()
+
+<ipython-input-84-50e43398b0a1> in local_func3()
+     11 
+     12 def local_func3():
+---> 13     print('animal=', animal) # 一旦使用，就被认为局部作用域内的animal是全局变量了。
+     14     animal = 'monkey'
+     15     print(animal)
+
+UnboundLocalError: local variable 'animal' referenced before assignment
+
+```
+
+```
+animal = 'bird'
+def local_func4():
+    animal = 'monkey'
+    print(animal)
+    print('locals:', locals())
+    
+print('globals:', globals())
+local_func4()
+
+globals: {'__name__': '__main__', '__doc__': 'Automatically created module for IPython interactive environment', '__package__': None, '__loader__': None, '__spec__': None, '__builtin__': <module 'builtins' (built-in)>, '__builtins__': <module 'builtins' (built-in)>, '_ih': ['', "animal = 'bird'\ndef local_func4():\n    animal = 'monkey'\n    print(animal)\n    print('locals:', locals())\n    \nprint('globals:', globals())\nlocal_func4()"], '_oh': {}, '_dh': ['/Users/gongcen/VolnetGitHub/volnet.github.io/docs/book/IntroducingPython/samples/chapter03'], 'In': ['', "animal = 'bird'\ndef local_func4():\n    animal = 'monkey'\n    print(animal)\n    print('locals:', locals())\n    \nprint('globals:', globals())\nlocal_func4()"], 'Out': {}, 'get_ipython': <bound method InteractiveShell.get_ipython of <ipykernel.zmqshell.ZMQInteractiveShell object at 0x1096fb6a0>>, 'exit': <IPython.core.autocall.ZMQExitAutocall object at 0x1097456d8>, 'quit': <IPython.core.autocall.ZMQExitAutocall object at 0x1097456d8>, '_': '', '__': '', '___': '', '_i': '', '_ii': '', '_iii': '', '_i1': "animal = 'bird'\ndef local_func4():\n    animal = 'monkey'\n    print(animal)\n    print('locals:', locals())\n    \nprint('globals:', globals())\nlocal_func4()", 'animal': 'bird', 'local_func4': <function local_func4 at 0x10981e488>}
+monkey
+locals: {'animal': 'monkey'}
+```
+
+### 4.11 使用try和except处理错误
+
+```
+try:
+    expression
+except exceptiontype as name:
+    expression
+except exceptiontype as name:
+    expression
+except:
+    expression_default
+```
+
+### 4.12 编写自己的异常
+
+```
+# 定义异常
+class CustomException(Exception):
+    pass
+
+# 抛出异常
+raise CustomException(params)
+```
+```
+class MyException1(Exception):
+    pass
+class MyException2(Exception):
+    print('MyException2 definition')
+    
+def my_func1(item):
+    raise MyException1(item)
+def my_func2(item):
+    raise MyException2(item)
+def my_func3(item):
+    raise item / 0
+    
+def run(func, arg):
+    try:
+        func(arg)
+    except MyException1 as exp1:
+        print('MyException1 catched.')
+    except MyException2 as exp2:
+        print('MyException2 catched.')
+    except:
+        print('OtherException catched.')
+        
+print('1.')
+run(my_func1, 'a1')
+print('-------')
+print('2.')
+run(my_func2, 'a2')
+print('-------')
+print('3.')
+run(my_func3, 'a3')
+
+MyException2 definition
+1.
+MyException1 catched.
+-------
+2.
+MyException2 catched.
+-------
+3.
+OtherException catched.
+```
+
 第5章 Python盒子：模块、包和程序
 --------------------------------------------
 
