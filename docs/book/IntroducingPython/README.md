@@ -1611,6 +1611,70 @@ OtherException catched.
 第5章 Python盒子：模块、包和程序
 --------------------------------------------
 
+### 5.1 独立的程序
+
+将代码保存成文件（通常以`.py`为后缀），然后用`python xxx.py`来运行。
+
+### 5.2 命令行参数
+
+使用`sys.argv`可以读取命令行参数。
+
+@commandline.py
+
+```
+import sys
+print('Program arguments:', sys.argv)
+```
+
+`python commandline.py hello tra lala`
+
+```
+Program arguments: ['commandline.py', 'hello', 'tra', 'lala']
+```
+
+### 5.3 模块和import语句
+
+#### 5.3.1 导入模块
+
+模块是一个python文件，例如：filename.py。模块名称是文件名（不含.py）。
+
+用语句`import filename`可以在另一个文件中导入模块。
+
+用语句`from filename import functionname`可以导入单个函数。
+
+用语句`filename.functionname`或者`functionname`均可调用函数，后者不应该与程序中的其他对象同名。
+
+可以在文件的开头写这些，也可以在函数里写这些。
+
+#### 5.3.2 使用别名导入模块
+
+用语句`import filename as xx`或者`from filename import functionname as fn`可以给模块或函数定义别名。
+
+#### 5.3.3 导入模块的一部分
+
+用`from filename import functionname as fn`定义函数的别名后，在调用的时候，不仅可以直接写`functionname`也可以使用别名`fn`。
+
+#### 5.3.4 模块搜索路径
+
+用这个语句可以查看模块搜索的路径，路径优先级从上往下，找到后就不往后找了。
+
+```
+import sys
+for place in sys.path:
+    print(place)
+
+
+/Users/username/anaconda3/lib/python36.zip
+/Users/username/anaconda3/lib/python3.6
+/Users/username/anaconda3/lib/python3.6/lib-dynload
+/Users/username/anaconda3/lib/python3.6/site-packages
+/Users/username/anaconda3/lib/python3.6/site-packages/aeosa
+/Users/username/anaconda3/lib/python3.6/site-packages/IPython/extensions
+/Users/username/.ipython
+```
+
+需要特别注意的是，返回值中的第一行是空行，代表当前路径。
+
 第6章 对象和类
 --------------------------------------------
 
