@@ -1675,6 +1675,319 @@ for place in sys.path:
 
 需要特别注意的是，返回值中的第一行是空行，代表当前路径。
 
+### 5.4 包
+
+可以把多个模块组织成文件层次，称之为包。
+
+书中例子是这样组织目录的：
+
+```
+boxes/weather.py
+boxes/sources/daily.py
+boxes/sources/weekly.py
+boxes/sources/__init__.py
+```
+
+于是整个`boxes`就是一个包。
+
+weather.py文件中可以这么调用：
+
+```
+from sources import daily, weekly
+……
+```
+
+### 5.5 Python标准库
+
+- Python官方文档：http://docs.python.org/3/library
+- 官方使用指南：https://docs.python.org/3.3/tutorial/stdlib.html
+- Doug Hellmann的网站Python Module of the Week：http://pymotw.com/2/contents.html
+- Doug Hellmann的书《[The Python Standard Library by Example](https://www.amazon.cn/dp/0134291050/ref=sr_1_1?ie=UTF8&qid=1524667895&sr=8-1&keywords=The+Python+Standard+Library+by+Example)》
+
+#### 5.5.1 使用setdefault()和defaultdict()处理缺失的键
+
+setdefault的含义：仅在原有Key不存在的时候，会在字典中添加一项。
+
+```
+periodic_table = {'Hydrogen':1, 'Helium':2}
+
+print(periodic_table['Hydrogen'])
+print(periodic_table.get('Hydrogen'))
+
+periodic_table['Hello'] = 3
+
+# setdefault的含义：仅在原有Key不存在的时候，会在字典中添加一项
+
+# 如果Key不存在，则设定对应的值
+periodic_table.setdefault('World', 4)
+# 如果Key已经存在，则维持原来的值不变
+periodic_table.setdefault('Hello', 999)
+
+print(periodic_table)
+
+1
+1
+{'Hydrogen': 1, 'Helium': 2, 'Hello': 3, 'World': 4}
+```
+
+defaultdict的含义是设定字典的默认值。
+
+```
+from collections import defaultdict
+
+table0 = defaultdict(int)
+table1 = defaultdict(lambda: 'default value')
+
+def myDefaultValue():
+    return 100;
+
+table2 = defaultdict(myDefaultValue)
+
+print(table0)
+print(table1)
+print(table2)
+print('-----------')
+print(table0['Hello'])
+print(table1['Hello'])
+print(table2['Hello'])
+
+defaultdict(<class 'int'>, {})
+defaultdict(<function <lambda> at 0x104eb8598>, {})
+defaultdict(<function myDefaultValue at 0x104eb89d8>, {})
+-----------
+0
+default value
+100
+```
+
+#### 5.5.2 使用Counter()计数
+
+https://docs.python.org/3.3/library/collections.html?highlight=counter#collections.Counter
+
+Counter函数类似SQL中的聚合函数，可以对可迭代的对象进行计数，Counter对象还可以进行`+`、`-`、`&`、`|`的操作。
+
+`.most_common([n])`按降序返回Count数值比n大的元素，如果不设置n，则按降序返回所有值。
+
+```
+from collections import Counter
+counter1 = Counter(['Hello', 'Hello', 'World', 'World', 'World', 'ViVi'])
+counter2 = Counter(['Hello', 'World', 'Volnet', 'MacBook Pro', 'MacBook Pro'])
+print(counter1)
+print(counter2)
+print(counter1['Hello'])
+print(counter1['WithoutKey'])
+print(counter1)
+print('--------')
+counter1SortedDescAll = counter1.most_common()
+counter1SortedDescMoreThan2 = counter1.most_common(2)
+print(counter1SortedDescAll)
+print(counter1SortedDescMoreThan2)
+print('--------')
+counterAdd = counter1 + counter2
+counterSubstract = counter1 - counter2
+counterAnd = counter1 & counter2
+counterOr = counter1 | counter2
+print(counterAdd)
+print(counterSubstract)
+print(counterAnd)
+print(counterOr)
+
+Counter({'World': 3, 'Hello': 2, 'ViVi': 1})
+Counter({'MacBook Pro': 2, 'Hello': 1, 'World': 1, 'Volnet': 1})
+2
+0
+Counter({'World': 3, 'Hello': 2, 'ViVi': 1})
+--------
+[('World', 3), ('Hello', 2), ('ViVi', 1)]
+[('World', 3), ('Hello', 2)]
+--------
+Counter({'World': 4, 'Hello': 3, 'MacBook Pro': 2, 'ViVi': 1, 'Volnet': 1})
+Counter({'World': 2, 'Hello': 1, 'ViVi': 1})
+Counter({'Hello': 1, 'World': 1})
+Counter({'World': 3, 'Hello': 2, 'MacBook Pro': 2, 'ViVi': 1, 'Volnet': 1})
+```
+
+#### 5.5.3 使用有序字典OrderedDict()按键排序
+
+一般的字典，添加键是按顺序的，但是实际上运行迭代器的时候，不一定按照添加的顺序来返回。
+
+使用OrderedDict，则会记住添加键的顺序，然后运行迭代器的时候，按照添加顺序来返回。
+
+```
+from collections import OrderedDict
+orderDict = OrderedDict([('Hello', 'Ok'), ('World', 'Yes'), ('Asia', 'No')])
+orderDict['Nick'] = 'Bye'
+print(orderDict)
+for item in orderDict:
+    print(item)
+```
+
+#### 5.5.4 双端队列：栈+队列
+
+- `popleft()`：从左侧移出
+- `pop()`：从右侧移出
+- `word[::-1]`可以实现类似`reverse()`的效果。
+
+```
+def palindrome(word):
+    from collections import deque
+    dq = deque(word)
+    while(len(dq) > 1):
+        a = dq.popleft()
+        b = dq.pop()
+        print('left:' + a + ' right:' + b)
+        if a != b:
+            return False
+    return True
+
+print(palindrome('abccba'))
+print('----------------')
+print(palindrome('abcba'))
+print('----------------')
+print(palindrome('a'))
+print('----------------')
+print(palindrome('ab'))
+print('################')
+
+def palindrome2(word):
+    return word == word[::-1]
+
+print(palindrome2('abccba'))
+print('----------------')
+print(palindrome2('abcba'))
+print('----------------')
+print(palindrome2('a'))
+print('----------------')
+print(palindrome2('ab'))
+
+left:a right:a
+left:b right:b
+left:c right:c
+True
+----------------
+left:a right:a
+left:b right:b
+True
+----------------
+True
+----------------
+left:a right:b
+False
+################
+True
+----------------
+True
+----------------
+True
+----------------
+False
+```
+
+#### 5.5.5 使用itertools迭代代码结构
+
+itertools包含一些迭代器函数。
+
+- `chain`：将多个元素组合到一个迭代器中
+- `cycle`：循环输出迭代结果
+- `accumulate`：在迭代的时候，累积执行前面的值，第二个参数可以指定一个累积函数，未指定累积函数的，默认使用累加。
+
+```
+import itertools
+for item in itertools.chain([1, 2], ['a', 'b']):
+    print(item)
+    
+print('----------------')
+
+stop = 0
+for item in itertools.cycle([1, 2]):
+    stop += 1
+    print(item)
+    if stop == 3:
+        break
+print('----------------')
+
+for item in itertools.accumulate([1, 2, 3, 4]):
+    print(item)
+print('----------------')    
+
+def mutiply(a, b):
+    return a * b
+for item in itertools.accumulate([1, 2, 3, 4], mutiply):
+    print(item)
+
+1
+2
+a
+b
+----------------
+1
+2
+1
+----------------
+1
+3
+6
+10
+----------------
+1
+2
+6
+24
+```
+
+#### 5.5.6 使用pprint()友好输出
+
+增加输出结果的可读性。
+
+```
+import pprint
+stuff = ['spam', 'eggs', 'lumberjack', 'knights', 'ni']
+stuff.insert(0, stuff[:])
+pp = pprint.PrettyPrinter(indent=4)
+pp.pprint(stuff)
+print('-------------')
+
+pprint.pprint(stuff)
+print('-------------')
+
+pp = pprint.PrettyPrinter(width=41, compact=True)
+pp.pprint(stuff)
+print('-------------')
+tup = ('spam', ('eggs', ('lumberjack', ('knights', ('ni', ('dead',('parrot', ('fresh fruit',))))))))
+pp = pprint.PrettyPrinter(depth=6)
+pp.pprint(tup)
+
+
+[   ['spam', 'eggs', 'lumberjack', 'knights', 'ni'],
+    'spam',
+    'eggs',
+    'lumberjack',
+    'knights',
+    'ni']
+-------------
+[['spam', 'eggs', 'lumberjack', 'knights', 'ni'],
+ 'spam',
+ 'eggs',
+ 'lumberjack',
+ 'knights',
+ 'ni']
+-------------
+[['spam', 'eggs', 'lumberjack',
+  'knights', 'ni'],
+ 'spam', 'eggs', 'lumberjack', 'knights',
+ 'ni']
+-------------
+('spam', ('eggs', ('lumberjack', ('knights', ('ni', ('dead', (...)))))))
+```
+
+### 5.6 获取更多Python代码
+
+可以从PyPi（ http://pypi.python.org ）、github（ http://github.com/Python ）、readthedocs（ https://readthedocs.org/ ）获得代码。
+
+### 5.7 练习
+
+无
+
 第6章 对象和类
 --------------------------------------------
 
