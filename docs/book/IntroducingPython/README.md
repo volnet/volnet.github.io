@@ -1991,6 +1991,488 @@ pp.pprint(tup)
 第6章 对象和类
 --------------------------------------------
 
+### 6.1 什么是对象
+
+数字是对象，字符串也是对象，也可以自定义对象，对象由数据/特性/变量（attribute）和方法（函数）构成。
+
+### 6.2 使用class定义类
+
+最简单的类
+
+```
+class Person():
+    pass
+
+a = Person()
+print(a)
+
+<__main__.Person object at 0x1081dda58>
+```
+
+使用`__init__`定义对象初始化方法，第一个参数self指向了这个正在被创建的对象本身。它在Python中约定为“self”，尽管它被命名为别的也可以运行。
+
+```
+class Person():
+    def __init__(self):
+        print('__init__:')
+        print(self)
+
+a = Person()
+print('Outside:')
+print(a)
+
+__init__:
+<__main__.Person object at 0x10820f358>
+Outside:
+<__main__.Person object at 0x10820f358>
+```
+
+可以通过“self”读写对象内部的特性。在class外部则通过对象的名字来使用。
+
+```
+class Person():
+    def __init__(self, name):
+        self.name = name
+
+a = Person('Amily')
+print(a.name)
+
+Amily
+```
+
+### 6.3 继承
+
+继承的语法就是将父类的类名，放在定义子类的括号中（如下所示）。
+
+值得注意的是，一般的方法的第一个参数，仍然是`self`。
+
+```
+class Car():
+    def exclaim(self):
+        print("I'm a Car!")
+        
+class Yugo(Car):
+    pass
+
+give_me_a_car = Car()
+give_me_a_yugo = Yugo()
+
+give_me_a_car.exclaim()
+give_me_a_yugo.exclaim()
+
+I'm a Car!
+I'm a Car!
+```
+
+### 6.4 覆盖方法
+
+直接在子类中定义一个同名的方法，即可覆盖（override）父类中的方法。
+
+`__init__`也是可以被覆盖（override）的。
+
+```
+class Car():
+    def exclaim(self):
+        print("I'm a Car!")
+        
+class Yugo(Car):
+    def exclaim(self):
+        print("I'm a Yugo! Much like a Car, but more Yugo-ish.")
+
+give_me_a_car = Car()
+give_me_a_yugo = Yugo()
+
+give_me_a_car.exclaim()
+give_me_a_yugo.exclaim()
+
+I'm a Car!
+I'm a Yugo! Much like a Car, but more Yugo-ish.
+```
+
+### 6.5 添加新方法
+
+在子类中添加父类中没有的方法，即可。
+
+### 6.6 使用super从父类得到帮助
+
+使用`super()`可以调用父类的方法。
+
+```
+class Person():
+    def __init__(self, name):
+        self.name = name
+        
+class EmailPerson(Person):
+    def __init__(self, name, email):
+        super().__init__(name)
+        self.email = email
+        
+class PhoneEmailPerson(EmailPerson):
+    def __init__(self, name, email, phone):
+        super().__init__(name, email)
+        self.phone = phone
+
+a = EmailPerson('Amily', 'amily@github.com')
+print(a.name + ', ' + a.email)
+
+b = PhoneEmailPerson('Amily', 'amily@github.com', '123456')
+print(b.name + ', ' + b.email + ', ' + b.phone)
+
+Amily, amily@github.com
+Amily, amily@github.com, 123456
+```
+
+### 6.7 self的自辩
+
+Python要求必须把self设置为实例方法的第一个参数。Python在调用方法的时候做了两件事：
+
+- 查找对象（a）所属的类（Car）
+- 把对象作为self参数传给类（Car）所包含的调用的方法（exclaim）。
+
+因此下面两种方法的效果完全一样。
+
+```
+class Car():
+    def __init__(self, name):
+        self.name = name
+    def exclaim(self):
+        print("I'm a Car! My Name is " + self.name)
+        
+a = Car('Jucy')
+a.exclaim()
+
+b = Car('Lily')
+Car.exclaim(b)
+
+I'm a Car! My Name is Jucy
+I'm a Car! My Name is Lily
+```
+
+### 6.8 使用属性对特性进行访问和设置
+
+可以使用两种方式来设置属性。
+
+- 使用property方法，将getter和setter函数传进去
+- 使用@property装饰器和@xxxx.setter装饰器来实现
+
+使用属性，可以在内部进行修改的时候，外部不必都做修改。
+
+```
+class Car():
+    def get_name(self):
+        print('inside get_name')
+        return self.hidden_name
+    def set_name(self, input_name):
+        self.hidden_name = input_name
+        print('inside set_name')
+    name = property(get_name, set_name)
+    
+    @property
+    def color(self):
+        print('inside name getter')
+        return self.hidden_color
+    @color.setter
+    def color(self, input_color):
+        print('inside name setter')
+        self.hidden_color = input_color
+    
+    @property
+    def sale_price(self):
+        return self.inner_price * 1.2
+
+tesla = Car()
+print('------------')
+tesla.name = "V's TESLA"
+print('------------')
+print(tesla.name)
+print('------------')
+print(tesla.hidden_name)
+print('------------')
+print(tesla.get_name())
+print('------------')
+tesla.color = 'Red'
+print('------------')
+print(tesla.color)
+print('------------')
+tesla.inner_price = 100
+print('tesla.inner_price=' + str(float(tesla.inner_price)))
+print('tesla.sale_price=' + str(tesla.sale_price))
+
+------------
+inside set_name
+------------
+inside get_name
+V's TESLA
+------------
+V's TESLA
+------------
+inside get_name
+V's TESLA
+------------
+inside name setter
+------------
+inside name getter
+Red
+------------
+tesla.inner_price=100.0
+tesla.sale_price=120.0
+```
+
+### 6.9 使用名称重整保护私有特性
+
+使用`__xxxx`命名规范，在外部调用的时候，Python会将其转化为`_ClassName__xxxx`。
+
+```
+class Car():
+    def __init__(self, input_name):
+        self.__name = input_name
+    def get_name(self):
+        print('inside get_name')
+        return self.__name
+    def set_name(self, input_name):
+        self.__name = input_name
+        print('inside set_name')
+    name = property(get_name, set_name)
+    
+car = Car('BMW')
+print(car.name)
+print(car._Car__name)
+print(car.__name) #error: 'Car' object has no attribute '__name'
+
+inside get_name
+BMW
+BMW
+---------------------------------------------------------------------------
+AttributeError                            Traceback (most recent call last)
+<ipython-input-21-81de2b28e2cc> in <module>()
+     13 print(car.name)
+     14 print(car._Car__name)
+---> 15 print(car.__name) #error
+
+AttributeError: 'Car' object has no attribute '__name'
+```
+
+### 6.10 方法的类型
+
+可以为类设置`@classmethod`和`@staticmethod`的方法。
+
+- `@classmethod`，会作用于整个类，对类作出的任何改变会对它的所有实例对象产生影响。第一个参数是`cls`（通常都用这个缩写，因为class是关键字，无法使用，所以用缩写）
+- `@staticmethod`，既不会影响类，也不会影响类的对象。仅仅是为了放在类里面方便使用。它既不需要self参数也不需要class参数。
+
+```
+class A():
+    count = 0
+    def __init__(self):
+        A.count += 1
+        A.length = 0
+    def exclaim(self):
+        print("I'm an A!")
+    @classmethod
+    def kids(cls):
+        print("A has", cls.count, "little objects")
+    @staticmethod
+    def kids2():
+        print("A has", A.count, "little objects")
+    
+    @classmethod
+    def addOne(cls):
+        cls.length += 1
+    def printLength(self):
+        print("Length", A.length)
+        
+easy_a = A()
+breezy_a = A()
+wheezy_a = A()
+A.kids()
+A.kids2()
+
+easy_a.printLength()
+breezy_a.printLength()
+wheezy_a.printLength()
+A.addOne()
+easy_a.printLength()
+breezy_a.printLength()
+wheezy_a.printLength()
+
+A has 3 little objects
+A has 3 little objects
+Length 0
+Length 0
+Length 0
+Length 1
+Length 1
+Length 1
+```
+
+### 6.11 鸭子类型
+
+传统类型的多态，要求对象是同一个父类派生出来的。但是Python中，只要调用的方法相同即可。
+
+```
+class A1():
+    def hello(self):
+        print('A1: hello')
+class A2(A1):
+    def hello(self):
+        print('A2: hello')
+class A3(A2):
+    def hello(self):
+        print('A3: hello')
+class B:
+    def hello(self):
+        print('B: hello')
+
+def say_hello(obj):
+    obj.hello()
+    
+say_hello(A1())
+say_hello(A2())
+say_hello(A3())
+say_hello(B())
+
+A1: hello
+A2: hello
+A3: hello
+B: hello
+```
+
+### 6.12 特殊方法
+
+在这里（ https://docs.python.org/3/reference/datamodel.html#special-method-names ）可以找到更多的特殊方法。
+
+```
+class SpecialMethod():
+    def __eq__(self, other):
+        print('self == other')
+    def __ne__(self, other):
+        print('self != other')
+    def __lt__(self, other):
+        print('self < other')
+    def __gt__(self, other):
+        print('self > other')
+    def __le__(self, other):
+        print('self <= other')
+    def __ge__(self, other):
+        print('self >= other')
+        
+    def __add__(self, other):
+        print('self + other')
+    def __sub__(self, other):
+        print('self - other')
+    def __mul__(self, other):
+        print('self * other')
+    def __floordiv__(self, other):
+        print('self // other')
+    def __truediv__(self, other):
+        print('self / other')
+    def __mod__(self, other):
+        print('self % other')
+    def __pow__(self, other):
+        print('self ** other')
+        
+    def __str__(self):
+        print('str(self)')
+        return ''
+    def __repr__(self):
+        print('repr(self) -- 在交互式解释器的时候会输出')
+        return ''
+    def __len__(self):
+        print('len(self)')
+        return 0
+        
+a = SpecialMethod()
+b = SpecialMethod()
+
+a == b
+a != b
+a < b
+a > b
+a <= b
+a >= b
+
+print('----------')
+a + b
+a - b
+a * b
+a // b
+a / b
+a % b
+a ** b
+
+print('----------')
+str(a)
+repr(a)
+len(a)
+
+self == other
+self != other
+self < other
+self > other
+self <= other
+self >= other
+----------
+self + other
+self - other
+self * other
+self // other
+self / other
+self % other
+self ** other
+----------
+str(self)
+repr(self) -- 在交互式解释器的时候会输出
+len(self)
+Out[24]:
+0
+```
+
+### 6.13 组合
+
+继承体现的是`is-a`的关系，而组合体现的是`has-a`的关系。
+
+直接把类对象和python自建对象一样对待即可。
+
+### 6.14 何时使用类和对象而不是模块
+
+模块可以实现类似单例模式的效果。不管模块在程序中被引用多少次，始终只有一个实例被加载。
+
+如果需要封装一组数据并需要反复使用，建议封装成类。
+
+尽可能使用字典、列表和元组（以及命名元组），多使用内置类型和数据结构。
+
+**命名元组**
+
+命名元组的好处：
+
+- 它无论如何看起来还是使用起来都和不可变对象非常相似。
+- 与使用对象相比，使用命名元组在时间和空间上效率更高。
+- 可以使用点号（.）对特性进行访问，而不需要使用字典风格的方括号。
+- 可以把它作为字典的键。
+
+```
+from collections import namedtuple
+Duck = namedtuple('Duck', 'value1 value2')
+duck = Duck('what', 'how')
+print(duck)
+print(duck.value1)
+print(duck.value2)
+
+parts = {'value1': 'when', 'value2': 'which'}
+duck2 = Duck(**parts)
+print(duck2)
+
+duck3 = duck2._replace(value1='where', value2='while')
+print(duck3)
+
+Duck(value1='what', value2='how')
+what
+how
+Duck(value1='when', value2='which')
+Duck(value1='where', value2='which')
+```
+
+### 6.15 练习
+
 第7章 像高手一样玩转数据
 --------------------------------------------
 
