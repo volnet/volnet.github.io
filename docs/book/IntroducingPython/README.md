@@ -2476,6 +2476,418 @@ Duck(value1='where', value2='which')
 第7章 像高手一样玩转数据
 --------------------------------------------
 
+### 7.1 文本字符串
+
+#### 7.1.1 Unicode
+
+使用`\u`后紧跟4个十六进制数字，`\U`后紧跟8个。`\N{name}`来引用某一个字符。
+
+```
+print('\u2415')
+print('\N{SYMBOL FOR NEGATIVE ACKNOWLEDGE}')
+
+␕
+␕
+```
+
+`unicodedata.name(char)`可以读取一个字符的Unicode名字，从 http://www.unicode.org/charts/charindex.html 可以查到Unicode字符的官方名字（如果遇到“,”分割的名字，在Python3中，需要倒序并去掉逗号分割）。
+
+`unicodedata.lookup(unicode_name)`接受不区分大小写的标准名称，返回一个Unicode字符。
+
+```
+def unicode_test(value):
+    import unicodedata
+    name = unicodedata.name(value)
+    value2 = unicodedata.lookup(name)
+    print('value="%s", name="%s", value2="%s"' % (value, name, value2))
+    
+unicode_test('A')
+
+value="A", name="LATIN CAPITAL LETTER A", value2="A"
+```
+
+```
+print('\u2415')
+standard_name = 'ACKNOWLEDGE, SYMBOL FOR NEGATIVE'
+standard_name_python3 = 'SYMBOL FOR NEGATIVE ACKNOWLEDGE'
+import unicodedata
+value = unicodedata.lookup(standard_name_python3)
+print(value)
+
+␕
+␕
+```
+
+使用UTF-8编码和解码
+
+UTF-8用一种动态的编码方案解决了Unicode字符占用空间过长的问题（是ASCII的3-4倍），同时又能包容世界上绝大多数的语言。
+
+```
+def word_encode(word):
+    print(len(word))
+    dsUTF8 = word.encode('utf-8') # ascii, utf-8, latin-1, cp-1252, unicode-escape, ...
+    print('UTF-8:', dsUTF8)
+    # dsASCII = word.encode('ascii')
+    # print('ASCII:', dsASCII)
+    # dsLatin1 = word.encode('latin-1')
+    # print('Latin-1:', dsLatin1)
+    dsUnicodeEscape = word.encode('unicode-escape')
+    print('UnicodeEscape:', dsUnicodeEscape)
+    # dsCP1252 = word.encode('cp-1252') # only available in Windows Platform, windows-1252
+    # print('CP-1252:', dsCP1252)
+    
+word_encode('\u2603')
+
+1
+UTF-8: b'\xe2\x98\x83'
+UnicodeEscape: b'\\u2603'
+```
+
+```
+place = 'caf\u00e9'
+place_bytes_utf8 = place.encode('utf-8')
+print(place_bytes_utf8)
+print(place_bytes_utf8.decode('utf-8'))
+print(place_bytes_utf8.decode('ascii', 'ignore'))
+print('-----------')
+place_bytes_ascii = place.encode('ascii', 'replace')
+print(place_bytes_ascii)
+print(place_bytes_ascii.decode('utf-8'))
+print(place_bytes_ascii.decode('ascii'))
+
+b'caf\xc3\xa9'
+café
+caf
+-----------
+b'caf?'
+caf?
+caf?
+```
+
+#### 7.1.2 格式化
+
+1. 使用%的旧式格式化
+
+2. 使用{}和format的新式格式化
+
+```
+print('|%s|' % '$42#')
+print('|{}{}|'.format('$4', '2#'))
+print('|{0}{1}|'.format('$4', '2#'))
+print('|{1}{0}|'.format('$4', '2#'))
+print('|{first}{second}|'.format(first='$4', second='2#'))
+
+d = {'n': 42, 'f': 7.03, 's': 'string cheese'}
+print('|{0[n]}{0[f]}{0[s]}^{1}-{k}|'.format(d, 'cheep', k=200))
+print('|{0:s}|'.format('$42#'))
+
+print('------------------')
+print('|%10s|' % '$42#')
+print('|{0:>10s}|'.format('$42#'))
+
+print('------------------')
+print('|%-10s|' % '$42#')
+print('|{0:<10s}|'.format('$42#'))
+
+print('------------------')
+print('|%s|' % 42)
+print('|{0}|'.format(42))
+
+print('------------------')
+print('|%3d|' % 42)
+print('|{0:3d}|'.format(42))
+
+print('------------------')
+print('|%8.3f|' % 42)
+print('|{0:8.3f}'.format(42))
+
+print('------------------')
+print('|%-10s|' % 42)
+print('|{0:<10s}|'.format(str(42)))
+print('|{0:<10d}|'.format(42))
+
+print('------------------')
+print('|%9.3f|' % 42.1415926)
+print('|{0:9.3f}|'.format(42.1415926))
+
+print('------------------')
+print('|%o|' % 42)
+print('|{0:o}|'.format(42))
+
+print('------------------')
+print('|%x|' % 42)
+print('|{0:x}|'.format(42))
+
+print('------------------')
+print('|%g|' % 42.141592614)
+print('|{0:g}|'.format(42.141592614))
+
+print('------------------')
+print('|%.2f%%|' % 42)
+print('|{0:.2f}%|'.format(42))
+
+print('------------------')
+print('|{0:!^20s}|'.format('$42#'))
+print('|{0:!<20s}|'.format('$42#'))
+print('|{0:!>20s}|'.format('$42#'))
+
+|$42#|
+|$42#|
+|$42#|
+|2#$4|
+|$42#|
+|427.03string cheese^cheep-200|
+|$42#|
+------------------
+|      $42#|
+|      $42#|
+------------------
+|$42#      |
+|$42#      |
+------------------
+|42|
+|42|
+------------------
+| 42|
+| 42|
+------------------
+|  42.000|
+|  42.000
+------------------
+|42        |
+|42        |
+|42        |
+------------------
+|   42.142|
+|   42.142|
+------------------
+|52|
+|52|
+------------------
+|2a|
+|2a|
+------------------
+|42.1416|
+|42.1416|
+------------------
+|42.00%|
+|42.00%|
+------------------
+|!!!!!!!!$42#!!!!!!!!|
+|$42#!!!!!!!!!!!!!!!!|
+|!!!!!!!!!!!!!!!!$42#|
+```
+
+#### 7.1.3 使用正则表达式匹配
+
+正则表达式的库是`re`。使用`.match`可以匹配以模式串作为开头的源字符串。
+
+使用`.compile`可以先对模式进行编译以加快匹配速度。可以直接使用编译好的模式进行匹配。
+
+还可以使用：
+
+- `search()`会返回第一次成功匹配，如果存在的话；
+- `findall()`会返回所有不重叠的匹配，如果存在的话；
+- `split()`会根据pattern将source切分成若干段，返回由这些片段组成的列表；
+- `sub()`还需要一个额外的参数replacement，它会把source中所有匹配的pattern改成replacement。
+
+```
+import re
+
+source = 'String for test!String for test!String for test!'
+m1 = re.match('Str', source)
+print(m1)
+if m1:
+    print(m1.group())
+    print(m1.groups())
+print('----------------')
+p2 = re.compile('Str')
+m2 = p2.match(source)
+if m2:
+    print(m2.group())
+    
+def print_re_func(pattern, source, re_func):
+    print('func:', re_func)
+    m = re_func(pattern, source)
+    if m:
+        try:
+            print('pattern:', pattern, 'result:', m.group())
+        except:
+            print('pattern:', pattern, 'result:', m)
+    else:
+        print('pattern:', pattern, 'result:', 'none!')
+    print('-------------')
+        
+print_re_func('tes', source, re.match)
+print_re_func('.*tes', source, re.match)
+print_re_func('tes', source, re.search)
+print_re_func('tes', source, re.findall)
+print_re_func('tes', source, re.split)
+
+m = re.sub('tes', '?', source) # replace 'tes' to '?'
+print(m)
+
+
+<_sre.SRE_Match object; span=(0, 3), match='Str'>
+Str
+()
+----------------
+Str
+func: <function match at 0x1051f1510>
+pattern: tes result: none!
+-------------
+func: <function match at 0x1051f1510>
+pattern: .*tes result: String for test!String for test!String for tes
+-------------
+func: <function search at 0x1052c91e0>
+pattern: tes result: tes
+-------------
+func: <function findall at 0x1052c9400>
+pattern: tes result: ['tes', 'tes', 'tes']
+-------------
+func: <function split at 0x1052c9378>
+pattern: tes result: ['String for ', 't!String for ', 't!String for ', 't!']
+-------------
+String for ?t!String for ?t!String for ?t!
+```
+
+一些基本的模式：
+
+- 普通的文本值代表自身，用于匹配非特殊字符；
+- 使用.代表任意除\n外的字符；
+- 使用*代表任意多个字符（包括0个）；
+- 使用?代表可选字符（0个或1个）。
+
+**模式：特殊的字符：**
+
+| 模式    | 匹配                                 |
+|:------:|:-------------------------------------|
+| \d     | 一个数字字符                           |
+| \D     | 一个非数字字符                          |
+| \w     | 一个字母或数字字符                      |
+| \W     | 一个非字母或数字字符                     |
+| \s     | 空白符                                 |
+| \S     | 非空白符                               |
+| \b     | 单词边界（一个\w与\W之间的范围，顺序可逆）   |
+| \B     | 非单词边界                             |
+
+不仅可以匹配ASCII的值，还可以匹配Unicode的值。
+
+```
+import re, string
+print(string.printable)
+
+print(re.findall('\s', string.printable))
+print(re.findall('\w', 'abc' + '-/*' + '\u00ea' + '\u0115')) # Unicode
+
+0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ!"#$%&'()*+,-./:;<=>?@[\]^_`{|}~ 	
+
+[' ', '\t', '\n', '\r', '\x0b', '\x0c']
+['a', 'b', 'c', 'ê', 'ĕ']
+```
+
+**模式：使用标识符：**
+
+| 模式    | 匹配                                 |
+|:------:|:-------------------------------------|
+| `abc`     | 文本值abc                           |
+| `(expr)`     | expr                           |
+| `expr1 | expr2`     | expr1或expr2                           |
+| `.`     | 除\n外的任何字符                          |
+| `^`     | 源字符串的开头                           |
+| `$`     | 源字符串的结尾                           |
+| `prev?`     | 0个或1个prev                           |
+| `prev*`     | 0个或多个prev，尽可能多地匹配               |
+| `prev*?`     | 0个或多个prev，尽可能少地匹配               |
+| `prev+`     | 1个或多个prev，尽可能多地匹配               |
+| `prev+?`     | 1个或多个prev，尽可能少地匹配               |
+| `prev{m}`     | m个连续的prev               |
+| `prev{m,n}`     | m到n个连续的prev，尽可能多地匹配               |
+| `prev{m,n}?`     | m到n个连续的prev，尽可能少地匹配       |
+| `[abc]`     | a或b或c（和a|b|c一样）             |
+| `[^abc]`     |  非（a或b或c）                   |
+| `prev(?=next)`     |  如果后面为next，返回prev                   |
+| `prev(?!next)`     |  如果后面非next，返回prev                   |
+| `(?<=prev>)next`     |  如果前面为prev，返回next                   |
+| `(?<!prev>)next`     |  如果前面非prev，返回next                   |
+
+更多实际操作请参看原书（P141-P143）。
+
+### 7.2 二进制数据
+
+#### 7.2.1 字节和字节数组
+
+- `bytes`：字节是不可变的，像字节数据组成的元组；
+- `bytearray`：字节数组是可变的，像字节数据组成的列表；
+
+```
+blist = [1,2,3,255]
+the_bytes = bytes(blist)
+the_byte_array = bytearray(blist)
+print(the_bytes)
+print(the_byte_array)
+the_byte_array[1] = 127
+print(the_byte_array) # changable
+
+b'\x01\x02\x03\xff'
+bytearray(b'\x01\x02\x03\xff')
+bytearray(b'\x01\x7f\x03\xff')
+```
+
+#### 7.2.2 使用struct转换二进制数据
+
+使用`struct.unpack`和`struct.pack`可以生成struct结构。
+
+```
+import struct
+data1 = b'\x01\x02\x03\x04\x01\x02\x03\x04'
+data2 = b'\x04\x03\x02\x01\x04\x03\x02\x01'
+print(len(data))
+x, y = struct.unpack('>LL', data1)
+print(x, y)
+x, y = struct.unpack('<LL', data2)
+print(x, y)
+x, y = struct.unpack('<LL', data1)
+print(x, y)
+
+8
+16909060 16909060
+16909060 16909060
+67305985 67305985
+```
+
+其中`L`代表4字节无符合长整数（unsigned long），`LL`代表8字节无符合长整数（unsigned long），以此类推，`>`或`<`代表大端方案（big-endian）和小端方案（little-endian）。
+
+更多实际操作请参看原书（P147-P148）。
+
+#### 7.2.3 其他二进制数据工具
+
+一些第三方包提供了更直观的类似struct的功能。如`bitstring`、`construct`、`hachoir`、`binio`等。
+
+#### 7.2.4 使用binascii()转换字节/字符串
+
+标准binascii模块提供了在二进制数据和多种字符串表示（十六进制、六十四进制、uuencoded，等等）之间转换的函数。
+
+```
+import binascii
+valid_png_header = b'\x89PNG\r\n\x1a\n'
+a = binascii.hexlify(valid_png_header)
+print(a)
+b = binascii.unhexlify(a)
+print(b)
+
+b'89504e470d0a1a0a'
+b'\x89PNG\r\n\x1a\n'
+```
+
+#### 7.2.5 位运算符
+
+可以使用`&`、`|`、`^`、`~`、`<<`、`>>`进行比特级别的操作。
+
+### 7.3 练习
+
+无
+
 第8章 数据的归宿
 --------------------------------------------
 
