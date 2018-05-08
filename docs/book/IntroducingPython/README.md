@@ -2891,6 +2891,319 @@ b'\x89PNG\r\n\x1a\n'
 第8章 数据的归宿
 --------------------------------------------
 
+### 8.1 文件输入/输出
+
+使用`fileobj = open(filename, mode)`，可以读写文件。
+
+```
+text = """中文Chinese
+汉字，文言文
+^localhost"""
+
+print(text)
+
+print('-------write file 1-------')
+fileobj1 = open('text_wt_test', 'wt')
+print('fileobj1', fileobj1.write(text))
+fileobj1.close()
+
+print('-------write file 2-------')
+fileobj2 = open('text_wb_test', 'wb')
+b = text.encode('utf-8')
+print('fileobj2.len', len(b))
+print('fileobj2', fileobj2.write(b))
+fileobj2.close()
+
+print('-------read file 1-------')
+fileobj3 = open('text_wt_test', 'rt')
+print(fileobj3.read())
+fileobj3.close()
+
+print('-------read file 2-------')
+fileobj4 = open('text_wt_test', 'rt')
+for line in fileobj4:
+    print(line, end = '')
+fileobj4.close()
+print('')
+
+print('-------read file 3-------')
+fileobj5 = open('text_wt_test', 'rt')
+while True:
+    line = fileobj5.readline()
+    if not line:
+        break
+    print(line, end='')
+fileobj5.close()
+
+中文Chinese
+汉字，文言文
+^localhost
+-------write file 1-------
+fileobj1 27
+-------write file 2-------
+fileobj2.len 43
+fileobj2 43
+-------read file 1-------
+中文Chinese
+汉字，文言文
+^localhost
+-------read file 2-------
+中文Chinese
+汉字，文言文
+^localhost
+-------read file 3-------
+中文Chinese
+汉字，文言文
+^localhost
+```
+
+不仅可以用write写文件，还可以用print来写文件。
+
+因为print默认会在多个参数之间默认增加空格，在执行完成后会增加回车，因此需要在使用print输入文件的时候，设定参数。
+
+- sep分隔符：默认是一个空格' '
+- end结束字符：默认是一个换行符'\n'
+
+```
+text = """中文Chinese
+汉字，文言文
+^localhost"""
+
+fout = open('print_to_file_test', 'wt')
+print(text, text, file=fout, sep='', end='')
+fout.close()
+
+中文Chinese
+汉字，文言文
+^localhost中文Chinese
+汉字，文言文
+^localhost
+```
+
+需要在每个文件对象用完后都调用close方法，否则在函数执行完成之后python会自动关闭。更好的做法是用`with open(filename, mode) as fileobj:`它执行完成后会自动关闭文件对象。
+
+```
+text = """中文Chinese
+汉字，文言文
+^localhost"""
+
+with open('print_to_file_use_with_test', 'wt') as fout:
+    print(text, text, file=fout, sep='', end='')
+```
+
+使用`fileobj.seek(n)`可以改变位置，使用`fileobj.tell()`可以读取当前位置。
+
+### 8.2 结构化的文本文件
+
+#### 8.2.1 CSV
+
+可以用`import csv`来引入csv库。
+
+书中介绍了读写内容，也介绍了带有表头的内容读写。
+
+```
+import csv
+villains = [
+    ['Doctor', 'No'],
+    ['Rosa', 'Klebb']
+]
+
+with open('villains.csv', 'wt') as fout:
+    csvout = csv.writer(fout)
+    csvout.writerows(villains)
+
+with open('villains.csv', 'rt') as fin:
+    csvin = csv.reader(fin)
+    villains2 = [row for row in csvin]
+
+print('villains2', villains2)
+
+with open('villains.csv', 'rt') as fin:
+    csvin = csv.DictReader(fin, fieldnames=['first', 'last'])
+    villains3 = [row for row in csvin]
+print('villains3', villains3)
+
+villains4 = [
+    {'first': 'Doctor', 'last': 'No'},
+    {'first': 'Rosa', 'last': 'Klebb'}
+]
+with open('villains4.csv', 'wt') as fout:
+    csvout = csv.DictWriter(fout, ['first', 'last'])
+    csvout.writeheader()
+    csvout.writerows(villains4)
+    
+with open('villains4.csv', 'rt') as fin:
+    csvin = csv.DictReader(fin)
+    villains4_1 = [row for row in csvin]
+print('villains4', villains4_1)
+
+
+villains2 [['Doctor', 'No'], ['Rosa', 'Klebb']]
+villains3 [OrderedDict([('first', 'Doctor'), ('last', 'No')]), OrderedDict([('first', 'Rosa'), ('last', 'Klebb')])]
+villains4 [OrderedDict([('first', 'Doctor'), ('last', 'No')]), OrderedDict([('first', 'Rosa'), ('last', 'Klebb')])]
+```
+
+#### 8.2.2 XML
+
+书中介绍了使用`import xml.etree.ElementTree as et`的方法读写XML的方法。
+
+#### 8.2.3 HTML
+
+主要用于显示，不用于数据传输。所以文章没有详细介绍。
+
+#### 8.2.4 JSON
+
+书中介绍了使用`import json`的方法`loads()`文本到JSON对象，`dumps()`JSON对象到稳步的方法。
+
+其中JSON不支持datetime类型。可以使用继承`JSONEncoder`的方式来实现。也可以直接转换成字符串进行存储。
+
+```
+import json
+import datetime
+from time import mktime
+class DTEncoder(json.JSONEncoder):
+    def default(self, obj):
+        if isinstance(obj, datetime.datetime):
+            return int(mktime(obj.timetuple()))
+        return json.JSONEncoder.default(self, obj)
+now = datetime.datetime.utcnow()
+t = json.dumps(now, cls=DTEncoder)
+print(t)
+
+1525679875
+```
+
+#### 8.2.5 YAML
+
+介绍了`pyyaml库`的使用，主要也是`load`和`dump`方法。
+
+#### 8.2.6 安全提示
+
+将一些大尺寸的文件读入内存的时候，可能遇到文件内描述了循环，而导致内存撑爆的情况。
+
+作者用XML的例子使用`defusedxml.ElementTree`的parse取代了`xml.etree.ElementTree`的parse。
+
+#### 8.2.7 配置文件
+
+书中使用`configparser`模块处理Windows风格的初始化.ini文件。
+
+#### 8.2.8 其他交换格式
+
+还有很多其他的数据交换格式，如`MsgPack`、`Protocol Buffers`、`Avro`、`Thrift`等。
+
+#### 8.2.9 使用pickle序列化
+
+pickle可以将python对象以二进制形式保存下来，并以同样的方式还原。
+
+```
+import pickle
+import datetime
+now1 = datetime.datetime.utcnow()
+pickled = pickle.dumps(now1)
+print(type(pickled))
+now2 = pickle.loads(pickled)
+print(now1)
+print(now2)
+
+<class 'bytes'>
+2018-05-07 16:05:12.276980
+2018-05-07 16:05:12.276980
+```
+
+### 8.3 结构化二进制文件
+
+#### 8.3.1 电子数据表
+
+可以用xlrd库操作Microsoft Excel。
+
+#### 8.3.2 层次数据格式
+
+层次数据格式（HDF5）适用于海量数据集，一次写入多次读取的场景。
+
+`h5py`库提供底层级别的接口，`PyTables`库提供较为高级的接口。
+
+### 8.4 关系型数据库
+
+书中介绍了数据库的概念，这部分比较初级，不作展开。
+
+#### 8.4.1 SQL
+
+书中介绍了SQL的特点，这部分比较初级，不作展开。
+
+#### 8.4.2 DB-API
+
+python的数据库交互规范，类似jdbc。
+
+定义了connect, cursor, execute, executemany, fetchone, fetchmany, fetchall等方法。
+
+#### 8.4.3 SQLite
+
+文件级别的数据库，几个示例描述了如何操作数据库。
+
+使用`import sqlite3`语句引入。
+
+#### 8.4.4 MySQL
+
+MysqlDB库比较流行，但不支持python3。
+
+可以使用`MySQL Connector`，`PYMySQL`，`oursql`等库来连接。
+
+#### 8.4.5 PostgreSQL
+
+可以用`psycopg2`，`py-postgresql`等库来连接。
+
+#### 8.4.6 SQLAlchemy
+
+不同品牌数据库有不同的SQL差异，SQLAlchemy为了消除不同数据库之间的差异而产生。
+
+SQLAlchemy提供了：
+
+- 引擎层：类似DB-API的方式，允许直接执行SQL语句。
+- SQL表达式层：用一些辅助的对象，来间接操作数据库。
+- 对象关系映射ORM：把表直接映射为Python对象/类，来间接操作数据库。
+
+至于用户应该用哪一层，在业界存在争议。作者的观点更倾向于直接使用SQL。
+
+### 8.5 NoSQL数据存储
+
+#### 8.5.1 dbm family
+
+dbm提供了一种键值对的数据管理方式，数据会自动保存到磁盘的数据库中。
+
+```
+import dbm
+db = dbm.open('definitions', 'c')
+db['mustard'] = 'yellow'
+db['ketchup'] = 'red'
+db['pesto'] = 'green'
+print(len(db))
+db.close()
+```
+
+#### 8.5.2 memcached
+
+可以使用`python3-memcached`库来连接memcached。它是基于内存的。
+
+#### 8.5.3 Redis
+
+和memcached比，可以落地磁盘，保持旧数据，提供多种数据结构。
+
+使用`redis-py`库来连接。
+
+书中用较长篇幅介绍了Redis的操作及使用。
+
+#### 8.5.4 其他的NoSQL
+
+书中列举了其他一些NoSQL库，及他们对应的Python库。（P189）
+
+### 8.6 全文数据库
+
+书中列举了全文数据库，及他们对应的Python库。（P189）
+
+### 8.7
+
+无
+
 第9章 剖析Web
 --------------------------------------------
 
