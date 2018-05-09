@@ -1,0 +1,26 @@
+<html>
+    <head>
+        <title></title>
+        <script type="text/javascript">
+            function echo() {
+                var echo_text = document.getElementById('echo_text');
+                if(echo_text) {
+                    href = "/echo/" + encodeURI(echo_text.value);
+                    hrefWithParams = href + '?place=Beijing'
+                    document.getElementById('output').innerHTML 
+                        += 'bottle: <a href="' + href + '" target="_blank">' + href + '</a><br />'
+                        + 'flask echo: <a href="' + href + '" target="_blank">' + href + '</a><br />'
+                        + 'flask echo with params: <a href="' + hrefWithParams + '" target="_blank">' + hrefWithParams + '</a><br />';
+                }
+            }
+        </script>
+    </head>
+    <body>
+        My <b>new</b> and <i>improved</i> home page!!!<br />
+
+        Echo: <input id="echo_text" type="text" value="" /><input id="btnEcho" type="button" value="echo" onclick="echo()" />
+
+        <div id="output"></div>
+        <div>only for flask.jinja2{{thing}}</div>
+    </body>
+</html>

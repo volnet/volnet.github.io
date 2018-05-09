@@ -3207,6 +3207,174 @@ db.close()
 第9章 剖析Web
 --------------------------------------------
 
+### 9.1 Web客户端
+
+#### 9.1.1 使用telnet进行测试
+
+可以telnet网站（通常是80端口），进行连接。
+
+#### 9.1.2 Python的标准Web库
+
+主要有`http`和`urllib`，其中，后者是前者的高层库。
+
+#### 9.1.3 抛开标准库：requests
+
+可以使用`requests`取代`urllib`，可以更简洁地处理Web请求。
+
+### 9.2 Web服务端
+
+#### 9.2.1 最简单的Python Web服务器
+
+可以调用命令`python -m http.server`来启动命令，默认使用8000端口来访问，它不能处理动态内容，也不应该被用在产品级的部署上，适合于测试。
+
+#### 9.2.2 Web服务器网关接口
+
+CGI的出现理由以及它的简要工作方式。
+
+#### 9.2.3 框架
+
+现在大家都使用各种框架来编写网站，它至少要具备处理客户端请求和服务端响应的能力。还可能会包含下面的一种或多种能力：路由、模板、认证和授权、Session等。
+
+#### 9.2.4 Bottle
+
+```
+pip install bottle
+```
+
+bottle是一个轻量级的Web框架，可以用来响应Web请求。
+
+示例1：返回一段文本
+
+```
+from bottle import route, run
+
+@route('/')
+def home():
+    return "It isn't fancy, but it's my home page"
+run(host="localhost", port=9999)
+```
+
+示例2：返回静态文件
+
+```
+from bottle import route, run, static_file
+
+@route('/')
+def main():
+    return static_file('index.html', root='.')
+run(host="localhost", port=9999)
+```
+
+示例3：返回模板文件
+
+```
+from bottle import route, run, static_file
+
+@route('/')
+def main():
+    return static_file('index.html', root='.')
+@route('/echo/<thing>')
+def echo(thing):
+    return 'Echo:' + thing
+
+run(host="localhost", port=9999)
+```
+
+#### 9.2.5 Flask
+
+```
+pip install flask
+```
+
+flask也是一个轻量级的Web框架，可以用来响应Web请求，比bottle更为强大一点。自带的werkzeug WSGI库和jinja2库非常强大。
+
+```
+from flask import Flask, render_template, request
+app = Flask(__name__, static_folder='.', static_url_path='')
+
+@app.route('/')
+def home():
+    return app.send_static_file('index.html')
+
+@app.route('/echo/<thing>')
+def echo(thing):
+    place = request.args.get('place')
+    return render_template('flask2.html', thing=thing, place=place)
+
+app.run(port=9999)
+```
+
+#### 9.2.6 非Python的Web服务器
+
+在生产环境中可以使用Apache+mod_wsgi模块和nginx+uWSGI应用服务器作为服务器。
+
+#### 9.2.7 其他框架
+
+其他Web框架有：django、web2py、pyramid、turbogears、wheezy.web。
+
+其他Python Web服务器有：uwsgi、cherrypy、pylons，以及一些事件服务器，如：tornado、gevent、gunicorn。
+
+### 9.3 Web服务和自动化
+
+#### 9.3.1 webbrowser模块
+
+输入下面的语句，会调用标准库的webbrowser模块并让你的浏览器显示一个Python入门网页。
+
+```
+import antigravity
+```
+
+使用webbrowser可以操控浏览器。
+
+```
+import webbrowser
+url = 'http://www.python.org'
+webbrowser.open(url + '?op=open')
+webbrowser.open_new(url + '?op=open_new')
+webbrowser.open_new_tab(url + '?op=open_new_tab')
+```
+
+#### 9.3.2 Web API和表示性状态传递
+
+一些关于REST概念的简要介绍。
+
+#### 9.3.3 JSON
+
+将Web作为应用间传递数据的接口，数据格式经常是JSON。
+
+#### 9.3.4 抓取数据
+
+可以使用Scrapy来作为企业级爬虫。
+
+#### 9.3.5 用BeautifulSoup来抓取网页
+
+和Scrapy相比简单一点，可以解析HTML。
+
+示例：抓取指定网页中的所有超链接。
+
+```
+def get_links(url):
+    import requests
+    from bs4 import BeautifulSoup as soup
+    result = requests.get(url)
+    page = result.text
+    doc = soup(page)
+    links = [element.get('href') for element in doc.find_all('a')]
+    return links
+
+if __name__ == '__main__':
+    urls = ['https://www.python.org/']
+    for url in urls:
+        print('Link in', url)
+        for num, link in enumerate(get_links(url), start=1):
+            print(num, link)
+        print()
+```
+
+### 9.4 练习
+
+无
+
 第10章 系统
 --------------------------------------------
 
