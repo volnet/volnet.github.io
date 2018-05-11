@@ -3378,6 +3378,375 @@ if __name__ == '__main__':
 第10章 系统
 --------------------------------------------
 
+### 10.1 文件
+
+#### 10.1.1 用open()创建文件
+
+```
+fout = open('oops.txt', 'wt')
+print('Oops, I created a file.', file=fout)
+fout.close()
+``` 
+
+#### 10.1.2 用exists()检查文件是否存在
+
+即可以用来检查文件，也可以用来检查路径。
+
+```
+import os
+print(os.path.exists('sample.ipynb'))
+print(os.path.exists('.'))
+
+True
+True
+```
+
+#### 10.1.3 用isfile()检查是否为文件
+
+```
+import os
+print(os.path.isfile('sample.ipynb'))#是否是个文件，文件必须存在
+print(os.path.isdir('.'))#是否是个目录，路径必须存在
+print(os.path.isabs('.'))#是否是个绝对路径名，路径可以不存在
+print(os.path.isabs('/'))
+
+True
+True
+False
+True
+```
+
+#### 10.1.4 用copy()复制文件
+
+```
+import shutil
+shutil.copy('sample.ipynb', 'sample-test-copy.ipynb') 
+shutil.move('sample-test-copy.ipynb', 'sample-test-copy-2.ipynb') # 复制一个文件并删除原始文件
+```
+
+#### 10.1.5 用rename()重命名文件
+
+```
+import os
+os.rename('sample-test-copy-2.ipynb', 'sample-test-copy.ipynb') 
+```
+
+#### 10.1.6 用link()或者symlink()创建链接
+
+- link()等同于类Unix的`ln existfile newfile`，是指创建了一个新的索引，指向了原来的文件的文件块。这个文件块的索引数增加1。
+- symlink()等同于类Unix的`ln -s existfile newfile`，是指创建了一个新的文件，文件的内容是existfile的索引，打开symlink的时候，会进一步打开这个索引指向的文件块。因此文件块的索引并不增加1。symlink是另一个单独的文件。
+
+```
+import os
+os.link('sample-test-rename.ipynb', 'sample-test-link.ipynb')
+os.path.isfile('sample-test-link.ipynb') 
+
+True
+```
+
+```
+import os
+os.symlink('sample-test-rename.ipynb', 'sample-test-symlink.ipynb')
+os.path.isfile('sample-test-symlink.ipynb')
+
+True
+```
+
+#### 10.1.7 使用chmod()修改权限
+
+仅限于类Unix系统。
+
+```
+os.chomd('oops.txt', 0o400)
+```
+或者
+
+```
+import stat
+os.chmod('oops.txt', stat.S_IRUSR)
+```
+
+#### 10.1.8 用chown()修改所有者
+
+仅限于类Unix系统。
+
+```
+uid = 5
+gid = 22
+os.chown('oops.txt', uid, gid)
+```
+
+#### 10.1.9 用abspath()获取路径名
+
+用此函数可以将一个相对路径扩展为绝对路径。
+
+```
+import os
+os.path.abspath('sample.ipynb')
+```
+
+#### 10.1.10 用realpath()获取符号的路径
+
+```
+import os
+print(os.path.realpath('sample.ipynb'))
+print(os.path.realpath('sample-test-link.ipynb'))
+print(os.path.realpath('sample-test-symlink.ipynb'))
+
+.../chapter10/sample.ipynb
+.../chapter10/sample-test-link.ipynb
+.../chapter10/sample-test-rename.ipynb
+```
+
+#### 10.1.11 用remove()删除文件
+
+```
+import os
+os.remove('sample-test-rename.ipynb')
+os.remove('sample-test-link.ipynb')
+os.remove('sample-test-symlink.ipynb')
+```
+
+### 10.2 目录
+
+#### 10.2.1 使用mkdir()创建目录
+
+```
+os.mkdir('dirname')
+```
+
+#### 10.2.2 使用rmdir()删除目录
+
+```
+os.rmdir('dirname')
+```
+
+#### 10.2.3 使用listdir()列出目录内容
+
+```
+os.listdir('dirname')
+```
+
+#### 10.2.4 使用chdir()修改当前目录
+
+可以从一个目录跳转到另一目录。
+
+```
+os.chdir('dirname')
+os.listdir('.')
+```
+
+#### 10.2.5 使用glob()列出匹配文件
+
+会使用Unix shell规则来匹配文件和目录，而不是用正则表达式。
+
+```
+import glob
+glob.glob('*.ipynb')
+```
+
+### 10.3 程序和进程
+
+```
+import os
+print(os.getpid()) # 进程号
+print(os.getcwd()) # 当前运行路径
+print(os.getuid()) # 用户id
+print(os.getgid()) # 用户组id
+```
+
+#### 10.3.1 使用subprocess创建进程
+
+```
+import subprocess
+ret = subprocess.getoutput('date') # 使用shell
+print(ret)
+
+ret = subprocess.getoutput('date -u') # 使用shell
+print(ret)
+
+ret = subprocess.getoutput('date -u | wc') # 使用shell
+print(ret)
+
+ret = subprocess.check_output(['date', '-u']) # 不使用shell，返回的是字节类型的输出
+print(ret)
+print(ret.decode('utf-8'))
+
+ret = subprocess.getstatusoutput('date -u') # 使用shell，返回包含状态码和返回值的元组，返回值0代表子进程成功退出
+print(ret)
+
+ret = subprocess.call('date') # 默认不使用shell，所以不能带参数-u，使用call只返回退出状态码，不返回执行结果
+print(ret)
+
+ret = subprocess.call('date -u', shell=True) # 使用shell，所以可以带参数-u，使用call只返回退出状态码，不返回执行结果
+print(ret)
+
+2018年 5月10日 星期四 23时54分06秒 CST
+2018年 5月10日 星期四 15时54分06秒 UTC
+       1       5      48
+b'2018\xe5\xb9\xb4 5\xe6\x9c\x8810\xe6\x97\xa5 \xe6\x98\x9f\xe6\x9c\x9f\xe5\x9b\x9b 15\xe6\x97\xb654\xe5\x88\x8606\xe7\xa7\x92 UTC\n'
+2018年 5月10日 星期四 15时54分06秒 UTC
+
+(0, '2018年 5月10日 星期四 15时54分06秒 UTC')
+0
+0
+```
+
+#### 10.3.2 使用multiprocessing创建进程
+
+允许在一个进程中运行多个子进程。
+
+```
+import multiprocessing
+import os
+
+def do_this(what):
+    whoami(what)
+def whoami(what):
+    print("Process %s says: %s" % (os.getpid(), what))
+    
+if __name__ == '__main__':
+    whoami("I‘m the main program")
+    for n in range(4):
+        p = multiprocessing.Process(target=do_this, args=("I'm function %s" % n, )) # 当只有一个参数的时候，元组最后的逗号不可以省略。
+        p.start()
+```
+
+#### 10.3.3 使用terminate()终止进程
+
+```
+p = multiprocessing.Process(target=do_this, args=("I'm function %s" % n, ))
+
+p.terminate()
+```
+
+### 10.4 日期和时间
+
+```
+import calendar
+print(calendar.isleap(1990)) # 不是闰年
+print(calendar.isleap(2000)) # 是闰年
+```
+
+Python的标准库中有很多日期和时间模块：datetime、time、calendar、dateutil，等等。
+
+#### 10.4.1 datetime模块
+
+```
+from datetime import date
+print(date(2018, 5, 11))
+d = date(2018, 5, 11)
+print(d.year, d.month, d.day)
+
+today = date.today()
+print(today)
+
+from datetime import time
+print(time(10, 22, 23))
+t = time(10, 22, 23, 222)
+print(t.hour, t.minute, t.second, t.microsecond)
+zero = time()
+print(zero)
+print(date.min, date.max, time.min, time.max)
+
+from datetime import timedelta
+one_day = timedelta(days=1)
+tomorrow = date.today() + one_day
+yesterday = date.today() - one_day
+print(tomorrow, yesterday)
+
+from datetime import datetime
+some_day = datetime(2014,1,2,3,4,5,6)
+print(some_day)
+print(datetime.now())
+
+from datetime import datetime, date, time
+print(datetime.combine(date(2014, 1, 3), time(7, 12, 15, 938)))
+
+2018-05-11
+2018 5 11
+2018-05-12
+10:22:23
+10 22 23 222
+00:00:00
+0001-01-01 9999-12-31 00:00:00 23:59:59.999999
+2018-05-13 2018-05-11
+2014-01-02 03:04:05.000006
+2018-05-12 00:11:15.241272
+2014-01-03 07:12:15.000938
+```
+
+#### 10.4.2 使用time模块
+
+```
+import time # 不同于datetime模块的time
+print(time.time()) # 纪元值，1970年至今的秒数
+print(time.ctime(time.time())) # 把纪元值转换成一个字符串
+print(time.localtime(time.time())) # 把纪元值转换成一个本地时间，是个time.struct_time对象，只能精确到秒
+print(time.gmtime(time.time())) # 把纪元值转换成一个格林威治时间，是个time.struct_time对象，只能精确到秒
+print(time.mktime(time.localtime(time.time()))) # 把本地时间转换为纪元值
+print(time.mktime(time.gmtime(time.time()))) # 把格林威治时间转换为纪元值
+
+1526055404.7887511
+Sat May 12 00:16:44 2018
+time.struct_time(tm_year=2018, tm_mon=5, tm_mday=12, tm_hour=0, tm_min=16, tm_sec=44, tm_wday=5, tm_yday=132, tm_isdst=0)
+time.struct_time(tm_year=2018, tm_mon=5, tm_mday=11, tm_hour=16, tm_min=16, tm_sec=44, tm_wday=4, tm_yday=131, tm_isdst=0)
+1526055404.0
+1526026604.0
+```
+
+#### 10.4.3 读写日期和时间
+
+```
+import datetime
+print(date.today().isoformat())
+print(datetime.datetime.now().strftime('%Y-%m-%d %H:%M:%S'))
+print(datetime.datetime.strptime('2018-05-12 00:21:37', '%Y-%m-%d %H:%M:%S'))
+
+print('-------------')
+
+import time
+print(time.strftime('%Y-%m-%d %H:%M:%S', time.localtime(time.time())))
+print(time.strftime('%Y-%m-%d %H:%M:%S', time.gmtime(time.time())))
+print(time.strptime('2018-05-12 00:21:37', '%Y-%m-%d %H:%M:%S'))
+print(time.strptime('2018-05-12 00:21:37', '%Y-%m-%d %H:%M:%S'))
+
+print('-------------')
+
+import locale
+from datetime import date
+halloween = date(2014, 10, 31)
+for lang_country in ['en_us', 'fr_fr', 'de_de', 'es_es', 'is_is', ]:
+    locale.setlocale(locale.LC_TIME, lang_country)
+    print(halloween.strftime('%A, %B %d'))
+
+2018-05-12
+2018-05-12 00:30:01
+2018-05-12 00:21:37
+-------------
+2018-05-12 00:30:01
+2018-05-11 16:30:01
+time.struct_time(tm_year=2018, tm_mon=5, tm_mday=12, tm_hour=0, tm_min=21, tm_sec=37, tm_wday=5, tm_yday=132, tm_isdst=-1)
+time.struct_time(tm_year=2018, tm_mon=5, tm_mday=12, tm_hour=0, tm_min=21, tm_sec=37, tm_wday=5, tm_yday=132, tm_isdst=-1)
+-------------
+Friday, October 31
+Vendredi, octobre 31
+Freitag, Oktober 31
+viernes, octubre 31
+föstudagur, október 31
+```
+
+#### 10.4.4 其他模块
+
+- arrow，https://arrow.readthedocs.io/en/latest/ ，这个模块有许多日期和时间函数，并提供了简单易用的API。
+- dateutil，http://labix.org/python-dateutil ，这个模块可以解析绝大多数日期格式，并且可以很好地处理相对日期和时间。
+- iso8601，https://pypi.org/project/iso8601/ ，这个模块会完善标准库中对于ISO8601格式的处理。
+- fleming，https://github.com/ambitioninc/fleming ，这个模块提供了许多时区函数。
+
+### 10.5 练习
+
+无
+
 第11章 并发和网络
 --------------------------------------------
 
