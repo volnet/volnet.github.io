@@ -1476,7 +1476,7 @@ k = 64
 ### 4.10 命名空间和作用域
 
 - 在局部作用域中不能修改全局作用域的内容
-- 如果需要使用到全局作用域，则需要使用`globals xxx`关键字
+- 如果需要使用到全局作用域的变量，则需要使用`global xxx`关键字
 - 使用`locals()`, `globals()`函数可以显示局部和全局变量
 - 使用`_`和`__`的开头和结束的名称都是Python的保留用法。
 
@@ -3749,6 +3749,541 @@ föstudagur, október 31
 
 第11章 并发和网络
 --------------------------------------------
+
+### 11.1 并发
+
+使用队列可以来管理多任务。
+
+#### 11.1.1 队列
+
+我们用队列来管理分布式任务，这种队列也称为工作队列或者任务队列。
+
+#### 11.1.2 进程
+
+```
+import multiprocessing as mp
+
+def washer(dishes, output):
+    for dish in dishes:
+        print('Washing', dish, 'dish')
+        output.put(dish)
+        
+def dryer(input):
+    while True:
+        dish = input.get()
+        print('Drying', dish, 'dish')
+        input.task_done()
+        
+dish_queue = mp.JoinableQueue()
+dryer_proc = mp.Process(target=dryer, args=(dish_queue,))
+dryer_proc.daemon = True
+dryer_proc.start()
+
+dishes = ['salad', 'bread', 'entree', 'dessert']
+washer(dishes, dish_queue)
+dish_queue.join()
+
+$ python3 dishes_multiprocessing.py 
+Washing salad dish
+Washing bread dish
+Washing entree dish
+Washing dessert dish
+Drying salad dish
+Drying bread dish
+Drying entree dish
+Drying dessert dish
+```
+
+使用jupyter notebook结果会反过来（先Dry后Wash）
+
+#### 11.1.3 进程
+
+```
+import threading, queue
+import time
+
+def washer(dishes, dish_queue):
+    for dish in dishes:
+        print("Washing", dish)
+        time.sleep(5)
+        dish_queue.put(dish)
+        
+def dryer(dish_queue):
+    while True:
+        dish = dish_queue.get()
+        print("Drying", dish)
+        time.sleep(10)
+        dish_queue.task_done()
+
+dish_queue = queue.Queue()
+for n in range(2):
+    dryer_thread = threading.Thread(target=dryer, args=(dish_queue, ))
+    dryer_thread.start()
+    
+dishes = ['salad', 'bread', 'entree', 'dessert']
+washer(dishes, dish_queue)
+dish_queue.join()
+
+$ python3 dishes_threading.py
+Washing salad
+Washing bread
+Drying salad
+Washing entree
+Drying bread
+Washing dessert
+Drying entree
+Drying dessert
+```
+
+multiprocessing和threading的区别之一就是threading没有terminate()函数。很难终止一个正在运行的线程，因为这可能会引起代码和时空连续性上的各种问题。
+
+在Python中，线程不能加速受CPU限制的任务，原因是标准Python系统中使用了全局解释器锁（GIL）。GIL的作用是避免Python解释器中的线程问题，但是实际上会让多线程程序运行速度比对应的单线程版本甚至是多进程版本更慢。
+
+总而言之，对于Python，建议如下：
+
+- 使用线程来解决I/O限制问题；
+- 使用进程、网络或者事件（下一节会介绍）来处理CPU限制问题。
+
+#### 11.1.4 绿色线程和gevent
+
+一个基于事件的程序会运行一个核心事件循环，分配所有任务，然后重复这个循环。ngnix Web服务器就是基于事件的设计，通常来说比Apache快。
+
+[gevent](http://www.gevent.org) 就是一个基于事件的很棒的库：你只需要编写普通的代码，gevent会神奇地把它们转换成协程。协程就像可以互相通信的生成器，它们会记录自己的位置。gevent可以修改许多Python的标准对象，比如socket，从而使用它自己的机制来代替阻塞。协程无法处理C写成的Python扩展代码，比如一些数据库驱动程序。
+
+```
+pip install gevent
+```
+
+第一种方法，使用gevent中的库来替换。
+
+```
+import gevent
+from gevent import socket
+hosts=["www.github.com", "www.amazon.com"]
+jobs = [gevent.spawn(gevent.socket.gethostbyname, host) for host in hosts]
+gevent.joinall(jobs, timeout=5)
+for job in jobs:
+    print(job.value)
+
+$ python3 gevent_test.py 
+13.250.177.223
+23.13.186.212
+```
+
+第二种方法，使用monkey，它会修改标准模块，比如socket，直接让它们使用绿色线程而不是调用gevent版本。如果想在整个程序中应用gevent，这种方法非常有用，即使那些你无法直接接触到的代码也会被改变。
+
+```
+import gevent
+from gevent import monkey; monkey.patch_all()
+import socket
+hosts=["www.github.com", "www.amazon.com"]
+jobs = [gevent.spawn(socket.gethostbyname, host) for host in hosts]
+gevent.joinall(jobs, timeout=5)
+for job in jobs:
+    print(job.value)
+
+$ python3 gevent_monkey.py 
+13.229.188.59
+23.13.186.212
+```
+
+使用gevent还有一个潜在的危险。对于基于事件的系统来说，执行的每段代码都应该尽可能快。尽管不会阻塞，执行复杂任务的代码还是会很慢。
+
+#### 11.1.5 twisted
+
+[twisted](http://twistedmatrix.com/trac)（http://twistedmatrix.com/trac） 是一个异步事件驱动的网络框架。你可以把函数关联到事件（比如数据接收或者连接关闭）上，当事件发生时这些函数会被调用。这种设计被称为回调（callback），如果你以前用过JavaScript，那一定不会陌生。如果是第一次见到回调，可能会觉得它有点过时。对于有些开发者来说，基于回调的代码在应用规模变大之后回很难维护。
+
+```
+pip install twisted
+```
+
+knock_server.py
+
+```
+# -*- coding: utf-8 -*-
+
+from twisted.internet import protocol, reactor
+
+class Knock(protocol.Protocol):
+    def dataReceived(self, data):
+        print("Client:", data)
+        if data.startswith("Knock knock".encode('ascii')):
+            response = "Who's there?"
+        else:
+            response = str(data) + " who?"
+        print("Server:", response)
+        self.transport.write(response.encode('ascii'))
+        
+class KnockFactory(protocol.Factory):
+    def buildProtocol(self, addr):
+        return Knock()
+
+reactor.listenTCP(8000, KnockFactory())
+reactor.run()
+
+```
+
+knock_client.py
+
+```
+# -*- coding: utf-8 -*-
+
+from twisted.internet import reactor, protocol
+
+class KnockClient(protocol.Protocol):
+    def connectionMade(self):
+        self.transport.write("Knock knock".encode('ascii'))
+        
+    def dataReceived(self, data):
+        if data.startswith("Who's there?".encode('ascii')):
+            response = "Disappearing client"
+            self.transport.write(response.encode('ascii'))
+        else:
+            self.transport.loseConnection()
+            reactor.stop()
+class KnockFactory(protocol.ClientFactory):
+    protocol = KnockClient
+    
+def main():
+    f = KnockFactory()
+    reactor.connectTCP("localhost", 8000, f)
+    reactor.run()
+    
+if __name__ == '__main__':
+    main()
+```
+
+```
+$ python knock_server.py 
+Client: b'Knock knock'
+Server: Who's there?
+Client: b'Disappearing client'
+Server: b'Disappearing client' who?
+```
+
+```
+$ python knock_client.py 
+```
+
+#### 11.1.6 asyncio
+
+asyncio是Python作者为了调停回调、绿色线程以及其他并发方法的模块。
+
+它提供了一种通用的事件循环，可以兼容twisted、gevent和其他异步方法。目标是提供一种标准、简洁、高性能的异步API。
+
+#### 11.1.7 Redis
+
+作者用Redis的rpush和blpop方法模拟了队列。
+
+#### 11.1.8 队列之上
+
+一些基于Python的队列包添加了这种额外的控制层（用多个列表来管理待进行、进行中、已完成）：
+
+- celery（ http://www.celeryproject.org/ ）：它可以同步或者异步执行分布式任务，使用了我们之前介绍的方法：multiprocessing、gevent等。
+- thoonk（ https://github.com/andyet/thoonk.py ）：这个包基于Redis构建，可以创建任务队列并实现发布-订阅。
+- rq（ http://python-rq.org/ ）：这是一个处理任务队列的Python库，同样基于Redis。
+- Queues（ http://queues.io/ ）：这个网站介绍了队列化软件，其中有些是基于Python开发的。
+
+### 11.2 网络
+
+#### 11.2.1 模式
+
+- 请求-响应／客户端-服务器：同步的，用户会一直等待服务器响应。
+- 推送（push）或者扇出（这里译者意思是push）：把数据发送到一个进程池中，空闲的工作进程会进行处理。
+- 拉取（pull）或者扇入（这里译者意思是pull）：从一个或多个源接收数据。
+- 发布-订阅：和推送模式不同，可能会有多个订阅者收到数据。
+
+#### 11.2.2 发布-订阅模型
+
+1. Redis
+
+作者用Redis的publish和subscribe演示了发布订阅模式。
+
+2. ZeroMQ
+
+作者用ZeroMQ的send_multipart和recv_multipart方法演示了发布订阅模式。
+
+3. 其他发布-订阅工具
+
+- RabbitMQ：pika是它的Python API。
+- pypi.python.org：搜索pubsub。有类似[pypubsub](https://pypi.org/project/PyPubSub/) 这样的Python包。
+- pubsubhubbub：https://github.com/pubsubhubbub/PubSubHubbub 允许订阅者注册对应发布者的回调函数。
+
+#### 11.2.3 TCP/IP
+
+作者介绍了UDP、TCP的基本概念，并描述了TCP/IP的基本工作原理。
+
+#### 11.2.4 套接字
+
+udp_server.py
+
+```
+from datetime import datetime
+import socket
+
+server_address = ('localhost', 6789)
+max_size = 4096
+
+print('Starting the server at', datetime.now())
+print('Waiting for a client to call.')
+server = socket.socket(socket.AF_INET, socket.SOCK_DGRAM)
+server.bind(server_address)
+
+data, client = server.recvfrom(max_size)
+
+print('At', datetime.now(), client, 'said', data)
+server.sendto(b'Are you talking to me?', client)
+server.close()
+```
+
+udp_client.py
+
+```
+import socket
+from datetime import datetime
+
+server_address = ('localhost', 6789)
+max_size = 4096
+
+print('Starting the client at', datetime.now())
+client = socket.socket(socket.AF_INET, socket.SOCK_DGRAM)
+client.sendto(b'Hey!', server_address)
+data, server = client.recvfrom(max_size)
+print('At', datetime.now(), server, 'said', data)
+client.close()
+```
+按顺序启动udp_server.py、udp_client.py，得到如下结果：
+
+```
+$ python udp_server.py 
+Starting the server at 2018-05-29 20:36:36.007946
+Waiting for a client to call.
+At 2018-05-29 20:36:52.606674 ('127.0.0.1', 50087) said b'Hey!'
+
+$ python udp_client.py 
+Starting the client at 2018-05-29 20:36:52.605319
+At 2018-05-29 20:36:52.606749 ('127.0.0.1', 6789) said b'Are you talking to me?'
+localhost:chapter11 gongcen$
+```
+
+AF_INET表示要创建一个因特网（IP）套接字。（还有其他类型的Unix域套接字，不过那些只能在本地运行。）SOCK_DGRAM表示我们要发送和接收数据报，换句话说，我们要使用UDP。
+
+tcp_server.py
+
+```
+from datetime import datetime
+import socket
+
+address = ('localhost', 6789)
+max_size = 1000
+
+print('Starting the server at', datetime.now())
+print('Waiting for a client to call.')
+server = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
+server.bind(address)
+server.listen(5)
+
+client, addr = server.accept()
+data = client.recv(max_size)
+
+print('At', datetime.now(), client, 'said', data)
+client.sendall(b'Are you talking to me?')
+client.close()
+server.close()
+```
+
+tcp_client.py
+
+```
+import socket
+from datetime import datetime
+
+address = ('localhost', 6789)
+max_size = 1000
+
+print('Starting the client at', datetime.now())
+client = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
+client.connect(address)
+client.sendall(b'Hey!')
+data = client.recv(max_size)
+print('At', datetime.now(), 'someone replied', data)
+client.close()
+```
+
+按顺序启动tcp_server.py、tcp_client.py，得到如下结果：
+
+```
+$ python tcp_server.py 
+Starting the server at 2018-05-29 21:50:23.316354
+Waiting for a client to call.
+At 2018-05-29 21:50:26.358545 <socket.socket fd=6, family=AddressFamily.AF_INET, type=SocketKind.SOCK_STREAM, proto=0, laddr=('127.0.0.1', 6789), raddr=('127.0.0.1', 51440)> said b'Hey!'
+
+$ python tcp_client.py
+Starting the client at 2018-05-29 21:50:26.356516
+At 2018-05-29 21:50:26.358683 someone replied b'Are you talking to me?'
+```
+
+#### 11.2.5 ZeroMQ
+
+ZeroMQ是一个库，有时候也被称为打了激素的套接字，ZeroMQ套接字实现了很多你需要但是普通套接字没有的功能：
+
+- 传输完整的消息
+- 重连
+- 当发送方和接受方的时间不同步时缓存数据
+
+访问 http://zguide.zeromq.org 可以获得在线教程。
+
+```
+pip install pyzmq
+```
+
+zmq_server.py
+
+```
+import zmq
+
+host = '127.0.0.1'
+port = 6789
+context = zmq.Context()
+server = context.socket(zmq.REP)
+server.bind("tcp://%s:%s" % (host, port))
+while True:
+    # 等待客户端的下一个请求
+    request_bytes = server.recv()
+    request_str = request_bytes.decode('utf-8')
+    print('That voice in my head says: %s' % request_str)
+    reply_str = "Stop saying: %s" % request_str
+    reply_bytes = bytes(reply_str, 'utf-8')
+    server.send(reply_bytes)
+```
+
+zmq_client.py
+
+```
+import zmq
+
+host = '127.0.0.1'
+port = 6789
+context = zmq.Context()
+client = context.socket(zmq.REQ)
+client.connect("tcp://%s:%s" % (host, port))
+for num in range(1, 6):
+    request_str = "message #%s" % num
+    request_bytes = request_str.encode('utf-8')
+    client.send(request_bytes)
+    reply_bytes = client.recv()
+    reply_str = reply_bytes.decode('utf-8')
+    print("Sent %s, received %s" % (request_str, reply_str))
+```
+
+按顺序启动tcp_server.py、tcp_client.py，得到如下结果：
+
+```
+$ python zmq_server.py &
+[1] 6005
+$ python zmq_client.py 
+That voice in my head says: message #1
+Sent message #1, received Stop saying: message #1
+That voice in my head says: message #2
+Sent message #2, received Stop saying: message #2
+That voice in my head says: message #3
+Sent message #3, received Stop saying: message #3
+That voice in my head says: message #4
+Sent message #4, received Stop saying: message #4
+That voice in my head says: message #5
+Sent message #5, received Stop saying: message #5
+```
+
+以上代码演示了请求-响应模式。它不需要任何消息分发者，因此名为“Zero”。任何数量的REQ客户端都可以connect()到一个REP服务器。服务器是同步的，一次只能处理一个请求，但是并不会丢弃这段时间到达的其他请求。
+
+虽然ZeroMQ不需要任何核心分发者（中间人），但是如果需要，你可以搭建一个。举例来说，可以使用DEALER和ROUTER套接字异步连接到多个源和/或目标。
+
+另一种网络模式被称为通风口，使用PUSH套接字来发送异步任务，使用PULL套接字来收集结果。
+
+最后一个需要介绍的ZeroMQ特性是它可以实现扩展和收缩，只要改变创建的套接字连接类型即可：
+
+- tcp适用于单机或者分布式的进程间通信
+- ipc适用于单机的进程间通信
+- inproc适用于单个进程内线程间通信
+
+最后的inproc是一种线程间无锁的数据传输方式，可以替代11.1.3节中的threading示例。
+
+#### 11.2.6 scapy
+
+它是一个Python数据包分析工具，但是因为还不支持Python3且太复杂了，因此作者并没有展开演示。
+
+#### 11.2.7 网络服务
+
+1. 域名系统
+```
+import socket
+
+# 返回主机IP地址
+host = socket.gethostbyname('www.github.com')
+print("host=", host)
+
+# 返回名称、一个可选名称列表和一个地址列表
+host_ex = socket.gethostbyname_ex('www.github.com')
+print("host_ex=", host_ex) 
+
+# 查询可以用于创建套接字的IP和端口
+addrinfo = socket.getaddrinfo('www.github.com', 80)
+print("addrinfo=", addrinfo)
+
+addrinfo_udp = socket.getaddrinfo('www.github.com', 80, socket.AF_INET, socket.SOCK_DGRAM)
+print("addrinfo_udp=", addrinfo_udp)
+
+addrinfo_tcp = socket.getaddrinfo('www.github.com', 80, socket.AF_INET, socket.SOCK_STREAM)
+print("addrinfo_tcp=", addrinfo_tcp)
+
+# IANA为特定服务的保留端口号查询
+port = socket.getservbyname('http')
+name = socket.getservbyport(80)
+print(name, port)
+
+port = socket.getservbyname('https')
+name = socket.getservbyport(443)
+print(name, port)
+
+port = socket.getservbyname('telnet')
+name = socket.getservbyport(23)
+print(name, port)
+```
+
+2. Python的Email模块
+
+- smtplib使用简单邮件传输协议（SMTP）发送邮件；
+- email用来创建和解析邮件；
+- poplib可以使用邮递协议（POP3）来读取邮件；
+- imaplib可以使用因特网消息访问协议（IMAP）来读取邮件。
+
+https://docs.python.org/3/library/email.examples.html 这里可以查看示例代码。
+
+3. 其他协议
+
+ftp模块可以看：https://docs.python.org/3/library/ftplib.html
+
+更多协议可以看：https://docs.python.org/3/library/internet.html
+
+#### 11.2.8 Web服务和API
+
+使用爬虫可以爬取给用户看的界面，但是界面一旦变化，就需要更新爬虫。但是调用WebAPI则会轻松一点，它通常不怎么变化。
+
+#### 11.2.9 远程处理
+
+本节介绍了在本地调用远程Python命令的几种方法。一种是类似xmlrpc的调用方式，本地方法会被注册到远端服务器中，并在本地进行远程调用。一种是fabric，可以用类似SSH的方式来调用。
+
+#### 11.2.10 大数据和MapReduce
+
+作者简要介绍了Hadoop和Spark，也有很多优秀的Python模块可以使用。
+
+#### 11.2.11 在云上工作
+
+作者简单介绍了Google Cloud，Amazon AWS，以及OpenStack。它们也都对Python有着很好的支持。
+
+### 11.3 练习
+
+无
 
 第12章 成为真正的Python开发者
 --------------------------------------------
