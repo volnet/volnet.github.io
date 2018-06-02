@@ -4288,6 +4288,449 @@ ftp模块可以看：https://docs.python.org/3/library/ftplib.html
 第12章 成为真正的Python开发者
 --------------------------------------------
 
+### 12.1 关于编程
+
+编程是一项左右脑平衡的训练，也有一些更细的方向，比起数学能力，逻辑思考的能力更重要。
+
+### 12.2 寻找Python代码
+
+可以从多个地方找到Python的成熟代码：
+
+- Python标准库：http://docs.python.org/3/library
+- PyPi：https://pypi.org
+- GitHub：https://github.com/trending?l=python
+- Python Menu：http://code.activestate.com/recipes/langs/python/
+
+### 12.3 安装包
+
+有多种安装Python包的方法：
+
+- pip安装
+- 操作系统自带的包管理工具
+- 从源代码安装
+- 发行版，例如：Anaconda
+
+#### 12.3.1 使用pip
+
+easy_install被pip取代了，但是它也不是标准的Python安装工具。从Python3.4开始，pip成为Python的一部分。下面的方法可以用来安装一个包：
+
+```
+pip install flask
+pip install flask==0.9.0
+pip install 'flask>=0.9.0'
+pip -r requiremenets.txt
+```
+
+requiremenets.txt可以类似下面的格式，可以一次安装多个Python包：
+
+```
+flask==0.9.0
+django
+psycopg2
+```
+
+#### 12.3.2 使用包管理工具
+
+- Mac OS X：[homebrew](http://brew.sh) 和 [ports](http://www.macports.org/)
+- Linux：apt-get、yum、dpkg、zypper等
+- Windows：msi安装包
+
+#### 12.3.3. 从源代码安装
+
+下载源码后，使用`python install setup.py`安装。
+
+### 12.4 集成开发环境
+
+#### 12.4.1 IDLE
+
+包含在标准发行版中，比较简单。
+
+#### 12.4.2 PyCharm
+
+有社区版可以免费使用。
+
+#### 12.4.3 IPython
+
+http://ipython.org/ ，包含在附录C中。
+
+### 12.5 命名和文档
+
+- 可以用`AAA_BB_CC`来表示常量。
+- Python中实际上没有常量，所以最好不要放到函数内部，而要放在模块顶部，这样就不用每次调用的时候都进行计算了。
+
+### 12.6 测试代码
+
+#### 12.6.1 使用pylint、pyflakes和pep8检查代码（风格）
+
+```
+pylint xxx.py
+```
+
+或者
+
+```
+pep8 style3.py
+```
+
+#### 12.6.2 使用unittests进行测试
+
+作者用书中的例子来说明了unittest的用法，也强调了测试的重要性。（作者并没有给出最后一次测试的正确结果，我自己实现了一次，仅供参考。
+
+cap.py
+
+```
+import re
+def just_do_it(text):
+    # return text.capitalize()
+    # return text.title()
+    
+    # from string import capwords
+    # return capwords(text)
+
+    if text:
+        lastCharIsEmpty = False
+        result = ""
+        for i in range(0, len(text)):
+            currentChar = text[i]
+            if currentChar.isspace():
+                result += currentChar
+                lastCharIsEmpty = True
+                continue
+            elif re.match("\W",currentChar):
+                result += currentChar
+                if i == 0:
+                    lastCharIsEmpty = True
+                    continue
+                else:
+                    lastCharIsEmpty = False
+                    continue
+            elif currentChar.isalpha():
+                if i == 0:
+                    result += currentChar.upper()
+                else:
+                    if lastCharIsEmpty:
+                        result += currentChar.upper()
+                    else:
+                        result += currentChar.lower()
+                lastCharIsEmpty = False
+                continue
+            else:
+                result += currentChar
+                lastCharIsEmpty = False
+                continue
+        return result
+    else:
+        return text
+```
+
+test_cap.py
+
+```
+import unittest
+import cap
+
+class TestCap(unittest.TestCase):
+    def setUp(self):
+        "在每个测试方法执行之前执行"
+        pass
+
+    def tearDown(self):
+        "在每个测试方法执行之后执行"
+        pass
+
+    def test_None(self):
+        text = None
+        result = cap.just_do_it(text)
+        self.assertEqual(result, None)
+
+    def test_one_word(self):
+        text = 'duck'
+        result = cap.just_do_it(text)
+        self.assertEqual(result, 'Duck')
+
+    def test_multiple_words(self):
+        text = 'a veritable flock of ducks'
+        result = cap.just_do_it(text)
+        self.assertEqual(result, 'A Veritable Flock Of Ducks')
+
+    def test_words_with_apostrophes(self):
+        text = "I'm fresh out of ideas"
+        result = cap.just_do_it(text)
+        self.assertEqual(result, "I'm Fresh Out Of Ideas")
+    
+    def test_words_with_quotes(self):
+        text = "\"You're despicable,\" said Daffy Duck"
+        result = cap.just_do_it(text)
+        self.assertEqual(result, "\"You're Despicable,\" Said Daffy Duck")
+
+    def test_words_with_more_upper(self):
+        text = "\"You're desPICable,\" said Daffy Duck"
+        result = cap.just_do_it(text)
+        self.assertEqual(result, "\"You're Despicable,\" Said Daffy Duck")
+
+if __name__ == '__main__':
+    unittest.main()
+```
+
+运行测试
+
+```
+$ python test_cap.py
+......
+----------------------------------------------------------------------
+Ran 6 tests in 0.002s
+
+OK
+```
+
+#### 12.6.3 使用doctest进行测试
+
+doctest是在原始的方法的文档部分编写测试，既是测试，也是文档。
+
+参考下面的格式：
+
+```
+def just_do_it(text):
+    """
+    >>> just_do_it('duck')
+    'Duck'
+    >>> just_do_it('a veritable flock of ducks')
+    'A Veritable Flock Of Ducks'
+    >>> just_do_it("I'm fresh out of ideas")
+    "I'm Fresh Out Of Ideas"
+    """
+    from string import capwords
+    return capwords(text)
+
+if __name__ == '__main__':
+    import doctest
+    doctest.testmod()
+```
+
+直接执行这个python文件即可：`python cap_doctest.py`，如果测试失败，则会提示具体的内容，如果成功，则不会提示。可以使用`python cap_doctest.py -v`来查看测试过程。
+
+#### 12.6.4 使用nose进行测试
+
+```
+pip install nose
+```
+
+和unittest的区别在于：
+
+- nose不要求建立一个用于测试的类
+- 要求方法名中包含`test`就可以
+
+详见如下代码：
+
+test_cap_nose.py
+
+```
+import cap
+from nose.tools import eq_
+
+def test_None():
+    text = None
+    result = cap.just_do_it(text)
+    eq_(result, None)
+
+def test_one_word():
+    text = 'duck'
+    result = cap.just_do_it(text)
+    eq_(result, 'Duck')
+
+def test_multiple_words():
+    text = 'a veritable flock of ducks'
+    result = cap.just_do_it(text)
+    eq_(result, 'A Veritable Flock Of Ducks')
+
+def test_words_with_apostrophes():
+    text = "I'm fresh out of ideas"
+    result = cap.just_do_it(text)
+    eq_(result, "I'm Fresh Out Of Ideas")
+
+def test_words_with_quotes():
+    text = "\"You're despicable,\" said Daffy Duck"
+    result = cap.just_do_it(text)
+    eq_(result, "\"You're Despicable,\" Said Daffy Duck")
+
+def test_words_with_more_upper():
+    text = "\"You're desPICable,\" said Daffy Duck"
+    result = cap.just_do_it(text)
+    eq_(result, "\"You're Despicable,\" Said Daffy Duck")
+```
+
+运行方法如下
+
+```
+$ nosetests test_cap_nose.py
+......
+----------------------------------------------------------------------
+Ran 6 tests in 0.002s
+
+OK
+```
+
+#### 12.6.5 其他测试框架
+
+可以试试tox（ http://tox.readthedocs.org/en/latest/ ）和py.test（ http://pytest.org/latest/ ）
+
+#### 12.6.6 持续集成
+
+可以试试：
+
+- buildbot：http://buildbot.net/
+- jenkins：http://jenkins-ci.org/
+- travis-ci：http://travis-ci.com/
+
+### 12.7 调试Python代码
+
+- 可以使用`print(vals())`输出本地变量。
+- 也可以使用装饰器来输出每个函数的输入输出。
+
+### 12.8 使用pdb进行调试
+
+pdb（ https://docs.python.org/3/library/pdb.html ）是标准的Python调试器。
+
+在命令行中`-m pdb`可以导入pdb模块。
+
+```
+$ python -m pdb capitals.py cities2.csv
+```
+
+- 输入`c`表示继续，直到程序结束或者遇到错误。
+- 输入`s`表示单步调试，会进入函数内部。
+- 输入`n`表示但不调试，不会进入函数内部。
+- 输入`l`查看之后的几行。默认会显示上次使用`l`之后直到现在的所有代码。输入`l 行数`表示从第几行开始输出。
+- 输入`b 行数`设置断点。仅输入`b`列出所有的断点。
+- 输入`p 变量`打印变量值。
+
+### 12.9 记录错误日志
+
+```
+import logging
+
+# 默认是level==logging.WARN
+logging.basicConfig(level=logging.DEBUG)
+
+logging.debug('.....')
+logging.info('.....')
+logging.warn('.....')
+logging.error('.....')
+logging.critical('.....')
+
+logger = logging.getLogger('Name')
+logger.debug('.....')
+```
+
+### 12.10 优化代码
+
+#### 12.10.1 测量时间
+
+- 可以用[time](https://docs.python.org/3/library/time.html)模块来测量代码的执行时间
+- 也可以用[timeit](https://docs.python.org/3/library/timeit.html)模块来测量
+
+```
+from time import time
+
+t1 = time()
+num = 5
+num *= 2
+print(time() - t1)
+
+from timeit import timeit
+print(timeit('num = 5; num *= 2', number=1))
+
+from timeit import repeat
+print(repeat('num = 5; num *= 2', number=1, repeat=3))
+```
+
+#### 12.10.2 算法和数据结构
+
+不同的算法和数据结构，性能也是不一样的。
+
+```
+from timeit import timeit
+
+def make_list_1():
+    result = []
+    for value in range(1000):
+        result.append(value)
+    return result
+
+def make_list_2():
+    return [value for value in range(1000)]
+
+print('make_list_1 takes', timeit(make_list_1, number=1000), 'seconds')
+print('make_list_2 takes', timeit(make_list_2, number=1000), 'seconds')
+
+make_list_1 takes 0.08883798699935141 seconds
+make_list_2 takes 0.03552798100099608 seconds
+```
+
+#### 12.10.3 Cython、NumPy和C扩展
+
+Cython（http://cython.org/）混合了Python和C，它的设计目的是把带有性能注释的Python代码翻译成C代码。
+
+NumPy就是用C写的。
+
+#### 12.10.4 PyPy
+
+标准的Python实现，是C写的，通常被称为CPython（不同于Cython）。
+
+PyPy（http://pypy.org/）是一个新出现的Python解释器，实现了许多Java中的加速技术。它的基准测试（http://speed.pypy.org/）显示PyPy几乎完全超越了CPython——平均快6倍，最高快20倍。它支持Python2和Python3。
+
+### 12.11 源码控制
+
+#### 12.11.1 Mercurial
+
+Mercurial（ http://mercurial.selenic.com/ ）是用Python写成的源代码管理器。
+
+#### 12.11.2 Git
+
+下载本书示例源代码：
+
+```
+git clone https://github.com/madscheme/introducing-python
+```
+
+作者简要介绍了git的一些用法：`git clone`、`git init`、`git commit`、`git diff`、`git status [file]`、`git commit -m "[comment]"`、`git add [file]`、`git log [file]`等。
+
+### 12.12 复制本书代码
+
+```
+git clone https://github.com/madscheme/introducing-python
+```
+
+### 12.13 更多内容
+
+#### 12.13.1 书
+
+作者介绍了几本书：
+
+- Head First Python
+- Python Essential Reference(4th Edition)
+- Python Cookbook(3rd Edithion)
+- Core Python Applications Programming(3rd Edition)
+- Python for Data Analysis: Data Wrangling with Pandas, NumPy, and IPython
+- Python in Pratice: Create Better Programs Using Concurrency, Libraries, and Patterns
+
+#### 12.13.2 网站
+
+……
+
+#### 12.13.3 社区
+
+- meetups：https://python.meetup.com
+- https://wiki.python.org/moin/LocalUserGroups
+
+#### 12.13.4 大会
+
+……
+
+### 12.14 后续内容
+
+无
+
 附录A Python的艺术
 --------------------------------------------
 
