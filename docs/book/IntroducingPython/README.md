@@ -228,9 +228,26 @@ print(b)
 
 split如果传递参数，则按参数进行分割，如果不传参数，则使用空白字符分割，包括换行符、空格、制表符。
 
+```
+a = 'This is a line, with more words. Thanks!'
+b = a.split(',')
+print(b)
+
+['This is a line', ' with more words. Thanks!']
+```
+
 #### 2.3.10 使用join()合并
 
 `'\n'.join(['a', 'b', 'c'])`，其中join前面的是连字符。
+
+```
+a = '\n'.join(['a', 'b', 'c'])
+print(a)
+
+a
+b
+c
+```
 
 #### 2.3.11 熟悉字符串
 
