@@ -4744,6 +4744,8 @@ git clone https://github.com/madscheme/introducing-python
 附录C Python的科学
 --------------------------------------------
 
+作者简单回顾了一下math库在一些基础数学上面的作用，引入了NumPy用于多维数组计算，提到了SciPy库是NumPy的一个升级扩展，并解释了Pandas是在金融数据背景下产生的更完整的数据处理工具。
+
 附录D 安装Python 3
 --------------------------------------------
 
