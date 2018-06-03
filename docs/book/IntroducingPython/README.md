@@ -4739,6 +4739,8 @@ git clone https://github.com/madscheme/introducing-python
 附录B 工作中的Python
 --------------------------------------------
 
+作者列举了Office文件、数据处理、金融Python工具、地图数据处理等一系列Python资源。
+
 附录C Python的科学
 --------------------------------------------
 
