@@ -1636,7 +1636,7 @@ OtherException catched.
 
 使用`sys.argv`可以读取命令行参数。
 
-@commandline.py
+commandline.py
 
 ```
 import sys
@@ -1665,7 +1665,7 @@ Program arguments: ['commandline.py', 'hello', 'tra', 'lala']
 
 #### 5.3.2 使用别名导入模块
 
-用语句`import filename as xx`或者`from filename import functionname as fn`可以给模块或函数定义别名。
+用语句`import filename as fn`或者`from filename import functionname as fn`可以给模块或函数定义别名。
 
 #### 5.3.3 导入模块的一部分
 
@@ -2010,7 +2010,7 @@ pp.pprint(tup)
 
 ### 6.1 什么是对象
 
-数字是对象，字符串也是对象，也可以自定义对象，对象由数据/特性/变量（attribute）和方法（函数）构成。
+数字是对象，字符串也是对象，也可以自定义对象。对象既包含数据（变量，更习惯称之为特性，attribute），也包含代码（函数，也称为方法）。
 
 ### 6.2 使用class定义类
 
@@ -2485,10 +2485,12 @@ Duck(value1='what', value2='how')
 what
 how
 Duck(value1='when', value2='which')
-Duck(value1='where', value2='which')
+Duck(value1='where', value2='while')
 ```
 
 ### 6.15 练习
+
+无
 
 第7章 像高手一样玩转数据
 --------------------------------------------
