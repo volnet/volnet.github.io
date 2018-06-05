@@ -3248,7 +3248,7 @@ db.close()
 
 #### 9.2.2 Web服务器网关接口
 
-CGI的出现理由以及它的简要工作方式。
+作者简要介绍了CGI的出现理由以及它的简要工作方式。
 
 #### 9.2.3 框架
 
@@ -3409,7 +3409,7 @@ fout.close()
 
 #### 10.1.2 用exists()检查文件是否存在
 
-即可以用来检查文件，也可以用来检查路径。
+既可以用来检查文件，也可以用来检查路径。
 
 ```
 import os
@@ -3815,7 +3815,7 @@ Drying dessert dish
 
 使用jupyter notebook结果会反过来（先Dry后Wash）
 
-#### 11.1.3 进程
+#### 11.1.3 线程
 
 ```
 import threading, queue
@@ -3910,7 +3910,7 @@ $ python3 gevent_monkey.py
 
 #### 11.1.5 twisted
 
-[twisted](http://twistedmatrix.com/trac)（http://twistedmatrix.com/trac） 是一个异步事件驱动的网络框架。你可以把函数关联到事件（比如数据接收或者连接关闭）上，当事件发生时这些函数会被调用。这种设计被称为回调（callback），如果你以前用过JavaScript，那一定不会陌生。如果是第一次见到回调，可能会觉得它有点过时。对于有些开发者来说，基于回调的代码在应用规模变大之后回很难维护。
+[twisted](http://twistedmatrix.com/trac) 是一个异步事件驱动的网络框架。你可以把函数关联到事件（比如数据接收或者连接关闭）上，当事件发生时这些函数会被调用。这种设计被称为回调（callback），如果你以前用过JavaScript，那一定不会陌生。如果是第一次见到回调，可能会觉得它有点过时。对于有些开发者来说，基于回调的代码在应用规模变大之后会很难维护。
 
 ```
 pip install twisted
@@ -4144,11 +4144,11 @@ At 2018-05-29 21:50:26.358683 someone replied b'Are you talking to me?'
 
 #### 11.2.5 ZeroMQ
 
-ZeroMQ是一个库，有时候也被称为打了激素的套接字，ZeroMQ套接字实现了很多你需要但是普通套接字没有的功能：
+ZeroMQ是一个库，有时候也被称为打了激素的套接字，ZeroMQ套接字实现了很多你需要，但是普通套接字没有的功能：
 
 - 传输完整的消息
 - 重连
-- 当发送方和接受方的时间不同步时缓存数据
+- 当发送方和接收方的时间不同步时缓存数据
 
 访问 http://zguide.zeromq.org 可以获得在线教程。
 
@@ -4213,7 +4213,7 @@ That voice in my head says: message #5
 Sent message #5, received Stop saying: message #5
 ```
 
-以上代码演示了请求-响应模式。它不需要任何消息分发者，因此名为“Zero”。任何数量的REQ客户端都可以connect()到一个REP服务器。服务器是同步的，一次只能处理一个请求，但是并不会丢弃这段时间到达的其他请求。
+以上代码演示了请求-响应模式。它不需要任何消息分发者，因此名为“Zero”。任何数量的REQ客户端都可以connect()到一个REP服务器。服务器是同步的，一次只能处理一个请求，但是并不会丢弃这段时间到达的其他请求。
 
 虽然ZeroMQ不需要任何核心分发者（中间人），但是如果需要，你可以搭建一个。举例来说，可以使用DEALER和ROUTER套接字异步连接到多个源和/或目标。
 
@@ -4267,6 +4267,15 @@ print(name, port)
 port = socket.getservbyname('telnet')
 name = socket.getservbyport(23)
 print(name, port)
+
+host= 13.229.188.59
+host_ex= ('github.com', ['www.github.com'], ['13.229.188.59', '52.74.223.119', '13.250.177.223'])
+addrinfo= [(<AddressFamily.AF_INET: 2>, <SocketKind.SOCK_DGRAM: 2>, 17, '', ('13.229.188.59', 80)), (<AddressFamily.AF_INET: 2>, <SocketKind.SOCK_STREAM: 1>, 6, '', ('13.229.188.59', 80)), (<AddressFamily.AF_INET: 2>, <SocketKind.SOCK_DGRAM: 2>, 17, '', ('52.74.223.119', 80)), (<AddressFamily.AF_INET: 2>, <SocketKind.SOCK_STREAM: 1>, 6, '', ('52.74.223.119', 80)), (<AddressFamily.AF_INET: 2>, <SocketKind.SOCK_DGRAM: 2>, 17, '', ('13.250.177.223', 80)), (<AddressFamily.AF_INET: 2>, <SocketKind.SOCK_STREAM: 1>, 6, '', ('13.250.177.223', 80))]
+addrinfo_udp= [(<AddressFamily.AF_INET: 2>, <SocketKind.SOCK_DGRAM: 2>, 17, '', ('13.229.188.59', 80)), (<AddressFamily.AF_INET: 2>, <SocketKind.SOCK_DGRAM: 2>, 17, '', ('52.74.223.119', 80)), (<AddressFamily.AF_INET: 2>, <SocketKind.SOCK_DGRAM: 2>, 17, '', ('13.250.177.223', 80))]
+addrinfo_tcp= [(<AddressFamily.AF_INET: 2>, <SocketKind.SOCK_STREAM: 1>, 6, '', ('13.229.188.59', 80)), (<AddressFamily.AF_INET: 2>, <SocketKind.SOCK_STREAM: 1>, 6, '', ('52.74.223.119', 80)), (<AddressFamily.AF_INET: 2>, <SocketKind.SOCK_STREAM: 1>, 6, '', ('13.250.177.223', 80))]
+http 80
+https 443
+telnet 23
 ```
 
 2. Python的Email模块
@@ -4298,7 +4307,7 @@ ftp模块可以看：https://docs.python.org/3/library/ftplib.html
 
 #### 11.2.11 在云上工作
 
-作者简单介绍了Google Cloud，Amazon AWS，以及OpenStack。它们也都对Python有着很好的支持。
+作者简单介绍了Google Cloud，Amazon AWS，以及OpenStack。它们也都对Python有着很好的支持。
 
 ### 11.3 练习
 
@@ -4340,7 +4349,7 @@ pip install 'flask>=0.9.0'
 pip -r requiremenets.txt
 ```
 
-requiremenets.txt可以类似下面的格式，可以一次安装多个Python包：
+requirements.txt可以类似下面的格式，可以一次安装多个Python包：
 
 ```
 flask==0.9.0
@@ -4393,7 +4402,7 @@ pep8 style3.py
 
 #### 12.6.2 使用unittests进行测试
 
-作者用书中的例子来说明了unittest的用法，也强调了测试的重要性。（作者并没有给出最后一次测试的正确结果，我自己实现了一次，仅供参考。
+作者用书中的例子来说明了unittest的用法，也强调了测试的重要性。（作者并没有给出最后一次测试的正确结果，我自己实现了一次，仅供参考。）
 
 cap.py
 
@@ -4591,7 +4600,10 @@ OK
 
 #### 12.6.5 其他测试框架
 
-可以试试tox（ http://tox.readthedocs.org/en/latest/ ）和py.test（ http://pytest.org/latest/ ）
+可以试试：
+
+- tox：http://tox.readthedocs.org/en/latest/
+- py.test：http://pytest.org/latest/
 
 #### 12.6.6 持续集成
 
@@ -4618,7 +4630,7 @@ $ python -m pdb capitals.py cities2.csv
 
 - 输入`c`表示继续，直到程序结束或者遇到错误。
 - 输入`s`表示单步调试，会进入函数内部。
-- 输入`n`表示但不调试，不会进入函数内部。
+- 输入`n`表示单步调试，不会进入函数内部。
 - 输入`l`查看之后的几行。默认会显示上次使用`l`之后直到现在的所有代码。输入`l 行数`表示从第几行开始输出。
 - 输入`b 行数`设置断点。仅输入`b`列出所有的断点。
 - 输入`p 变量`打印变量值。
@@ -4688,7 +4700,7 @@ make_list_2 takes 0.03552798100099608 seconds
 
 #### 12.10.3 Cython、NumPy和C扩展
 
-Cython（http://cython.org/）混合了Python和C，它的设计目的是把带有性能注释的Python代码翻译成C代码。
+Cython（ http://cython.org/ ）混合了Python和C，它的设计目的是把带有性能注释的Python代码翻译成C代码。
 
 NumPy就是用C写的。
 
@@ -4696,7 +4708,7 @@ NumPy就是用C写的。
 
 标准的Python实现，是C写的，通常被称为CPython（不同于Cython）。
 
-PyPy（http://pypy.org/）是一个新出现的Python解释器，实现了许多Java中的加速技术。它的基准测试（http://speed.pypy.org/）显示PyPy几乎完全超越了CPython——平均快6倍，最高快20倍。它支持Python2和Python3。
+PyPy（ http://pypy.org/ ）是一个新出现的Python解释器，实现了许多Java中的加速技术。它的基准测试（ http://speed.pypy.org/ ）显示PyPy几乎完全超越了CPython——平均快6倍，最高快20倍。它支持Python2和Python3。
 
 ### 12.11 源码控制
 
@@ -4735,7 +4747,7 @@ git clone https://github.com/madscheme/introducing-python
 
 #### 12.13.2 网站
 
-……
+…… 请翻阅原书
 
 #### 12.13.3 社区
 
@@ -4744,7 +4756,7 @@ git clone https://github.com/madscheme/introducing-python
 
 #### 12.13.4 大会
 
-……
+…… 请翻阅原书
 
 ### 12.14 后续内容
 
