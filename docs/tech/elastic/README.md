@@ -84,3 +84,34 @@ docker pull docker.elastic.co/beats/filebeat:6.3.0
 ```
 https://www.elastic.co/guide/en/beats/metricbeat/current/metricbeat-module-system.html
 ```
+
+FAQ
+-------------------------------
+
+1. 出现权限不足的情况
+
+因为docker中使用了用户1000来运行beat，但是启动docker的时候，默认是root，所以在读取/修改`--volume 卷`里的配置文件的时候，会遇到权限不足的问题。
+
+方法1：
+
+在宿主机上将对应目录/文件修改Owner即可。假设执行下面的语句会遭遇权限问题：
+
+```
+docker run -d -v "$PWD/logs/":/usr/share/filebeat/logs/ docker.elastic.co/beats/filebeat:6.3.0
+```
+
+在此之前在宿主机上需要运行：
+
+```
+chown -R 1000 $PWD/logs/
+```
+
+并且调整docker运行语句为：（注意有个 [:z](https://docs.docker.com/storage/bind-mounts/#configure-the-selinux-label) ）
+
+```
+docker run -d -v "$PWD/logs/":/usr/share/filebeat/logs/:z docker.elastic.co/beats/filebeat:6.3.0
+```
+
+方法2：
+
+和方法1类似，只是将这个过程放到Dockerfile中，建立自定义的Dockerfile。
