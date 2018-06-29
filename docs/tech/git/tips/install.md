@@ -31,7 +31,7 @@ $ make all doc info
 $ sudo make install install-doc install-html install-info
 ```
 
-6. 重启服务器：（ 否则可能会遇到Unable to find remote helper for 'https' ）
+6. 重启服务器：（ 否则可能会遇到`Unable to find remote helper for 'https'` ）
 
 ```
 $ reboot now
