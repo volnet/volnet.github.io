@@ -45,6 +45,13 @@ docker ps
 ./resetall.sh
 ```
 
+6. 同样的步骤可以运行filebeat：
+
+```
+./filebeat.sh
+docker ps
+```
+
 相关资源
 -------------------------------
 
