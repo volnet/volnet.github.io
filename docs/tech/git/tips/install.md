@@ -7,13 +7,19 @@ CentOS Minimal的yum install git只能安装1.8版本的git。 为了能用上�
 
 2. 解压压缩包`tar -zxf git-2.18.0.tar.gz && cd git-2.18.0`
 
-3. 从yum安装各种包：`yum install autoconf curl-devel expat-devel gettext-devel openssl-devel perl-devel zlib-devel asciidoc xmlto`
+3. 从yum安装各种包：`yum install autoconf curl-devel expat-devel gettext-devel openssl-devel perl-devel zlib-devel asciidoc xmlto openjade perl* texinfo`
 
 4. 安装docbook2X，这个在yum源中没有，需要自己下载包安装。
 
 ```
 $ curl -o docbook2X-0.8.8-17.el7.x86_64.rpm http://dl.fedoraproject.org/pub/epel/7/x86_64/Packages/d/docbook2X-0.8.8-17.el7.x86_64.rpm
 $ rpm -Uvh docbook2X-0.8.8-17.el7.x86_64.rpm
+```
+
+并创建名字链接：
+
+```
+ln -s /usr/bin/db2x_docbook2texi /usr/bin/docbook2x-texi
 ```
 
 5. 编译并安装git，命令参考 https://git-scm.com/book/en/v2/Getting-Started-Installing-Git 页面最后
@@ -46,3 +52,4 @@ See also
 --------------------------
 
 1. [English Version](https://stackoverflow.com/a/51102026/310226)
+2. https://www.cnblogs.com/betx/p/6559127.html
