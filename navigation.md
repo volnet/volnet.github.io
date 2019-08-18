@@ -3,6 +3,11 @@
 [首页](index.md)
 [读书笔记]()
 
+  * # 经济学
+  * [小岛经济学](docs/book/HowAnEconomyGrowsAndWhyItCrashes/README.md)
+  * [变量](docs/book/Variable/README.md)
+  * # 产品
+  * [流量池](docs/book/杨飞-流量池/README.md)
   * # 行业观察
   * [吴军-硅谷之谜](docs/book/吴军-硅谷之谜/README.md)
   * [埃里克·施密特-谷歌是如何运营的](docs/book/HowGoogleWorks/README.md)
@@ -15,6 +20,7 @@
   * [机器学习](docs/book/MachineLearning/README.md)
   * # 程序设计
   * [Head First Python](docs/book/HeadFirstPython/README.md)
+  * [Python语言及其应用](docs/book/IntroducingPython/README.md)
   * # 云计算
   * [The Docker Book](docs/book/TheDockerBook/README.md)
   * # 微服务
