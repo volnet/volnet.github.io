@@ -5,7 +5,8 @@
 
   * # 经济学
   * [小岛经济学](docs/book/HowAnEconomyGrowsAndWhyItCrashes/README.md)
-  * [变量](docs/book/Variable/README.md)
+  * [变量2019](docs/book/Variable2019/README.md)
+  * [变量2020](docs/book/Variable2020/README.md)
   * # 产品
   * [流量池](docs/book/杨飞-流量池/README.md)
   * # 行业观察
