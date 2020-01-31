@@ -7,6 +7,8 @@
   * [小岛经济学](docs/book/HowAnEconomyGrowsAndWhyItCrashes/README.md)
   * [变量2019](docs/book/Variable2019/README.md)
   * [变量2020](docs/book/Variable2020/README.md)
+  * [钱从哪里来](docs/book/香帅-钱从哪里来/README.md)
+  * [中国优势](docs/book/王煜全-中国优势/README.md)
   * # 产品
   * [流量池](docs/book/杨飞-流量池/README.md)
   * # 行业观察
