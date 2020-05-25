@@ -5,17 +5,19 @@
 
   * # 经济学
   * [小岛经济学](docs/book/HowAnEconomyGrowsAndWhyItCrashes/README.md)
-  * [变量2019](docs/book/Variable2019/README.md)
-  * [变量2020](docs/book/Variable2020/README.md)
-  * [钱从哪里来](docs/book/香帅-钱从哪里来/README.md)
-  * [中国优势](docs/book/王煜全-中国优势/README.md)
+  * [何帆-变量2019](docs/book/Variable2019/README.md)
+  * [何帆-变量2020](docs/book/Variable2020/README.md)
+  * [香帅-钱从哪里来](docs/book/香帅-钱从哪里来/README.md)
+  * [王煜全-中国优势](docs/book/王煜全-中国优势/README.md)
   * # 产品
-  * [流量池](docs/book/杨飞-流量池/README.md)
+  * [杨飞-流量池](docs/book/杨飞-流量池/README.md)
   * # 行业观察
   * [吴军-硅谷之谜](docs/book/吴军-硅谷之谜/README.md)
+  * [吴军-文明之光 第一册](docs/book/吴军-文明之光/第一册/README.md)
   * [埃里克·施密特-谷歌是如何运营的](docs/book/HowGoogleWorks/README.md)
   * [尤瓦尔赫拉利-未来简史-从智人到神人](docs/book/尤瓦尔赫拉利-未来简史-从智人到神人/README.md)
   * [精益企业-高效能组织如何规模化创新](docs/book/LeanEnterprise/README.md)
+  * [曾鸣-智能商业](docs/book/曾鸣-智能商业/README.md)
   * # 大数据
   * [车品觉-决战大数据](docs/book/车品觉-决战大数据/README.md)
   * [吴军-智能时代](docs/book/吴军-智能时代/README.md)
