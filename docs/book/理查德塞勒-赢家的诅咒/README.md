@@ -722,3 +722,5 @@ Paradoxes and Anomalies of Economic Life
 而且预期误差通常能够提供比风险溢价更好的解释，但是很难说明具体是因为学习、比索问题、还是市场无效性所产生的，换言之，原因不得而知。
 
 因此外汇市场明显是无效的，既然如此，那些政策工具、政府干预行为又是如何做出的呢？而这些行为本身也带来了巨大的成本，从而抵消了社会福利。
+
+> 备注：可以在“美国经济学会（American Economics Association）”网站，找到这些论文的原文，点击[这里](https://www.aeaweb.org/journals/jep/search-results?ArticleSearch%5Bwithin%5D%5Bauthorlast%5D=1&JelClass%5Bvalue%5D=0&journal=3&ArticleSearch%5Bq%5D=Thaler)。
