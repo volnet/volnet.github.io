@@ -4,12 +4,16 @@
 [读书笔记]()
 
   * # 经济学
+  * [思考，快与慢](docs/book/丹尼尔卡尼曼-思考，快与慢/README.md)
   * [理查德塞勒-赢家的诅咒](docs/book/理查德塞勒-赢家的诅咒/README.md)
   * [小岛经济学](docs/book/HowAnEconomyGrowsAndWhyItCrashes/README.md)
   * [何帆-变量1-2019](docs/book/变量1-何帆-2019/README.md)
   * [何帆-变量2-2020](docs/book/变量2-何帆-2020/README.md)
   * [何帆-变量3-2021](docs/book/变量3-何帆-2021/README.md)
+  * [何帆-变量4-2021](docs/book/变量4-何帆-2022/README.md)
   * [香帅-钱从哪里来](docs/book/香帅-钱从哪里来/README.md)
+  * [香帅-香帅财富报告2-2021](docs/book/香帅-香帅财富报告2-2021/README.md)
+  * [香帅-香帅财富报告3-2022-熟经济](docs/book/香帅-香帅财富报告3-2022/README.md)
   * [王煜全-中国优势](docs/book/王煜全-中国优势/README.md)
   * # 产品
   * [杨飞-流量池](docs/book/杨飞-流量池/README.md)
