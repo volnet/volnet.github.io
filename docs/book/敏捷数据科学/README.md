@@ -12,6 +12,8 @@
 前言
 --------------------------
 
+本书的源代码是在*nix系统上面生成的，可以在[https://github.com/rjurney/Agile_Data_code](https://github.com/rjurney/Agile_Data_code)找到。
+
 第1章 理论
 --------------------------
 
