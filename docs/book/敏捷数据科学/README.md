@@ -58,6 +58,20 @@
 第4章 在云端
 --------------------------
 
+除了在本地完成数据工作，更可以利用云服务商提供的云端工具，来实现，这样可以保证足够大数据运行的基础设施。
+
+- GitHub：用来管理代码
+- dotCloud：它本身基于Amazon Web Services，抽象出可靠Web服务以及数据托管的复杂性，并仍能访问其他Amazon Web Services。
+- Amazon Web Services：
+    - S3（Simple Storage Service），一个基于云服务的Hadoop代替品。
+    - EMR（Elastic MapReduce），允许我们启动任意规模的Hadoop集群。
+    - MongoDB即服务
+- 辅助工具（Instrumentation）
+    - Google Analytics：提供了分析网页流量的基本功能。
+    - Mortar Data：加速Pig开发的工具。
+
+利用这些云服务商提供的工具可以在云端完成数据挖掘工作。
+
 第5章 收集和展示数据
 --------------------------
 
