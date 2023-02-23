@@ -9,7 +9,7 @@ HAJIME法餐厅米田肇的故事
 
 ISBN: 9787532173488
 
-![](contents/wx-cover-235-1.png, cover)
+![cover](contents/wx-cover-235-1.png)
 
 > HAJIME既是主人公的名字，也是[餐厅](https://www.dianping.com/shop/kaTvzSMsLQzaDDuA)的名字，以最短的速度直奔[米其林三星](https://guide.michelin.com/jp/en/osaka-region/osaka/restaurant/hajime)。全书讲述了米田肇刻苦、勤奋、好学、追求完美的精神，肇从小就是一个不太合群的孩子，他更喜欢独立思考，是一个有很多想法但不喜欢与人雷同的人。他从不附和别人的想法，永远有自己独立的主见，而且对自己执着的目标绝不放弃。他不是厨师科班出生，但是非常擅于思考，立志成为一名法餐主厨。
 >
