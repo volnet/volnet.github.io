@@ -1,5 +1,6 @@
 天才主厨的绝对温度
 ========================================
+
 HAJIME法餐厅米田肇的故事
 
 [日]石川拓治 著
@@ -8,12 +9,12 @@ HAJIME法餐厅米田肇的故事
 
 ISBN: 9787532173488
 
-![](contents/wx-cover-235-1.png)
+![](contents/wx-cover-235-1.png, cover)
 
 > HAJIME既是主人公的名字，也是[餐厅](https://www.dianping.com/shop/kaTvzSMsLQzaDDuA)的名字，以最短的速度直奔[米其林三星](https://guide.michelin.com/jp/en/osaka-region/osaka/restaurant/hajime)。全书讲述了米田肇刻苦、勤奋、好学、追求完美的精神，肇从小就是一个不太合群的孩子，他更喜欢独立思考，是一个有很多想法但不喜欢与人雷同的人。他从不附和别人的想法，永远有自己独立的主见，而且对自己执着的目标绝不放弃。他不是厨师科班出生，但是非常擅于思考，立志成为一名法餐主厨。
 >
 > 和大部分人物传记相同，主人公打怪升级成为了自己。和大部分人物传记不同，主人公不是一个伟人，虽然在他的领域里声名显赫，但是既然有那么多的米其林三星，自然也有那么多的故事，他不过是万千世界中一个特例罢了。也正是这种不平凡和平凡交织在了一起，才让这样的主人公离我们普通人更近。
-> 
+>
 > 这是来自米其林官方网站的评语：Owner-chef Hajime Yoneda boldly pursues a magnificent journey in gastronomy, on the theme of ‘a dialogue with the Earth’. Interpreting the faces of the seasons from his own unique perspective, he incorporates story-like messages into his cuisine. A house specialty, called ‘Chikyu’ meaning “the Earth”, is a representative example; it tells the tale of nature’s bounty born of the cycles of mountain and ocean, all on a single plate.
 >
 > 本文为阅读划线，因此部分段落可能未包含在以下文字中。
