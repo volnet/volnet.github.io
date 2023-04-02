@@ -2,7 +2,7 @@
 
 ![r-K Strategy](r-K-strategy/640.jpg)
 
-> r-K理论：[百度百科](https://baike.baidu.com/item/r-k选择)
+> r-K理论：[百度百科](https://baike.baidu.com/item/r-k选择)、[维基百科](https://zh.wikipedia.org/zh-hans/R/K%E9%80%89%E6%8B%A9%E7%90%86%E8%AE%BA)
 
 这是一个进化理论，认为生存策略大致分为两种：
 
@@ -36,6 +36,15 @@ r-K策略之所以被生物界以外广泛引用，是因为它是个普世的�
 其他场景同理。
 
 思考心得，和你分享。
+
+## 关于r-K策略的一些讨论（起于生物学但终于社会学）
+
+这是在《万维钢精英日课第5季》-《野生问题》（下）：从r策略到K策略一文的[评论](https://www.dedao.cn/knowledge/note/detail?id=gZdLwQEoAnOQkzD7kQGVV1PGmVDY2K)中，我的描述。
+
+结论：
+
+- r-K 是极值，至少作为非生物学的启发而言，足够解释大部分的现象和现实策略了。
+- r-K 是和环境协调共生的，生物靠进化而获得，但是人类可以靠决策来选择，不必拘泥于 r-K，适时调整、实时进化。
 
 ## See also
 
