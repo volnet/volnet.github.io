@@ -8,6 +8,8 @@ THE CLASH OF CIVILIZATIONS AND THE REMAKING OF WORLD ORDER
 
 ## 中文版序言
 
+这本书是美国哈佛大学教授塞缪尔·P·亨廷顿于1993年夏季由在《外交季刊》上发表了一篇题为[《文明冲突论》（英语：The Clash of Civilizations）](https://en.wikipedia.org/wiki/Clash_of_Civilizations)文章中的观点。
+
 ## 前言
 
 ## 第一部分 一个多文明的世界
