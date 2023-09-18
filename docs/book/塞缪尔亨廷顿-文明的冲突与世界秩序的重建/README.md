@@ -8,9 +8,13 @@ THE CLASH OF CIVILIZATIONS AND THE REMAKING OF WORLD ORDER
 
 ## 中文版序言
 
-这本书是美国哈佛大学教授塞缪尔·P·亨廷顿于1993年夏季由在《外交季刊》上发表了一篇题为[《文明冲突论》（英语：The Clash of Civilizations）](https://en.wikipedia.org/wiki/Clash_of_Civilizations)文章中的观点。
+这本书是美国哈佛大学教授塞缪尔·P·亨廷顿于1993年夏季由在《外交季刊》上发表了一篇题为[《文明的冲突？》（英语：The Clash of Civilizations）](https://en.wikipedia.org/wiki/Clash_of_Civilizations)文章中的观点。
 
 ## 前言
+
+1993年夏，美国《外交》季刊发表了我的一篇文章《文明的冲突？》这篇文章中提出的论点：正在出现的全球政治主要和最危险的方面将是不同文明集团之间的冲突，引起了人们的各种反应，包括新奇、义愤、恐惧和困惑。
+
+这本书是这篇文章的延伸，目的在于提出一个对于学者有意义的和对于决策者有用的看待全球政治的框架或范式。
 
 ## 第一部分 一个多文明的世界
 
