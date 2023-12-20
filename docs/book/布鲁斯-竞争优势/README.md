@@ -35,6 +35,12 @@ Competition Demystified：A Radically Simplified Approach to Business Strategy
 
 ## 中文版前言
 
+这是一本关于商业战略的书。
+
+与现存或潜在竞争对手竞争：要么靠勤奋精细运营；要么靠独一无二占据优势。
+
+规模、网络效应、成本、品牌粘性、细分市场等都是企业战略的一部分。
+
 ## 英文版前言
 
 ## 第1章　战略、市场与竞争
