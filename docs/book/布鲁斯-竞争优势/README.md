@@ -1,6 +1,6 @@
-# 竞争优势-透视企业护城河
+# 竞争优势：透视企业护城河
 
-Competition Demystified - A Radically Simplified Approach to Business Strategy
+Competition Demystified：A Radically Simplified Approach to Business Strategy
 
 [美] 布鲁斯·格林沃尔德 / [美] 贾德·卡恩 著
 
@@ -8,7 +8,30 @@ Competition Demystified - A Radically Simplified Approach to Business Strategy
 
 ![封面](contents/wx-cover.png)
 
+## 推荐序
+
+参考“赞誉与推荐”
+
+## 赞誉与推荐
+
+> 本书是目前最好的战略书籍，与波特的《竞争战略》相比，本书的分析框架更简洁和实用。投资者必须能够识别企业竞争优势的来源，评估企业如何维护和加强其竞争优势与护城河，因为可持续的竞争优势是增长可以为股东不断创造价值的必要条件。本书可谓是写给投资者的战略分析必读著作，帮助我们评估企业未来面临的各种竞争挑战。——保罗·约翰逊资深投资人、哥伦比亚大学商学院客座教授、《证券分析师进阶指南》作者
+
+本节与“推荐序”有诸多相似之处，甚至是同名作者在相同观点上不同文字的描述。作者人脉广泛，有很多校友的推荐，大致都是“好、好、好”。
+
+但是谈到《竞争优势》这样一个中文翻译的名字，你能看到两本书，另一本是[迈克尔·波特的《竞争优势》](https://book.douban.com/subject/25947541/)，但他们的英文名不一样：
+
+- 本书：Competition Demystified：A Radically Simplified Approach to Business Strategy
+- 迈克尔·波特：Competitive Strategy：Techniques for Analyzing Industries and Competitors
+
+其实我是在搜索迈克尔·波特的《竞争优势》的时候看到了这本书，因为波特的那本名气更大，它提出了五力模型。我没有看过那本，因为豆瓣网友评价“翻译太烂”了，然后这本书以9.1的高分出现，引起了我的好奇，评论里大家都觉得不错，至少没有被翻译烂。
+
+因此在众多推荐的文字里，仍然是这条对比波特的文字让我更印象深刻。果然参照物很重要，别的评价不论文字多么优美，我一个字都没有记住。
+
 ## 译者序
+
+译者是作者的学生，因此译者怀着感恩做的翻译，质量自然是竭尽全力了（当然师生一起骗人的比比皆是）。
+
+从译者的描述中可以看出，作者是价值投资者，就是巴菲特特别推崇的投资理念，巴菲特也是对作者赞誉有加。
 
 ## 中文版前言
 
