@@ -777,4 +777,8 @@ Competition Demystified：A Radically Simplified Approach to Business Strategy
 
 ## 作者简介
 
+无
+
 ## 译者简介
+
+无
