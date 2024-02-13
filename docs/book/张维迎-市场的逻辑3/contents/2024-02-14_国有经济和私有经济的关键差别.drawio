@@ -1,0 +1,135 @@
+<mxfile host="Electron" modified="2024-02-13T17:50:33.736Z" agent="Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) draw.io/23.0.2 Chrome/120.0.6099.109 Electron/28.1.0 Safari/537.36" etag="3t0zTY0BgNbhrP-Nebmu" version="23.0.2" type="device">
+  <diagram name="第 1 页" id="DCriRjpEGP8i9tSiKB7A">
+    <mxGraphModel dx="1421" dy="832" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="827" pageHeight="1169" math="0" shadow="0">
+      <root>
+        <mxCell id="0" />
+        <mxCell id="1" parent="0" />
+        <mxCell id="Kwiq6CxNi0ey5_Dh8gb_-41" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;exitX=1;exitY=0.5;exitDx=0;exitDy=0;entryX=0;entryY=0.25;entryDx=0;entryDy=0;" edge="1" parent="1" source="Kwiq6CxNi0ey5_Dh8gb_-39" target="Kwiq6CxNi0ey5_Dh8gb_-40">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="Kwiq6CxNi0ey5_Dh8gb_-39" value="等级制度" style="rounded=0;whiteSpace=wrap;html=1;fontFamily=思源宋体;align=left;verticalAlign=top;" vertex="1" parent="1">
+          <mxGeometry x="240" y="440" width="90" height="110" as="geometry" />
+        </mxCell>
+        <mxCell id="Kwiq6CxNi0ey5_Dh8gb_-1" value="&lt;font style=&quot;font-size: 16px;&quot; face=&quot;思源宋体&quot;&gt;&lt;b&gt;国有经济（计划经济）与私有经济（市场经济）&lt;/b&gt;&lt;/font&gt;" style="text;html=1;strokeColor=none;fillColor=none;align=center;verticalAlign=middle;whiteSpace=wrap;rounded=0;" vertex="1" parent="1">
+          <mxGeometry x="20" y="10" width="340" height="30" as="geometry" />
+        </mxCell>
+        <mxCell id="Kwiq6CxNi0ey5_Dh8gb_-2" value="国有经济" style="text;html=1;strokeColor=none;fillColor=none;align=left;verticalAlign=middle;whiteSpace=wrap;rounded=0;fontFamily=思源宋体;" vertex="1" parent="1">
+          <mxGeometry x="20" y="70" width="170" height="30" as="geometry" />
+        </mxCell>
+        <mxCell id="Kwiq6CxNi0ey5_Dh8gb_-3" value="私有经济" style="text;html=1;strokeColor=none;fillColor=none;align=left;verticalAlign=middle;whiteSpace=wrap;rounded=0;fontFamily=思源宋体;" vertex="1" parent="1">
+          <mxGeometry x="20" y="160" width="170" height="30" as="geometry" />
+        </mxCell>
+        <mxCell id="Kwiq6CxNi0ey5_Dh8gb_-6" value="" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;" edge="1" parent="1" source="Kwiq6CxNi0ey5_Dh8gb_-4" target="Kwiq6CxNi0ey5_Dh8gb_-5">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="Kwiq6CxNi0ey5_Dh8gb_-4" value="财产 属于 个人" style="rounded=0;whiteSpace=wrap;html=1;fontFamily=思源宋体;" vertex="1" parent="1">
+          <mxGeometry x="30" y="200" width="120" height="40" as="geometry" />
+        </mxCell>
+        <mxCell id="Kwiq6CxNi0ey5_Dh8gb_-5" value="权利 属于 个人" style="rounded=0;whiteSpace=wrap;html=1;fontFamily=思源宋体;" vertex="1" parent="1">
+          <mxGeometry x="230" y="200" width="120" height="40" as="geometry" />
+        </mxCell>
+        <mxCell id="Kwiq6CxNi0ey5_Dh8gb_-7" value="" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;" edge="1" parent="1" source="Kwiq6CxNi0ey5_Dh8gb_-8" target="Kwiq6CxNi0ey5_Dh8gb_-9">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="Kwiq6CxNi0ey5_Dh8gb_-8" value="财产 属于 国家" style="rounded=0;whiteSpace=wrap;html=1;fontFamily=思源宋体;" vertex="1" parent="1">
+          <mxGeometry x="30" y="110" width="120" height="40" as="geometry" />
+        </mxCell>
+        <mxCell id="Kwiq6CxNi0ey5_Dh8gb_-9" value="权利 属于 国家" style="rounded=0;whiteSpace=wrap;html=1;fontFamily=思源宋体;" vertex="1" parent="1">
+          <mxGeometry x="230" y="110" width="120" height="40" as="geometry" />
+        </mxCell>
+        <mxCell id="Kwiq6CxNi0ey5_Dh8gb_-15" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;exitX=0.5;exitY=1;exitDx=0;exitDy=0;entryX=1;entryY=0.5;entryDx=0;entryDy=0;" edge="1" parent="1" source="Kwiq6CxNi0ey5_Dh8gb_-11" target="Kwiq6CxNi0ey5_Dh8gb_-13">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="Kwiq6CxNi0ey5_Dh8gb_-11" value="✖" style="rounded=1;whiteSpace=wrap;html=1;fontSize=41;fontColor=#ffffff;labelBackgroundColor=none;fillColor=#ff0000;" vertex="1" parent="1">
+          <mxGeometry x="380" y="110" width="40" height="40" as="geometry" />
+        </mxCell>
+        <mxCell id="Kwiq6CxNi0ey5_Dh8gb_-13" value="&lt;font style=&quot;font-weight: normal;&quot; face=&quot;思源宋体 Heavy&quot;&gt;错误原因&lt;/font&gt;" style="text;html=1;strokeColor=none;fillColor=none;align=left;verticalAlign=middle;whiteSpace=wrap;rounded=0;fontFamily=思源宋体 Heavy;fontStyle=1;fontColor=#ff0000;" vertex="1" parent="1">
+          <mxGeometry x="20" y="270" width="60" height="30" as="geometry" />
+        </mxCell>
+        <mxCell id="Kwiq6CxNi0ey5_Dh8gb_-14" value="因为权利都是由&lt;b&gt;&lt;font face=&quot;思源宋体 Heavy&quot;&gt;人&lt;/font&gt;&lt;/b&gt;来行驶的，所以不属于“国家”。" style="text;html=1;strokeColor=none;fillColor=none;align=left;verticalAlign=middle;whiteSpace=wrap;rounded=0;fontFamily=思源宋体;" vertex="1" parent="1">
+          <mxGeometry x="20" y="300" width="380" height="30" as="geometry" />
+        </mxCell>
+        <mxCell id="Kwiq6CxNi0ey5_Dh8gb_-24" value="国有经济" style="text;html=1;strokeColor=none;fillColor=none;align=left;verticalAlign=middle;whiteSpace=wrap;rounded=0;fontFamily=思源宋体;" vertex="1" parent="1">
+          <mxGeometry x="20" y="400" width="170" height="30" as="geometry" />
+        </mxCell>
+        <mxCell id="Kwiq6CxNi0ey5_Dh8gb_-25" value="私有经济" style="text;html=1;strokeColor=none;fillColor=none;align=left;verticalAlign=middle;whiteSpace=wrap;rounded=0;fontFamily=思源宋体;" vertex="1" parent="1">
+          <mxGeometry x="20" y="650" width="170" height="30" as="geometry" />
+        </mxCell>
+        <mxCell id="Kwiq6CxNi0ey5_Dh8gb_-26" value="" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;" edge="1" parent="1" source="Kwiq6CxNi0ey5_Dh8gb_-27" target="Kwiq6CxNi0ey5_Dh8gb_-28">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="Kwiq6CxNi0ey5_Dh8gb_-27" value="财产 属于 个人" style="rounded=0;whiteSpace=wrap;html=1;fontFamily=思源宋体;" vertex="1" parent="1">
+          <mxGeometry x="30" y="690" width="120" height="40" as="geometry" />
+        </mxCell>
+        <mxCell id="Kwiq6CxNi0ey5_Dh8gb_-47" value="充分竞争" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;exitX=1;exitY=0.5;exitDx=0;exitDy=0;" edge="1" parent="1" source="Kwiq6CxNi0ey5_Dh8gb_-28" target="Kwiq6CxNi0ey5_Dh8gb_-44">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="Kwiq6CxNi0ey5_Dh8gb_-28" value="权利 属于 个人" style="rounded=0;whiteSpace=wrap;html=1;fontFamily=思源宋体;" vertex="1" parent="1">
+          <mxGeometry x="400" y="690" width="120" height="40" as="geometry" />
+        </mxCell>
+        <mxCell id="Kwiq6CxNi0ey5_Dh8gb_-29" value="职权分配" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;entryX=0;entryY=0.5;entryDx=0;entryDy=0;exitX=1;exitY=0.25;exitDx=0;exitDy=0;fontFamily=思源宋体;" edge="1" parent="1" source="Kwiq6CxNi0ey5_Dh8gb_-30" target="Kwiq6CxNi0ey5_Dh8gb_-39">
+          <mxGeometry relative="1" as="geometry">
+            <mxPoint x="200" y="440" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="Kwiq6CxNi0ey5_Dh8gb_-42" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;exitX=1;exitY=0.75;exitDx=0;exitDy=0;entryX=0;entryY=0.75;entryDx=0;entryDy=0;dashed=1;" edge="1" parent="1" source="Kwiq6CxNi0ey5_Dh8gb_-30" target="Kwiq6CxNi0ey5_Dh8gb_-40">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="Kwiq6CxNi0ey5_Dh8gb_-30" value="财产 属于 国家" style="rounded=0;whiteSpace=wrap;html=1;fontFamily=思源宋体;" vertex="1" parent="1">
+          <mxGeometry x="30" y="560" width="120" height="40" as="geometry" />
+        </mxCell>
+        <mxCell id="Kwiq6CxNi0ey5_Dh8gb_-32" value="" style="rounded=0;whiteSpace=wrap;html=1;fontFamily=思源宋体;container=0;" vertex="1" parent="1">
+          <mxGeometry x="250" y="470" width="40" height="10" as="geometry" />
+        </mxCell>
+        <mxCell id="Kwiq6CxNi0ey5_Dh8gb_-33" value="" style="rounded=0;whiteSpace=wrap;html=1;fontFamily=思源宋体;container=0;" vertex="1" parent="1">
+          <mxGeometry x="250" y="490" width="50" height="10" as="geometry" />
+        </mxCell>
+        <mxCell id="Kwiq6CxNi0ey5_Dh8gb_-34" value="" style="rounded=0;whiteSpace=wrap;html=1;fontFamily=思源宋体;container=0;" vertex="1" parent="1">
+          <mxGeometry x="250" y="510" width="60" height="10" as="geometry" />
+        </mxCell>
+        <mxCell id="Kwiq6CxNi0ey5_Dh8gb_-35" value="" style="rounded=0;whiteSpace=wrap;html=1;fontFamily=思源宋体;container=0;" vertex="1" parent="1">
+          <mxGeometry x="250" y="530" width="70" height="10" as="geometry" />
+        </mxCell>
+        <mxCell id="Kwiq6CxNi0ey5_Dh8gb_-46" value="缺少竞争" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;exitX=1;exitY=0.5;exitDx=0;exitDy=0;entryX=0;entryY=0.5;entryDx=0;entryDy=0;" edge="1" parent="1" source="Kwiq6CxNi0ey5_Dh8gb_-40" target="Kwiq6CxNi0ey5_Dh8gb_-43">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="Kwiq6CxNi0ey5_Dh8gb_-40" value="行驶权利的人" style="rounded=0;whiteSpace=wrap;html=1;fontFamily=思源宋体;" vertex="1" parent="1">
+          <mxGeometry x="400" y="560" width="120" height="40" as="geometry" />
+        </mxCell>
+        <mxCell id="Kwiq6CxNi0ey5_Dh8gb_-48" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;exitX=0.5;exitY=1;exitDx=0;exitDy=0;entryX=0.5;entryY=1;entryDx=0;entryDy=0;" edge="1" parent="1" source="Kwiq6CxNi0ey5_Dh8gb_-43" target="Kwiq6CxNi0ey5_Dh8gb_-30">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="Kwiq6CxNi0ey5_Dh8gb_-43" value="生产制造" style="rounded=0;whiteSpace=wrap;html=1;fontFamily=思源宋体;" vertex="1" parent="1">
+          <mxGeometry x="590" y="560" width="120" height="40" as="geometry" />
+        </mxCell>
+        <mxCell id="Kwiq6CxNi0ey5_Dh8gb_-44" value="为他人提供产品和服务，以获得利润" style="rounded=0;whiteSpace=wrap;html=1;fontFamily=思源宋体;" vertex="1" parent="1">
+          <mxGeometry x="590" y="690" width="120" height="40" as="geometry" />
+        </mxCell>
+        <mxCell id="Kwiq6CxNi0ey5_Dh8gb_-45" value="良性循环" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;exitX=0.5;exitY=1;exitDx=0;exitDy=0;entryX=0.5;entryY=1;entryDx=0;entryDy=0;fontFamily=思源宋体;" edge="1" parent="1" source="Kwiq6CxNi0ey5_Dh8gb_-44" target="Kwiq6CxNi0ey5_Dh8gb_-27">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="Kwiq6CxNi0ey5_Dh8gb_-49" value="竞争发生在职权争夺上，是通过使别人不幸福让自己幸福。" style="text;html=1;strokeColor=none;fillColor=none;align=left;verticalAlign=middle;whiteSpace=wrap;rounded=0;fontFamily=思源宋体;" vertex="1" parent="1">
+          <mxGeometry x="330" y="440" width="380" height="30" as="geometry" />
+        </mxCell>
+        <mxCell id="Kwiq6CxNi0ey5_Dh8gb_-50" value="竞争发生在提供更好的产品和服务上，别人享受了更好的产品和服务，提供产品和服务的人获得了利润。因此是通过使别人幸福而获得幸福。" style="text;html=1;strokeColor=none;fillColor=none;align=left;verticalAlign=middle;whiteSpace=wrap;rounded=0;fontFamily=思源宋体;" vertex="1" parent="1">
+          <mxGeometry x="570" y="760" width="140" height="90" as="geometry" />
+        </mxCell>
+        <mxCell id="Kwiq6CxNi0ey5_Dh8gb_-51" value="" style="shape=flexArrow;endArrow=classic;html=1;rounded=0;width=18;endSize=8.33;" edge="1" parent="1">
+          <mxGeometry width="50" height="50" relative="1" as="geometry">
+            <mxPoint x="60" y="340" as="sourcePoint" />
+            <mxPoint x="60" y="390" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="Kwiq6CxNi0ey5_Dh8gb_-52" value="" style="shape=flexArrow;endArrow=classic;html=1;rounded=0;width=18;endSize=8.33;" edge="1" parent="1">
+          <mxGeometry width="50" height="50" relative="1" as="geometry">
+            <mxPoint x="60" y="850" as="sourcePoint" />
+            <mxPoint x="60" y="900" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="Kwiq6CxNi0ey5_Dh8gb_-53" value="&lt;font face=&quot;思源宋体 Heavy&quot;&gt;当二者并存的时候，即“职权经济”和“产权经济”并存的时候：&lt;/font&gt;&lt;br&gt;有职权的人把职权换成产权，有产权的人用产权购买职权，然后像资本一样，再转换成为产权，这样腐败就出来了。这引起了民众的不满。" style="text;html=1;strokeColor=none;fillColor=none;align=left;verticalAlign=top;whiteSpace=wrap;rounded=0;fontFamily=思源宋体;" vertex="1" parent="1">
+          <mxGeometry x="30" y="920" width="680" height="70" as="geometry" />
+        </mxCell>
+      </root>
+    </mxGraphModel>
+  </diagram>
+</mxfile>
